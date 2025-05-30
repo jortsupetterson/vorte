@@ -1,0 +1,15 @@
+{
+	"name": "vorte",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"deploy": "npx wrangler deploy",
+		"dev": "npx wrangler dev",
+		"build:user":"node ./build/user.js"
+	},
+	"devDependencies": {
+		"wrangler": "^4.18.0",
+		"esbuild":"^0.25.5"
+	}
+}

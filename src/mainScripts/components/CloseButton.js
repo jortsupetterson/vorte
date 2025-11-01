@@ -1,0 +1,1 @@
+class CloseButton extends HTMLButtonElement {}

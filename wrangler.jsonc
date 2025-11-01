@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "account_id": "e8ef5da3c57b544081f2e4181d6cecc9",
+  "main": "./dist/worker.js",
+  "assets": { "directory": "dist/static", "not_found_handling": "404-page" },
+  "build": {
+    "watch_dir": "./src",
+    "command": "npm run build",
+    "cwd": "."
+  },
+  "compatibility_date": "2025-11-01",
+  "compliance_region": "public"
+}

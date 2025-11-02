@@ -9,7 +9,7 @@ const routes = Object.freeze({
 self.addEventListener("fetch", (event) => {
   const t0 = performance.now();
   const { pathname, searchParams } = new URL(event.request.url);
-  const handler = routes[url.pathname] || routes.default;
+  const handler = routes[pathname] || routes.default;
 
   event.respondWith(handler({ event, searchParams }));
 

@@ -4,7 +4,7 @@
 
 At **Vorte**, our mission is to empower Finnish entrepreneurs with **technically powerful**, **well-known**, and **accessible** tools.
 
-**Technically powerful** means software that _simply works_ — reliably, securely, and purposefully. It ensures **full privacy**, operates **offline**, and remains seamlessly available through the browser with **strong networking capabilities**.
+**Technically powerful** means software that _simply works_: reliably, securely, and purposefully. It ensures **full privacy**, operates **offline**, and remains seamlessly available through the browser with **strong networking capabilities**.
 
 **Well-known** means not reinventing the wheel, but enhancing and integrating the tools users already find useful.
 

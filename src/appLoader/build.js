@@ -17,6 +17,7 @@ import { mkdir, readFile, writeFile } from "fs/promises";
 import alternateMarkup from "./seoComponents/alternateMarkup.js";
 import ogMarkup from "./seoComponents/ogMarkup.js";
 import twitterMarkup from "./seoComponents/twitterMarkup.js";
+import basicMarkup from "./seoComponents/basicMarkup.js";
 
 const jsText = await readFile("./src/appLoader/script.js");
 const cssText = await readFile("./src/appLoader/style.css");
@@ -24,17 +25,8 @@ const cssText = await readFile("./src/appLoader/style.css");
 const buildMarkup = (language, cssText, jsText) => html` <!DOCTYPE html>
   <html lang="${language}">
     <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Vorte</title>
-      <link
-        rel="preconnect"
-        href="https://static.cloudflareinsights.com"
-        crossorigin
-      />
-      <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
-      ${alternateMarkup(language)} ${ogMarkup(language)}
-      ${twitterMarkup(language)}
+      ${basicMarkup(language)} ${alternateMarkup(language)}
+      ${ogMarkup(language)} ${twitterMarkup(language)}
       <style>
         ${cssText}
       </style>
@@ -44,7 +36,7 @@ const buildMarkup = (language, cssText, jsText) => html` <!DOCTYPE html>
     </head>
     <body>
       <img
-        src="/images/vorte-group-picture.webp"
+        src="/images/vorte_mascots_picture.webp"
         alt="${{
           fi: "Alusta suomalaisille yrittäjille ja yrityksille",
           sv: "Plattform för finländska företagare och företag",
@@ -54,8 +46,8 @@ const buildMarkup = (language, cssText, jsText) => html` <!DOCTYPE html>
 
       <h1>
         ${{
-          fi: "Käynnistetään Vortea...",
-          sv: "Startar Vorte...",
+          fi: "Alustetaan Vortea...",
+          sv: "Initierar Vorte...",
           en: "Initializing Vorte...",
         }[language]}
       </h1>

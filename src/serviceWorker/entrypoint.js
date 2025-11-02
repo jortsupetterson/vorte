@@ -1,5 +1,7 @@
-import db from "./database/db";
+import middleware from "./middleware/exports";
+import endpoints from "./endpoints/exports";
 
 self.addEventListener("fetch", async (event) => {
-  const request = await middleware();
+  const ctx = await middleware(event);
+  await endpoints(ctx);
 });

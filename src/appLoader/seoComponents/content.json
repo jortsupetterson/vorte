@@ -1,0 +1,17 @@
+{
+  "author": "J&J Commerce Oy",
+  "title": {
+    "fi": "Vorten yrittäjyysalusta",
+    "sv": "Vortes plattform för entreprenörskap",
+    "en": "Vorte entrepreneurship platform"
+  },
+  "description": {
+    "fi": "Työkaluja yrityksen perustamiseen, verkostoitumiseen ja toiminnanohjaukseen suomalaisille yrittäjille",
+    "sv": "Verktyg för företagsgrundande, nätverkande och verksamhetsstyrning för finländska entreprenörer",
+    "en": "Tools for business registration, networking and resource planning for Finnish entrepreneurs"
+  },
+  "social_sharing_image": {
+    "url": "https://vorte.app/images/social_sharing_image.png",
+    "alt": "Be your own BOSS!"
+  }
+}

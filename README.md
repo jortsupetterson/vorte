@@ -1,5 +1,21 @@
 # Monorepo for Vorte
 
+**DEVELOPMENT PHILOSOPHY**
+
+At **Vorte**, our mission is to empower Finnish entrepreneurs with **technically powerful**, **well-known**, and **accessible** tools.
+
+**Technically powerful** means software that _simply works_ — reliably, securely, and purposefully. It ensures **full privacy**, operates **offline**, and remains seamlessly available through the browser with **strong networking capabilities**.
+
+**Well-known** means not reinventing the wheel, but enhancing and integrating the tools users already find useful.
+
+**Accessible** means affordable, cross-platform, and available across relevant languages.
+
+**Clarity** is central to our philosophy. User-generated data must be displayed in a way that enables meaningful understanding and intelligent decision-making.
+
+**Automation** is another core principle: if a task can be handled correctly in the background, it should be done without interrupting the user. Yet **transparency** must remain absolute. Advanced users should be able to audit, trace, and understand every automated process.
+
+Even as we minimize the need for user interaction, we never compromise on the **interface** itself. It must remain **beautiful**, **responsive**, **emotionally resonant**, and **clear** — a space that breathes and focuses attention on what truly matters.
+
 ## IMPORTANT ABSOLUTES
 
 1. **The `appLoader` directory**

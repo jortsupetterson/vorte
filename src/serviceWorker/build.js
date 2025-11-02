@@ -6,6 +6,6 @@ await build({
   minify: true,
   treeShaking: true,
   define: {
-    html: String.raw,
+    html: "String.raw",
   },
 });

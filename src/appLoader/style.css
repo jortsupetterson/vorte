@@ -17,6 +17,10 @@ body {
   aspect-ratio: 9/16;
   overflow: hidden;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 body > * {
@@ -31,4 +35,8 @@ html[data-transition="fade"] body > * {
 img {
   height: 250px;
   width: 250px;
+}
+
+h1 {
+  font-family: Poppins;
 }

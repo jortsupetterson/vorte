@@ -1,4 +1,5 @@
 const getAccentColor = async () => {
-  return (await cookieStore.get("accentColor")?.value) ?? "#199473";
+  const cookie = await cookieStore.get("accentColor");
+  return cookie?.value ?? "#199473";
 };
 export default getAccentColor;

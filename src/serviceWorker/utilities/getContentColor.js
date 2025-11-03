@@ -1,4 +1,5 @@
 const getContentColor = async () => {
-  return (await cookieStore.get("contentColor")?.value) ?? "#fff";
+  const cookie = await cookieStore.get("contentColor");
+  return cookie?.value ?? "#fff";
 };
 export default getContentColor;

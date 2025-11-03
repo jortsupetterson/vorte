@@ -1,42 +1,10 @@
-html {
-  transition: background-color 0.2s ease;
-  height: clamp(100vh, 100vh, 100vh);
-  width: clamp(100vw, 100vw, 100vw);
-  overflow: hidden;
-  background-color: #199473;
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #000;
+  }
 }
-
-html[data-transition="fade"] {
-  background-color: #000;
-}
-
-body {
-  margin: 0;
-  height: clamp(100dvh, 100dvh, 100dvh);
-  width: clamp(100dvw, 100dvw, 100dvw);
-  aspect-ratio: 9/16;
-  overflow: hidden;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-body > * {
-  transition: opacity 0.2s ease;
-  opacity: 1;
-}
-
-html[data-transition="fade"] body > * {
-  opacity: 0;
-}
-
-img {
-  height: 250px;
-  width: 250px;
-}
-
-h1 {
-  font-family: Poppins;
+@media (prefers-color-scheme: light) {
+  html {
+    background-color: #fff;
+  }
 }

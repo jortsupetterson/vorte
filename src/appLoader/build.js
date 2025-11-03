@@ -35,23 +35,6 @@ const buildMarkup = (language, cssText, jsText) => html` <!DOCTYPE html>
       </script>
     </head>
     <body>
-      <img
-        src="/images/vorte_mascots_picture.webp"
-        alt="${{
-          fi: "Alusta suomalaisille yrittäjille ja yrityksille",
-          sv: "Plattform för finländska företagare och företag",
-          en: "Platform for Finnish entrepreneurs and businesses",
-        }[language]}"
-      />
-
-      <h1>
-        ${{
-          fi: "Alustetaan Vortea...",
-          sv: "Initierar Vorte...",
-          en: "Initializing Vorte...",
-        }[language]}
-      </h1>
-
       <noscript>
         ${{
           fi: "Vorte vaatii JavaScriptin",

@@ -5,7 +5,7 @@ import fs from "fs-extra";
 import path from "node:path";
 import Fontmin from "fontmin";
 
-const SRC_DIR = "./src/assetsManagements/fonts";
+const SRC_DIR = "./src/assetsManagement/fonts";
 const OUT_DIR = "./dist/static/fonts";
 
 // Luo kohdehakemistot jos puuttuvat

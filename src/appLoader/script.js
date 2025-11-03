@@ -9,33 +9,53 @@ const pathLang = pathname.split("/").filter(Boolean)[0];
 const navLang = navigator.language.split("-").filter(Boolean)[0];
 
 if (SUPPORTED_LANGUAGES.has(pathLang)) {
-  cookieStore.set("lang", pathLang);
+  cookieStore.set({
+    name: "lang",
+    value: pathLang,
+    expires: Date.now() + 31536000 * 1000,
+  });
 } else if (SUPPORTED_LANGUAGES.has(navLang)) {
-  cookieStore.set("lang", navLang);
+  cookieStore.set({
+    name: "lang",
+    value: navLang,
+    expires: Date.now() + 31536000 * 1000,
+  });
 } else {
-  cookieStore.set("lang", "en");
+  cookieStore.set({
+    name: "lang",
+    value: "en",
+    expires: Date.now() + 31536000 * 1000,
+  });
 }
 
-cookieStore.set("accentColor", "#199473");
+cookieStore.set({ name: "accentColor", value: "#199473", expires: 31536000 });
 
 const prefersColorSchemeDark = window.matchMedia(
   "(prefers-color-scheme: dark)"
 ).matches;
 
 if (prefersColorSchemeDark) {
-  cookieStore.set("backgroundColor", "#000");
-  cookieStore.set("contentColor", "#fff");
+  cookieStore.set({
+    name: "backgroundColor",
+    value: "#000",
+    expires: Date.now() + 31536000 * 1000,
+  });
+  cookieStore.set({
+    name: "contentColor",
+    value: "#fff",
+    expires: Date.now() + 31536000 * 1000,
+  });
 } else {
-  cookieStore.set("backgroundColor", "#fff");
-  cookieStore.set("contentColor", "#000");
+  cookieStore.set({
+    name: "backgroundColor",
+    value: "#fff",
+    expires: Date.now() + 31536000 * 1000,
+  });
+  cookieStore.set({
+    name: "contentColor",
+    value: "#000",
+    expires: Date.now() + 31536000 * 1000,
+  });
 }
 
-await navigator.serviceWorker.ready;
-
-setTimeout(() => {
-  window.location.reload();
-}, 210);
-
-document.documentElement.dataset.transition = `fade${
-  prefersColorSchemeDark ? "Dark" : "Light"
-}`;
+await navigator.serviceWorker.ready.then(() => window.location.reload());

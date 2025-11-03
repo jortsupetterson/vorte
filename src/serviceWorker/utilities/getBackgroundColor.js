@@ -1,4 +1,5 @@
 const getBackgroundColor = async () => {
-  return (await cookieStore.get("backgroundColor")?.value) ?? "#000";
+  const cookie = await cookieStore.get("backgroundColor");
+  return cookie?.value ?? "#000";
 };
 export default getBackgroundColor;

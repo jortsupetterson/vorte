@@ -3,15 +3,28 @@ import negotiateDemoStatus from "../utilities/negotiateDemoStatus";
 import getLanguage from "../utilities/getLanguage";
 import getNonce from "../utilities/getNonce";
 import getAccentColor from "../utilities/getAccentColor";
+import buildAppleTouchStartupImages from "../components/markup/apple-touch-startup-image";
+import buildCssText from "../components/markup/styles/style";
+import dashboard from "../components/markup/pageBodys/dashboard";
+import authentication from "../components/markup/pageBodys/authentication";
 const buildHtmlResponse = async (ctx) => {
-  const [nonce, language, accentColor, isDemo, isAuthenticated] =
-    await Promise.all([
-      getNonce(),
-      getLanguage(),
-      getAccentColor(),
-      negotiateDemoStatus(ctx),
-      negotiateAuthenticationStatus(cookieStore.get("bearer")),
-    ]);
+  const [
+    nonce,
+    language,
+    accentColor,
+    isDemo,
+    isAuthenticated,
+    splashImages,
+    cssText,
+  ] = await Promise.all([
+    getNonce(),
+    getLanguage(),
+    getAccentColor(),
+    negotiateDemoStatus(ctx),
+    negotiateAuthenticationStatus(),
+    buildAppleTouchStartupImages(),
+    buildCssText(),
+  ]);
 
   return new Response(
     html`
@@ -27,52 +40,45 @@ const buildHtmlResponse = async (ctx) => {
           <meta name="application-name" content="Vorte" />
           <meta name="color-scheme" content="light dark" />
           <meta name="theme-color" content="${accentColor}" />
-          <meta name="mobile-web-app-cabable" content="yes" />
+          <meta name="mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-title" content="Vorte" />
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />
-          <link
-            rel="preconnect"
-            href="https://static.cloudflareinsights.com"
-            crossorigin
-          />
-          <link rel="dns-prefetch" href="//static.cloudflareinsights.com" />
-          <link rel="icon" href="/images/favicons/3/favicon.ico" sizes="any" />
-          <link
-            rel="icon"
-            type="image/svg+xml"
-            href="/images/favicons/3/icon.svg"
-          />
+          <style nonce="${nonce}">
+            ${cssText}
+          </style>
+          <script type="module" nonce="${nonce}"></script>
+          <link rel="icon" href="/icons/512x512?v=${accentColor}" />
           <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="/images/favicons/3/apple-touch-icon.png"
+            href="/icons/180x180?v=${accentColor}"
           />
           <link
             rel="mask-icon"
-            href="/images/favicons/3/safari-pinned-tab.svg"
+            href="/images/safari-pinned-tab.svg"
             color="${accentColor}"
           />
           <link
             rel="manifest"
-            href="/images/favicons/3/site.webmanifest?v=1760367670748"
+            href="/webmanifest?v=${accentColor}"
+            crossorigin="use-credentials"
           />
-          <style nonce="${nonce}"></style>
-          <script nonce="${nonce}"></script>
+          ${splashImages}
         </head>
         <body>
-          ${isDemo ? "" : isAuthenticated ? "" : ""}
+          ${isDemo ? dashboard : isAuthenticated ? dashboard : authentication}
         </body>
       </html>
     `,
     {
       status: 200,
       headers: {
-        "content-language": "",
-        "content-type": "text/html; utf-8",
+        "content-language": language,
+        "content-type": "text/html; charset=utf-8",
       },
     }
   );

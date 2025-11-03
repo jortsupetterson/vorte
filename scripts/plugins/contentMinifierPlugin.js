@@ -1,24 +1,19 @@
-// ESM
+// scripts/plugins/contentMinifierPlugin.js (ESM)
 import fs from "node:fs/promises";
 
-/* ---------- HTML ---------- */
 function minifyHTML(source) {
   return source.replace(/>\s+</g, "><").replace(/\s+/g, " ").trim();
 }
-function looksHTML(source) {
-  return /<\w[\s\S]*?>/m.test(source);
-}
 
-/* ---------- SQLite (D1) ---------- */
+/* --- SQLite (D1) --- */
 function minifySQLite(sql) {
-  let out = "";
-  let index = 0;
-  const length = sql.length;
-
-  let mode = "code"; // code|squote|dquote|bquote|bracket|blockcomment|linecomment
+  let out = "",
+    i = 0,
+    n = sql.length,
+    mode = "code";
+  const isWord = (ch) => /[A-Za-z0-9_\u00C0-\u024F]/.test(ch);
   let needSpace = false;
 
-  const isWord = (ch) => /[A-Za-z0-9_\u00C0-\u024F]/.test(ch);
   const pushSpace = () => {
     if (needSpace) {
       out += " ";
@@ -26,325 +21,221 @@ function minifySQLite(sql) {
     }
   };
 
-  while (index < length) {
-    const char = sql[index];
-    const nextChar = sql[index + 1];
-
-    if (mode === "linecomment") {
-      if (char === "\n" || char === "\r") mode = "code";
-      index++;
+  while (i < n) {
+    const ch = sql[i],
+      nx = sql[i + 1];
+    if (mode === "linec") {
+      if (ch === "\n" || ch === "\r") mode = "code";
+      i++;
       continue;
     }
-    if (mode === "blockcomment") {
-      if (char === "*" && nextChar === "/") {
-        index += 2;
+    if (mode === "blockc") {
+      if (ch === "*" && nx === "/") {
+        i += 2;
         mode = "code";
-      } else {
-        index++;
-      }
+      } else i++;
       continue;
     }
-    if (mode === "squote") {
-      out += char;
-      index++;
-      if (char === "'" && sql[index] === "'") {
-        out += sql[index++];
-      } else if (char === "'") {
-        mode = "code";
-      }
+    if (mode === "sq") {
+      out += ch;
+      i++;
+      if (ch === "'" && sql[i] === "'") {
+        out += sql[i++];
+      } else if (ch === "'") mode = "code";
       continue;
     }
-    if (mode === "dquote") {
-      out += char;
-      index++;
-      if (char === '"' && sql[index] === '"') {
-        out += sql[index++];
-      } else if (char === '"') {
-        mode = "code";
-      }
+    if (mode === "dq") {
+      out += ch;
+      i++;
+      if (ch === '"' && sql[i] === '"') {
+        out += sql[i++];
+      } else if (ch === '"') mode = "code";
       continue;
     }
-    if (mode === "bquote") {
-      out += char;
-      index++;
-      if (char === "`" && sql[index] === "`") {
-        out += sql[index++];
-      } else if (char === "`") {
-        mode = "code";
-      }
+    if (mode === "bq") {
+      out += ch;
+      i++;
+      if (ch === "`" && sql[i] === "`") {
+        out += sql[i++];
+      } else if (ch === "`") mode = "code";
       continue;
     }
-    if (mode === "bracket") {
-      out += char;
-      index++;
-      if (char === "]") mode = "code";
+    if (mode === "br") {
+      out += ch;
+      i++;
+      if (ch === "]") mode = "code";
       continue;
     }
 
-    if (char === "-" && nextChar === "-") {
-      index += 2;
-      mode = "linecomment";
+    if (ch === "-" && nx === "-") {
+      i += 2;
+      mode = "linec";
       continue;
     }
-    if (char === "/" && nextChar === "*") {
-      index += 2;
-      mode = "blockcomment";
+    if (ch === "/" && nx === "*") {
+      i += 2;
+      mode = "blockc";
       continue;
     }
 
-    if (char === "'" || char === '"' || char === "`" || char === "[") {
+    if (ch === "'" || ch === '"' || ch === "`" || ch === "[") {
       pushSpace();
-      out += char;
-      index++;
-      mode =
-        char === "'"
-          ? "squote"
-          : char === '"'
-          ? "dquote"
-          : char === "`"
-          ? "bquote"
-          : "bracket";
+      out += ch;
+      i++;
+      mode = ch === "'" ? "sq" : ch === '"' ? "dq" : ch === "`" ? "bq" : "br";
       continue;
     }
 
-    if (char <= " ") {
-      const prevChar = out[out.length - 1] || "";
-      let lookahead = index + 1;
-      while (lookahead < length && sql[lookahead] <= " ") lookahead++;
-      const nextVisible = sql[lookahead] || "";
-      if (isWord(prevChar) && isWord(nextVisible)) needSpace = true;
-      index = lookahead;
+    if (ch <= " ") {
+      const prev = out[out.length - 1] || "";
+      let j = i + 1;
+      while (j < n && sql[j] <= " ") j++;
+      const nextV = sql[j] || "";
+      if (isWord(prev) && isWord(nextV)) needSpace = true;
+      i = j;
       continue;
     }
 
     pushSpace();
-    out += char;
-    index++;
+    out += ch;
+    i++;
   }
   return out.trim();
 }
-function looksSQL(source) {
-  if (!source || source.length < 8) return false;
-  if (/<[a-zA-Z]/.test(source)) return false;
-  return /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|WITH|BEGIN|COMMIT|PRAGMA)\b/i.test(
-    source
-  );
-}
 
-/* ---------- CSS ---------- */
+/* --- CSS --- */
 function minifyCSS(css) {
-  let out = "";
-  let index = 0;
-  const length = css.length;
+  let out = "",
+    i = 0,
+    n = css.length,
+    mode = "code",
+    pendingSpace = false,
+    paren = 0;
 
-  let mode = "code"; // code|squote|dquote|comment
-  let pendingSpace = false;
-  let parenDepth = 0;
-
-  const emitSpaceIfNeeded = () => {
+  const isWS = (c) =>
+    c === " " || c === "\n" || c === "\r" || c === "\t" || c === "\f";
+  const isP = (c) =>
+    c === ":" ||
+    c === ";" ||
+    c === "," ||
+    c === "{" ||
+    c === "}" ||
+    c === ">" ||
+    c === "+" ||
+    c === "~" ||
+    c === "=" ||
+    c === "(" ||
+    c === ")";
+  const emitSpace = () => {
     if (pendingSpace) {
       out += " ";
       pendingSpace = false;
     }
   };
-  const isWhitespace = (ch) =>
-    ch === " " || ch === "\n" || ch === "\r" || ch === "\t" || ch === "\f";
-  const isPunct = (ch) =>
-    ch === ":" ||
-    ch === ";" ||
-    ch === "," ||
-    ch === "{" ||
-    ch === "}" ||
-    ch === ">" ||
-    ch === "+" ||
-    ch === "~" ||
-    ch === "=" ||
-    ch === "(" ||
-    ch === ")";
 
-  while (index < length) {
-    const char = css[index];
-    const nextChar = css[index + 1];
+  while (i < n) {
+    const ch = css[i],
+      nx = css[i + 1];
 
     if (mode === "comment") {
-      if (char === "*" && nextChar === "/") {
-        index += 2;
+      if (ch === "*" && nx === "/") {
+        i += 2;
         mode = "code";
-      } else {
-        index++;
-      }
+      } else i++;
+      continue;
+    }
+    if (mode === "sq") {
+      out += ch;
+      i++;
+      if (ch === "'" && css[i - 2] !== "\\") mode = "code";
+      continue;
+    }
+    if (mode === "dq") {
+      out += ch;
+      i++;
+      if (ch === '"' && css[i - 2] !== "\\") mode = "code";
       continue;
     }
 
-    if (mode === "squote") {
-      out += char;
-      index++;
-      if (char === "'" && css[index - 2] !== "\\") mode = "code";
-      continue;
-    }
-    if (mode === "dquote") {
-      out += char;
-      index++;
-      if (char === '"' && css[index - 2] !== "\\") mode = "code";
-      continue;
-    }
-
-    if (char === "/" && nextChar === "*") {
-      index += 2;
+    if (ch === "/" && nx === "*") {
+      i += 2;
       mode = "comment";
       continue;
     }
-    if (char === "'") {
-      emitSpaceIfNeeded();
-      out += char;
-      index++;
-      mode = "squote";
+    if (ch === "'") {
+      emitSpace();
+      out += ch;
+      i++;
+      mode = "sq";
       continue;
     }
-    if (char === '"') {
-      emitSpaceIfNeeded();
-      out += char;
-      index++;
-      mode = "dquote";
-      continue;
-    }
-
-    if (isWhitespace(char)) {
-      let lookahead = index + 1;
-      while (lookahead < length && isWhitespace(css[lookahead])) lookahead++;
-      const prev = out[out.length - 1];
-      const nextVisible = css[lookahead];
-      const needSpace =
-        prev && nextVisible && !isPunct(prev) && !isPunct(nextVisible);
-      pendingSpace =
-        needSpace && (parenDepth === 0 ? true : pendingSpace || true);
-      index = lookahead;
+    if (ch === '"') {
+      emitSpace();
+      out += ch;
+      i++;
+      mode = "dq";
       continue;
     }
 
-    if (char === "(") parenDepth++;
-    if (char === ")") parenDepth = Math.max(0, parenDepth - 1);
+    if (isWS(ch)) {
+      let j = i + 1;
+      while (j < n && isWS(css[j])) j++;
+      const prev = out[out.length - 1],
+        nextV = css[j];
+      const need = prev && nextV && !isP(prev) && !isP(nextV);
+      pendingSpace = need && (paren === 0 ? true : pendingSpace || true);
+      i = j;
+      continue;
+    }
 
-    if (isPunct(char)) {
+    if (ch === "(") paren++;
+    if (ch === ")") paren = Math.max(0, paren - 1);
+
+    if (isP(ch)) {
       pendingSpace = false;
-      if (char === ";" && nextChar === "}") {
-        index++;
+      if (ch === ";" && nx === "}") {
+        i++;
         continue;
       }
-      out += char;
-      index++;
+      out += ch;
+      i++;
       continue;
     }
 
-    emitSpaceIfNeeded();
-    out += char;
-    index++;
+    emitSpace();
+    out += ch;
+    i++;
   }
-
   return out.trim();
 }
-function looksCSS(source) {
-  if (!source) return false;
-  if (looksHTML(source) || looksSQL(source)) return false;
-  if (/@(media|supports|import|keyframes|font-face)\b/i.test(source))
-    return true;
-  const hasBraces = /{[\s\S]*}/.test(source);
-  const hasColon = /:/.test(source);
-  const hasSelectorish = /[#.\w\-\[\]=:'"\s>+~(),*@]/.test(source);
-  return hasBraces && hasColon && hasSelectorish;
+
+/* --- Tagatut templaten käsittely --- */
+function replaceTagged(source, tag, transform) {
+  // Osuu vain muotoon:  css`...`  (ei funktioiden/objektien sisäisiin backtickeihin ilman tagia)
+  const re = new RegExp(String.raw`(\b${tag})\s*` + "`([\\s\\S]*?)`", "g");
+  return source.replace(re, (_m, t, body) => `${t}\`` + transform(body) + "`");
 }
 
-/* ---------- Force one-line output (safe) ---------- */
-function forceSingleLine(text) {
-  // Preserve code semantics: remove newlines/tabs, collapse multiple spaces to one, trim ends.
-  // Do NOT strip spaces around tokens globally to avoid breaking JS/CSS.
-  return text
-    .replace(/[\r\n\t]+/g, " ")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-}
-
-/* ---------- Plugin ---------- */
-export default function contentMinifierPlugin({ tags = ["sql", "css"] } = {}) {
-  const tagMatchers = tags.map((tag) => ({
-    tag,
-    re: new RegExp(String.raw`${tag}\s*` + "`([\\s\\S]*?)`", "g"),
-  }));
-  const anyTemplate = /`([\s\S]*?)`/g;
-
+export default function contentMinifierPlugin({
+  tags = ["css", "sql", "html"],
+} = {}) {
   return {
-    name: "content-minifier-one-line",
+    name: "content-minifier-tagged-only",
     setup(build) {
-      // Encourage esbuild's own minifier; we still enforce the final single line ourselves.
-      build.initialOptions.minify ??= true;
-      build.initialOptions.format ??= "esm";
-      build.initialOptions.sourcemap ??=
-        build.initialOptions.sourcemap ?? false;
-      build.initialOptions.metafile ??= true;
+      build.onLoad({ filter: /\.[cm]?[jt]sx?$/ }, async (args) => {
+        let src = await fs.readFile(args.path, "utf8");
 
-      // Minify raw .html files to text
+        if (tags.includes("css")) src = replaceTagged(src, "css", minifyCSS);
+        if (tags.includes("sql")) src = replaceTagged(src, "sql", minifySQLite);
+        if (tags.includes("html")) src = replaceTagged(src, "html", minifyHTML);
+
+        return { contents: src, loader: "default" };
+      });
+
+      // .html tiedostot suoraviivaisesti
       build.onLoad({ filter: /\.html$/ }, async (args) => {
         const src = await fs.readFile(args.path, "utf8");
         return { contents: minifyHTML(src), loader: "text" };
-      });
-
-      // Minify inline template literals in JS/TS
-      build.onLoad({ filter: /\.[cm]?[jt]s$/ }, async (args) => {
-        let source = await fs.readFile(args.path, "utf8");
-
-        // Pass 1: tagged templates like sql`...`, css`...`
-        for (const m of tagMatchers) {
-          source = source.replace(m.re, (full, body) => {
-            if (m.tag.toLowerCase() === "sql")
-              return full.replace(body, minifySQLite(body));
-            if (m.tag.toLowerCase() === "css")
-              return full.replace(body, minifyCSS(body));
-            return full;
-          });
-        }
-
-        // Pass 2: any other template -> try HTML/SQL/CSS heuristics
-        source = source.replace(anyTemplate, (full, body) => {
-          if (looksHTML(body)) return "`" + minifyHTML(body) + "`";
-          if (looksSQL(body)) return "`" + minifySQLite(body) + "`";
-          if (looksCSS(body)) return "`" + minifyCSS(body) + "`";
-          return full;
-        });
-
-        return { contents: source, loader: "default" };
-      });
-
-      // Finalize: guarantee single-line outputs regardless of write mode
-      build.onEnd(async (result) => {
-        // write:false -> mutate in-memory outputFiles
-        if (Array.isArray(result.outputFiles) && result.outputFiles.length) {
-          for (const file of result.outputFiles) {
-            if (/\.(js|mjs|cjs|css|html|txt)$/i.test(file.path)) {
-              file.contents = new TextEncoder().encode(
-                forceSingleLine(new TextDecoder().decode(file.contents))
-              );
-            }
-          }
-          return;
-        }
-
-        // write:true -> rewrite files on disk using the metafile outputs
-        if (result.metafile && result.metafile.outputs) {
-          const outputs = Object.keys(result.metafile.outputs).filter((p) =>
-            /\.(js|mjs|cjs|css|html|txt)$/i.test(p)
-          );
-          await Promise.all(
-            outputs.map(async (p) => {
-              try {
-                const buf = await fs.readFile(p);
-                const next = forceSingleLine(buf.toString("utf8"));
-                await fs.writeFile(p, next, "utf8");
-              } catch {
-                /* ignore individual file errors */
-              }
-            })
-          );
-        }
       });
     },
   };

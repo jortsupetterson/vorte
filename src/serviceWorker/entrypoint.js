@@ -12,7 +12,7 @@ self.addEventListener("fetch", (event) => {
   const t0 = performance.now();
   const { pathname, searchParams } = new URL(event.request.url);
   const path = pathname.split("/").filter(Boolean);
-  const handler = routes[path[0]] || routes.default;
+  const handler = routes[path[0]] ?? routes.default;
 
   event.respondWith(handler({ path, event, searchParams }));
 

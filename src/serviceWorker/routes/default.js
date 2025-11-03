@@ -1,14 +1,17 @@
 import negotiateAuthenticationStatus from "../utilities/negotiateAuthenticationStatus";
+import negotiateDemoStatus from "../utilities/negotiateDemoStatus";
 import getLanguage from "../utilities/getLanguage";
 import getNonce from "../utilities/getNonce";
+import getAccentColor from "../utilities/getAccentColor";
 const buildHtmlResponse = async (ctx) => {
-  const [nonce, language, accentColor, isAuthenticated] = await Promise.all([
-    getNonce(),
-    getLanguage(),
-    getAccentColor(),
-    negotiateDemoStatus(),
-    negotiateAuthenticationStatus(cookieStore.get("bearer")),
-  ]);
+  const [nonce, language, accentColor, isDemo, isAuthenticated] =
+    await Promise.all([
+      getNonce(),
+      getLanguage(),
+      getAccentColor(),
+      negotiateDemoStatus(ctx),
+      negotiateAuthenticationStatus(cookieStore.get("bearer")),
+    ]);
 
   return new Response(
     html`

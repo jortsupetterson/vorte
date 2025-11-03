@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "Vorte is a Cloudflare-based zero-knowledge cloud service with an offline-first Progressive Web App client for entrepreneurs and organizations in Finland.",
   "scripts": {
+    "optimize": "npm run optimize:fonts && npm run optimize:images",
+    "optimize:fonts": "node ./scripts/copyAndOptimizeFonts.js",
     "optimize:images": "node ./scripts/copyAndOptimizeImages.js",
-    "build": "node ./src/appLoader/build.js && node ./src/serviceWorker/build.js"
+    "build": "npm run build:appLoader && npm run build:serviceWorker",
+    "build:appLoader": "node ./src/appLoader/build.js",
+    "build:serviceWorker": "node ./src/serviceWorker/build.js",
+    "start": "npm install && npm run build && npm run optimize",
+    "dev": "npx wrangler dev"
   },
   "author": "Jori Lehtinen",
   "license": "MPL-2.0",

@@ -1,2 +1,2 @@
-const verifyWithPublicKey = async (jwt) => {};
-export default verifyWithPublicKey;
+const negotiateAuthenticationStatus = async (jwt) => {};
+export default negotiateAuthenticationStatus;

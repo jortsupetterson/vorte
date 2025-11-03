@@ -1,4 +1,4 @@
-const getLanguage = async (params) => {
-  return cookieStore.get("lang") ?? "fi";
+const getLanguage = async () => {
+  return (await cookieStore.get("lang")?.value) ?? "en";
 };
 export default getLanguage;

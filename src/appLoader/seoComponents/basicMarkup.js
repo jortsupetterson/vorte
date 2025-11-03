@@ -1,5 +1,5 @@
 const html = String.raw;
-import content from "./content";
+import content from "./content.js";
 const basicMarkup = (lang) => html`
   <meta charset="UTF-8" />
   <title>${content.title[lang]}</title>

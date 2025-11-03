@@ -60,3 +60,5 @@ run().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+
+console.log(`✓ Kuvat kopioitu ja optimoitu → ${OUT_DIR}`);

@@ -1,9 +1,9 @@
-import MenuButton from "./MenuButton";
+import MenuTrigger from "./triggers/MenuTrigger.js";
 const cssText = css`
-  view-port {
-    background: var(--viewportBackgroundColor);
+  view-panel {
+    background: var(--viewpanelBackgroundColor);
     height: 100dvh;
-    width: var(--viewportWidth);
+    width: var(--viewpanelWidth);
     flex: 1 1 auto;
     transition: width 0.2s ease;
     will-change: width;
@@ -16,11 +16,11 @@ const cssText = css`
     contain: content;
   }
 
-  view-port header {
+  view-panel header {
   }
-  view-port main {
+  view-panel main {
   }
-  view-port footer {
+  view-panel footer {
   }
 `;
 const sheet = new CSSStyleSheet();
@@ -28,7 +28,7 @@ sheet.replaceSync(cssText);
 document.adoptedStyleSheets.push(sheet);
 const structHeader = async (parent) => {
   const header = document.createElement("header");
-  const menuBtn = new MenuButton(parent.previousElementSibling);
+  const menuBtn = new MenuTrigger();
   header.appendChild(menuBtn);
   parent.appendChild(header);
   return header;
@@ -44,13 +44,14 @@ const structFooter = async (parent) => {
   return footer;
 };
 
-class ViewPort extends HTMLElement {
+class ViewPanel extends HTMLElement {
   constructor() {
     super();
     this.header = structHeader(this);
     this.main = structMain(this);
     this.footer = structFooter(this);
+    window.viewpanel = this;
   }
 }
 
-export default ViewPort;
+export default ViewPanel;

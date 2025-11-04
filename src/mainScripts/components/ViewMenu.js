@@ -1,9 +1,9 @@
-import CloseButton from "./CloseButton";
+import CloseTrigger from "./triggers/CloseTrigger";
 
 const cssText = css`
   view-menu {
     position: relative;
-    background: var(--menuBackgroundColor);
+    background: var(--viewmenuBackgroundColor);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -20,7 +20,7 @@ const cssText = css`
   }
 
   view-menu.open {
-    flex: 0 0 var(--menuWidth);
+    flex: 0 0 var(--viewmenuWidth);
     padding: 1.5rem;
   }
   view-menu header {
@@ -36,7 +36,7 @@ document.adoptedStyleSheets.push(sheet);
 
 const structHeader = async (parent) => {
   const header = document.createElement("header");
-  const btn = new CloseButton(parent);
+  const btn = new CloseTrigger(parent);
   header.appendChild(btn);
   parent.appendChild(header);
   return header;
@@ -60,6 +60,7 @@ class ViewMenu extends HTMLElement {
     this.header = structHeader(this);
     this.main = structMain(this);
     this.footer = structFooter(this);
+    window.viewmenu = this;
   }
   set open(bool) {
     bool ? this.classList.add("open") : this.classList.remove("open");

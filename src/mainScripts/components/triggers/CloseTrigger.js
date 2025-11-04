@@ -1,4 +1,4 @@
-class CloseButton extends HTMLElement {
+class CloseTrigger extends HTMLElement {
   constructor(actionTarget) {
     super();
     this.classList.add(...["i", "p"]);
@@ -33,4 +33,4 @@ class CloseButton extends HTMLElement {
     `;
   }
 }
-export default CloseButton;
+export default CloseTrigger;

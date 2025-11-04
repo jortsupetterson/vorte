@@ -1,9 +1,11 @@
-import MenuButton from "./components/MenuButton";
-import CloseButton from "./components/CloseButton";
-customElements.define("close-button", CloseButton);
-customElements.define("menu-button", MenuButton);
+window.language = document.documentElement.language;
+window.widgetList = (await cookieStore.get("widgetList")?.value) ?? "";
+import MenuTrigger from "./components/triggers/MenuTrigger";
+import CloseTrigger from "./components/triggers/CloseTrigger";
+customElements.define("close-trigger", CloseTrigger);
+customElements.define("menu-trigger", MenuTrigger);
 
 import ViewMenu from "./components/ViewMenu";
-import ViewPort from "./components/ViewPort";
+import ViewPanel from "./components/ViewPanel";
 customElements.define("view-menu", ViewMenu);
-customElements.define("view-port", ViewPort);
+customElements.define("view-panel", ViewPanel);

@@ -1,4 +1,6 @@
-const SUPPORTED_LANGUAGES = new Set(["fi", "sv", "en"]);
+import { SUPPORTED_LANGUAGES } from "../../shared/SUPPORTED_LANGUAGES";
+import { NOWplusYEAR } from "../../shared/NOWplusYEAR";
+const supported = new Set(SUPPORTED_LANGUAGES);
 
 navigator.serviceWorker.register("/sw.js", { scope: "/", type: "module" });
 
@@ -8,27 +10,31 @@ const pathLang = pathname.split("/").filter(Boolean)[0];
 
 const navLang = navigator.language.split("-").filter(Boolean)[0];
 
-if (SUPPORTED_LANGUAGES.has(pathLang)) {
+if (supported.has(pathLang)) {
   cookieStore.set({
     name: "lang",
     value: pathLang,
-    expires: Date.now() + 31536000 * 1000,
+    expires: NOWplusYEAR,
   });
-} else if (SUPPORTED_LANGUAGES.has(navLang)) {
+} else if (supported.has(navLang)) {
   cookieStore.set({
     name: "lang",
     value: navLang,
-    expires: Date.now() + 31536000 * 1000,
+    expires: NOWplusYEAR,
   });
 } else {
   cookieStore.set({
     name: "lang",
     value: "en",
-    expires: Date.now() + 31536000 * 1000,
+    expires: NOWplusYEAR,
   });
 }
 
-cookieStore.set({ name: "accentColor", value: "#199473", expires: 31536000 });
+cookieStore.set({
+  name: "accentColor",
+  value: "#199473",
+  expires: NOWplusYEAR,
+});
 
 const prefersColorSchemeDark = window.matchMedia(
   "(prefers-color-scheme: dark)"
@@ -38,23 +44,23 @@ if (prefersColorSchemeDark) {
   cookieStore.set({
     name: "backgroundColor",
     value: "#000",
-    expires: Date.now() + 31536000 * 1000,
+    expires: NOWplusYEAR,
   });
   cookieStore.set({
     name: "contentColor",
     value: "#fff",
-    expires: Date.now() + 31536000 * 1000,
+    expires: NOWplusYEAR,
   });
 } else {
   cookieStore.set({
     name: "backgroundColor",
     value: "#fff",
-    expires: Date.now() + 31536000 * 1000,
+    expires: NOWplusYEAR,
   });
   cookieStore.set({
     name: "contentColor",
     value: "#000",
-    expires: Date.now() + 31536000 * 1000,
+    expires: NOWplusYEAR,
   });
 }
 

@@ -1,9 +1,9 @@
-class MenuButton extends HTMLElement {
-  constructor(actionTarget) {
+class MenuTrigger extends HTMLElement {
+  constructor() {
     super();
     this.classList.add(...["i", "p"]);
     this.addEventListener("pointerdown", () => {
-      actionTarget.classList.toggle("open");
+      viewmenu.classList.toggle("open");
     });
     this.innerHTML = html`
       <svg
@@ -41,4 +41,4 @@ class MenuButton extends HTMLElement {
     `;
   }
 }
-export default MenuButton;
+export default MenuTrigger;

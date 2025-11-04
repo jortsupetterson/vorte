@@ -16,4 +16,13 @@ export default css`
     user-select: none;
     touch-action: manipulation;
   }
+  .i {
+    pointer-events: all;
+    width: max-content;
+    height: max-content;
+    padding: 1rem;
+  }
+  .p {
+    cursor: pointer;
+  }
 `;

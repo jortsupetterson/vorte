@@ -1,6 +1,7 @@
-const SUPPORTED_LANGUAGES = ["fi", "sv", "en"];
+import { SUPPORTED_LANGUAGES } from "../../shared/SUPPORTED_LANGUAGES.js";
 const html = String.raw;
 
+import { build } from "esbuild";
 import { minify } from "html-minifier-terser";
 const terserOptions = {
   minifyJS: { module: true, ecma: 2020 },
@@ -18,11 +19,23 @@ import alternateMarkup from "./seoComponents/alternateMarkup.js";
 import ogMarkup from "./seoComponents/ogMarkup.js";
 import twitterMarkup from "./seoComponents/twitterMarkup.js";
 import basicMarkup from "./seoComponents/basicMarkup.js";
+import { outputFile } from "fs-extra";
 
-const jsText = await readFile("./src/appLoader/script.js");
-const cssText = await readFile("./src/appLoader/style.css");
+const jsTextRaw = await readFile("./src/appLoader/script.js", "utf-8");
+const cssText = await readFile("./src/appLoader/style.css", "utf-8");
 
-const buildMarkup = (language, cssText, jsText) => html` <!DOCTYPE html>
+await build({
+  entryPoints: ["./src/appLoader/script.js"],
+  outdir: "./temp",
+  bundle: true,
+  minify: true,
+  treeShaking: true,
+  format: "esm",
+});
+
+const jsTextBundled = await readFile("./temp/script.js", "utf-8");
+
+const buildMarkup = (language, cssText, jsTextBundled) => html` <!DOCTYPE html>
   <html lang="${language}">
     <head>
       ${basicMarkup(language)} ${alternateMarkup(language)}
@@ -31,7 +44,7 @@ const buildMarkup = (language, cssText, jsText) => html` <!DOCTYPE html>
         ${cssText}
       </style>
       <script type="module">
-        ${jsText};
+        ${jsTextBundled};
       </script>
     </head>
     <body>
@@ -47,7 +60,11 @@ const buildMarkup = (language, cssText, jsText) => html` <!DOCTYPE html>
 
 //perLanguage
 for (const language in SUPPORTED_LANGUAGES) {
-  const page = buildMarkup(SUPPORTED_LANGUAGES[language], cssText, jsText);
+  const page = buildMarkup(
+    SUPPORTED_LANGUAGES[language],
+    cssText,
+    jsTextBundled
+  );
   const min = await minify(page, terserOptions);
   const filepath =
     "./dist/static/" + SUPPORTED_LANGUAGES[language] + "/index.html";
@@ -56,7 +73,7 @@ for (const language in SUPPORTED_LANGUAGES) {
 }
 
 //default
-const page = buildMarkup("en", cssText, jsText);
+const page = buildMarkup("en", cssText, jsTextBundled);
 const min = await minify(page, terserOptions);
 const filepath = "./dist/static/index.html";
 await mkdir(dirname(filepath), { recursive: true });

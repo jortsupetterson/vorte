@@ -26,6 +26,8 @@ const buildHtmlResponse = async (ctx) => {
     buildCssText(),
   ]);
 
+  if (!isDemo) return Response.redirect("https://why.vorte.app");
+
   return new Response(
     html`
       <!DOCTYPE html>

@@ -10,6 +10,7 @@ const routes = Object.freeze({
   icons: buildIconResponse,
   fonts: negotiateCache,
   images: negotiateCache,
+  "sitemap.xml": negotiateCache,
 });
 
 self.addEventListener("install", (event) =>

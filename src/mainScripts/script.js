@@ -1,5 +1,5 @@
 window.language = document.documentElement.language;
-window.widgetList = (await cookieStore.get("widgetList")?.value) ?? "";
+window.widgetList = [];
 import MenuTrigger from "./components/triggers/MenuTrigger";
 import CloseTrigger from "./components/triggers/CloseTrigger";
 customElements.define("close-trigger", CloseTrigger);

@@ -1,3 +1,5 @@
+<img src="https://vorte.app/images/vorte_mascots_picture.webp" alt="Vorte mascots" style="width:300px;height:auto;" />
+
 # Monorepo for Vorte
 
 **DEVELOPMENT PHILOSOPHY**

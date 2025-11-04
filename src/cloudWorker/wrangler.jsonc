@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "api-v0",
+  "account_id": "e8ef5da3c57b544081f2e4181d6cecc9",
+  "main": "./entrypoint.js",
+  "r2_buckets": []
+}

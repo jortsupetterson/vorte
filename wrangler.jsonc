@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "account_id": "e8ef5da3c57b544081f2e4181d6cecc9",
-  "name": "v0",
+  "name": "app-v0",
   "assets": {
     "directory": "./dist/static",
     "not_found_handling": "single-page-application"
@@ -17,6 +17,5 @@
   "observability": { "enabled": true },
   "placement": { "mode": "smart" },
   "workers_dev": true,
-  "preview_urls": false,
-  "r2_buckets": []
+  "preview_urls": false
 }

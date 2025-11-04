@@ -60,7 +60,6 @@ class ViewMenu extends HTMLElement {
     this.header = structHeader(this);
     this.main = structMain(this);
     this.footer = structFooter(this);
-    cookieStore.addEventListener("change", (ev) => console.log(ev));
   }
   set open(bool) {
     bool ? this.classList.add("open") : this.classList.remove("open");

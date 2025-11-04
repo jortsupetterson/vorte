@@ -22,12 +22,13 @@ Even as we minimize the need for user interaction, we never compromise on the **
 
    - A simple, _indexed_ and _search-engine-optimized_ static page generation directory
    - The goal is to provide a good user experience while the service worker is being installed
-   - Displayed only once — subsequent requests are served offline-first by the service worker proxy
+   - As well as enabling users to access the otherwise offline application via search engine results
+   - Displayed only once, subsequent requests are served offline-first by the service worker proxy
 
 2. **The `assetsManagement` directory**
 
    - Holds pre-optimization static assets such as fonts and images
-   - Optimization should be performed once during development — not on every build, but instead on deployments
+   - Optimization should be performed only once during development start `$npm run start` and when the directory is updated `$npm run optimize` not on every build, but instead on deployments `$npm run deploy`
 
 3. **The `cloudWorker` directory**
 
@@ -49,7 +50,21 @@ Even as we minimize the need for user interaction, we never compromise on the **
    - Contains the source code for the offline application with a request/response structure similar to a server
    - Renders the initial view, manages user-generated content and credential caches, and maintains the zero-knowledge layer
 
-### CONTRIBUTION
+### SCRIPTS
+
+- Build scripts are in most cases stored directly in the source directory of the specific runtime, plugins and optimiziation and other scripts can be found in the scripts directory
+
+- To start development run `$npm run start`. This installs depencies copies and optimizes assets from the assetsManagement directory to the distribution (dist) directory, and starts a development server with a `watch` on the src directory via cloudflares Wrangler CLI tools
+
+- To continue later run `$npm run dev` or `$npx wrangler dev` to get a build watch on the src, if thats not neccessary for your development phase you can just run `$npm run build` when you want changes to be bundled in to dist
+
+- There is also many other aliases for scripts that you can run. Check `package.json` for more info
+
+#### SHARED
+
+- The `shared` directory holds javascript variables that are required accross the code base in a config like manner to avoid having to look for distributed variables that critically effect software behaviour
+
+##### CONTRIBUTION
 
 Join our Discord server to discuss how you can contribute:  
 [https://discord.gg/5HXEHJKK](https://discord.gg/5HXEHJKK)

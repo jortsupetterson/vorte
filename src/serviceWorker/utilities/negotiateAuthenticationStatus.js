@@ -1,2 +1,2 @@
-const negotiateAuthenticationStatus = async (jwt) => {};
+const negotiateAuthenticationStatus = async () => {};
 export default negotiateAuthenticationStatus;

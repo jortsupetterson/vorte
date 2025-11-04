@@ -7,7 +7,8 @@ const buildReference = crypto.randomUUID();
 
 await writeFile("./dist/static/version.txt", buildReference);
 
-const mainScripts = await readFile("./temp/main.js");
+const mainScripts = await readFile("./temp/main.js", "utf-8");
+
 await build({
   entryPoints: ["./src/serviceWorker/entrypoint.js"],
   outfile: "./dist/static/sw.js",

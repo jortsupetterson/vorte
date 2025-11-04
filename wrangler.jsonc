@@ -5,6 +5,11 @@
     "directory": "./dist/static",
     "not_found_handling": "single-page-application"
   },
+  "build": {
+    "watch_dir": "./src",
+    "command": "npm run build",
+    "cwd": "."
+  },
 
   "compatibility_date": "2025-11-01",
   "compliance_region": "public",

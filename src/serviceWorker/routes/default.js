@@ -50,7 +50,9 @@ const buildHtmlResponse = async (ctx) => {
           <style nonce="${nonce}">
             ${cssText}
           </style>
-          <script type="module" nonce="${nonce}"></script>
+          <script type="module" nonce="${nonce}">
+            ${mainScripts};
+          </script>
           <link rel="icon" href="/icons/512x512?v=${accentColor}" />
           <link
             rel="apple-touch-icon"

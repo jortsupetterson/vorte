@@ -33,6 +33,6 @@ class ViewMenu extends HTMLElement {
   }
 }
 
-customElements.define("view-menu", new ViewMenu(), {
-  extends: "HTMLElement",
-});
+customElements.define("view-menu", ViewMenu);
+
+export default ViewMenu;

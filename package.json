@@ -6,24 +6,24 @@
     "optimize": "npm run optimize:fonts && npm run optimize:images",
     "optimize:fonts": "node ./scripts/copyAndOptimizeFonts.js",
     "optimize:images": "node ./scripts/copyAndOptimizeImages.js",
-    "build": "npm run build:appLoader && npm run build:serviceWorker",
+    "build": "npm run build:appLoader && npm run build:mainScripts && npm run build:serviceWorker",
     "build:appLoader": "node ./src/appLoader/build.js",
+    "build:mainScripts": "node ./src/mainScripts/build.js",
     "build:serviceWorker": "node ./src/serviceWorker/build.js",
-    "start": "npm install && npm run build && npm run optimize",
-    "dev": "npx wrangler dev"
+    "dev": "npx wrangler dev",
+    "start": "npm install && npm run optimize && npm run dev",
+    "deploy": "npm run optimize && npx wrangler deploy"
   },
   "author": "Jori Lehtinen",
   "license": "MPL-2.0",
   "type": "module",
   "devDependencies": {
     "esbuild": "^0.25.12",
+    "fontmin": "^2.0.3",
+    "fs-extra": "^11.3.2",
     "html-minifier-terser": "^7.2.0",
     "sharp": "^0.34.4",
     "svgo": "^4.0.0",
     "wrangler": "^4.45.3"
-  },
-  "dependencies": {
-    "fontmin": "^1.1.1",
-    "fs-extra": "^11.3.2"
   }
 }

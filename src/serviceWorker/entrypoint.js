@@ -2,15 +2,14 @@ import checkForUpdate from "./utilities/checkForUpdate";
 import buildHtmlResponse from "./routes/default";
 import buildIconResponse from "./routes/icons";
 import buildWebmanifestResponse from "./routes/webmanifest";
-import resolveFontRequest from "./routes/fonts";
-import resolveImageRequest from "./routes/images";
+import negotiateCache from "./utilities/negotiateCache";
 
 const routes = Object.freeze({
   webmanifest: buildWebmanifestResponse,
   default: buildHtmlResponse,
   icons: buildIconResponse,
-  fonts: resolveFontRequest,
-  images: resolveImageRequest,
+  fonts: negotiateCache,
+  images: negotiateCache,
 });
 
 self.addEventListener("install", (event) =>

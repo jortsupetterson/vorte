@@ -1,4 +1,4 @@
-const resolveFontRequest = async (ctx) => {
+const negotiateCache = async (ctx) => {
   const cache = await caches.open("default");
   const req = ctx.event.request;
 
@@ -9,4 +9,5 @@ const resolveFontRequest = async (ctx) => {
   ctx.event.waitUntil(cache.put(req, network.clone()));
   return network;
 };
-export default resolveFontRequest;
+
+export default negotiateCache;

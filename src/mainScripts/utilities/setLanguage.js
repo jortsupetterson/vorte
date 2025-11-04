@@ -14,3 +14,5 @@ const setLanguage = async (newLanguage) => {
   document.documentElement.lang = newLanguage;
   cookieStore.set({ name: "lang", value: newLanguage, expires: NOWplusYEAR });
 };
+
+export default setLanguage;

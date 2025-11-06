@@ -5,8 +5,6 @@ import getNonce from "../utilities/getNonce";
 import getAccentColor from "../utilities/getAccentColor";
 import buildAppleTouchStartupImages from "../components/markup/apple-touch-startup-image";
 import buildCssText from "../components/markup/styles/style";
-import dashboard from "../components/markup/pageBodys/dashboard";
-import authentication from "../components/markup/pageBodys/authentication";
 const buildHtmlResponse = async (ctx) => {
   const [
     nonce,
@@ -34,10 +32,17 @@ const buildHtmlResponse = async (ctx) => {
       <html lang="${language}">
         <head>
           <meta charset="UTF-8" />
+          <style id="eager" nonce="${nonce}">
+            ${cssText}
+          </style>
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
+          <script nonce="${nonce}">
+            performance.mark("start");
+            ${mainScripts};
+          </script>
           <title>Vorte</title>
           <meta name="application-name" content="Vorte" />
           <meta name="color-scheme" content="light dark" />
@@ -49,12 +54,6 @@ const buildHtmlResponse = async (ctx) => {
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />
-          <style nonce="${nonce}">
-            ${cssText}
-          </style>
-          <script type="module" nonce="${nonce}">
-            ${mainScripts};
-          </script>
           <link rel="icon" href="/icons/512x512?v=${accentColor}" />
           <link
             rel="apple-touch-icon"
@@ -73,9 +72,7 @@ const buildHtmlResponse = async (ctx) => {
           />
           ${splashImages}
         </head>
-        <body>
-          ${isDemo ? dashboard : isAuthenticated ? dashboard : authentication}
-        </body>
+        <body></body>
       </html>
     `,
     {

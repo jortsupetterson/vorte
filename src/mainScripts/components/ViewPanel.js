@@ -1,4 +1,5 @@
 import MenuTrigger from "./triggers/MenuTrigger.js";
+const t0 = performance.now();
 const cssText = css`
   view-panel {
     background: var(--viewpanelBackgroundColor);
@@ -15,23 +16,17 @@ const cssText = css`
     overflow-y: auto;
     contain: content;
   }
-
-  view-panel header {
-  }
-  view-panel main {
-  }
-  view-panel footer {
-  }
 `;
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(cssText);
 document.adoptedStyleSheets.push(sheet);
+console.log(performance.now() - t0);
 const structHeader = async (parent) => {
   const header = document.createElement("header");
   const menuBtn = new MenuTrigger();
   header.appendChild(menuBtn);
   parent.appendChild(header);
-  return header;
+  return { heading };
 };
 const structMain = async (parent) => {
   const main = document.createElement("main");
@@ -47,10 +42,13 @@ const structFooter = async (parent) => {
 class ViewPanel extends HTMLElement {
   constructor() {
     super();
-    this.header = structHeader(this);
-    this.main = structMain(this);
-    this.footer = structFooter(this);
-    window.viewpanel = this;
+    const { heading } = structHeader(this);
+    this.heading = heading;
+    this.display = structMain(this);
+    this.controls = structFooter(this);
+  }
+  set heading(value) {
+    this.heading.textContent = value;
   }
 }
 

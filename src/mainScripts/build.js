@@ -11,4 +11,5 @@ await build({
     css: "String.raw",
     html: "String.raw",
   },
+  inject: ["./src/mainScripts/app.js"],
 });

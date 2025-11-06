@@ -22,8 +22,8 @@
     "fontmin": "^2.0.3",
     "fs-extra": "^11.3.2",
     "html-minifier-terser": "^7.2.0",
-    "sharp": "^0.34.4",
+    "sharp": "^0.34.5",
     "svgo": "^4.0.0",
-    "wrangler": "^4.45.3"
+    "wrangler": "^4.46.0"
   }
 }

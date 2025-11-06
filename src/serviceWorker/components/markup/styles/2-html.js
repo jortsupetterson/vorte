@@ -16,7 +16,7 @@ export default css`
     user-select: none;
     touch-action: manipulation;
   }
-  .i {
+  button {
     pointer-events: all;
     width: max-content;
     height: max-content;

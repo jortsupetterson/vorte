@@ -1,4 +1,4 @@
-const headings = [
+export default [
   [
     0,
     5,
@@ -54,29 +54,3 @@ const headings = [
     },
   ],
 ];
-
-const negotiateHeading = () => {
-  const currentHour = new Date().getHours();
-  for (const [from, till, greeting] of headings) {
-    if (currentHour >= from && currentHour <= till) return greeting[language];
-  }
-};
-
-const renderDefaultViewMenu = async () => {};
-
-const renderDefaultViewPanel = async () => {
-  viewpanel.heading = negotiateHeading();
-  for (const widget of widgetList) {
-    const markup = await fetch(`/api/v1/widgets/${widget}`).then((res) =>
-      res.text()
-    );
-    viewpanel.main.inserAdjenctHTML = markup;
-  }
-};
-
-const renderDefaultView = async () => {
-  Promise.all([renderDefaultViewMenu(), renderDefaultViewPanel()]);
-};
-
-export default renderDefaultView;
-export { renderDefaultViewMenu, renderDefaultViewPanel };

@@ -2,7 +2,7 @@ const frag = new DocumentFragment();
 import structMenu from "./ViewMenu/MenuConstructor";
 import structPanel from "./ViewPanel/PanelConstructor";
 
-export const menu = structMenu();
+const menu = structMenu();
 const panel = structPanel();
 
 const append = async () => {

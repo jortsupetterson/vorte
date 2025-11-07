@@ -5,9 +5,10 @@ import buildWebmanifestResponse from "./routes/webmanifest";
 import negotiateCache from "./utilities/negotiateCache";
 
 const routes = Object.freeze({
-  webmanifest: buildWebmanifestResponse,
   default: buildHtmlResponse,
+  webmanifest: buildWebmanifestResponse,
   icons: buildIconResponse,
+  states: buildMarkupResponse,
   fonts: negotiateCache,
   images: negotiateCache,
   "sitemap.xml": negotiateCache,

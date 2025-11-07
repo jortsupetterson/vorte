@@ -18,8 +18,8 @@ const buildCssVars = async () => {
       --contentColor: ${contentColor};
       --contrastAmount: ${contrastAmount};
 
-      --viewpanelBackgroundColor: rgb(from var(--accentColor) r g b / 0.16);
-      --viewmenuBackgroundColor: rgb(from var(--accentColor) r g b / 0.2);
+      --view-panelBackgroundColor: rgb(from var(--accentColor) r g b / 0.16);
+      --view-menuBackgroundColor: rgb(from var(--accentColor) r g b / 0.2);
 
       --contentGhostColor: rgb(from var(--contentColor) r g b / 0.06);
       --accentGhostColor: rgb(from var(--accentColor) r g b / 0.08);
@@ -28,13 +28,13 @@ const buildCssVars = async () => {
       --special2: #4a4a4a;
       --special3: rgb(from var(--accentColor) r g b / 0.17);
 
-      --viewpanelWidth: clamp(320px, 100%, 1920px);
-      --viewmenuWidth: clamp(250px, var(--viewpanelWidth), 548px);
+      --view-panelWidth: clamp(320px, 100%, 1920px);
+      --view-menuWidth: clamp(250px, var(--view-panelWidth), 548px);
     }
 
     @media (min-width: 548px) {
       :root {
-        --viewmenuWidth: clamp(250px, var(--viewpanelWidth), 17.5rem);
+        --view-menuWidth: clamp(250px, var(--view-panelWidth), 17.5rem);
       }
     }
   `;

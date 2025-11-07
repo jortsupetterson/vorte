@@ -4,7 +4,9 @@ import getLanguage from "../utilities/getLanguage";
 import getNonce from "../utilities/getNonce";
 import getAccentColor from "../utilities/getAccentColor";
 import buildAppleTouchStartupImages from "../components/markup/apple-touch-startup-image";
-import buildCssText from "../components/markup/styles/style";
+import buildCssText from "../components/markup/eagerStyles/style";
+import svgX from "../../../shared/markup/svgX";
+import MyVorteAppList from "../../../shared/json/MyVorteAppList.object";
 const buildHtmlResponse = async (ctx) => {
   const [
     nonce,
@@ -24,26 +26,17 @@ const buildHtmlResponse = async (ctx) => {
     buildCssText(),
   ]);
 
-  if (!isDemo) return Response.redirect("https://why.vorte.app");
-
   return new Response(
     html`
       <!DOCTYPE html>
       <html lang="${language}">
         <head>
+          <title>Vorte</title>
           <meta charset="UTF-8" />
-          <style id="eager" nonce="${nonce}">
-            ${cssText}
-          </style>
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <script nonce="${nonce}">
-            performance.mark("start");
-            ${mainScripts};
-          </script>
-          <title>Vorte</title>
           <meta name="application-name" content="Vorte" />
           <meta name="color-scheme" content="light dark" />
           <meta name="theme-color" content="${accentColor}" />
@@ -70,9 +63,23 @@ const buildHtmlResponse = async (ctx) => {
             href="/webmanifest?v=${accentColor}"
             crossorigin="use-credentials"
           />
-          ${splashImages}
+          <style id="eager" nonce="${nonce}">
+            ${cssText}
+          </style>
+          <script nonce="${nonce}">
+            const app = {
+              language: ${language},
+            };
+            ${mainScripts};
+          </script>
         </head>
-        <body></body>
+        <body>
+          ${isDemo
+            ? dashboardLayout
+            : isAuthenticated
+            ? dashboardLayout
+            : authenticationLayout}
+        </body>
       </html>
     `,
     {
@@ -84,5 +91,42 @@ const buildHtmlResponse = async (ctx) => {
     }
   );
 };
+
+const dashboardLayout = html`
+  <navigation-menu>
+    <header>
+      <function-trigger class="i" data-fn="">${svgX}</function-trigger>
+    </header>
+    <main>
+      <details open>
+        <summary>MY VORTE</summary>
+        <ul>
+          ${(() => {
+            let list = "";
+            MyVorteAppList.forEach((listItem) => {
+              list =
+                list +
+                html`<navigation-trigger data-url="${listItem.url}"
+                  >${listItem.svg}${listItem.text[language]}</navigation-trigger
+                >`;
+            });
+            return list;
+          })()}
+        </ul>
+      </details>
+      <details open>
+        <summary>VORTEPRENEUR</summary>
+        <navigation-button data-url="$1">
+          ${{}[language]} ${svgPlus}
+        </navigation-button>
+      </details>
+    </main>
+    <footer></footer>
+  </navigation-menu>
+
+  <use-area> </use-area>
+`;
+
+const authenticationLayout = html` <form></form> `;
 
 export default buildHtmlResponse;

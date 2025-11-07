@@ -1,13 +1,14 @@
-import negotiateAuthenticationStatus from "../utilities/negotiateAuthenticationStatus";
-import negotiateDemoStatus from "../utilities/negotiateDemoStatus";
-import getLanguage from "../utilities/getLanguage";
-import getNonce from "../utilities/getNonce";
-import getAccentColor from "../utilities/getAccentColor";
+import negotiateAuthenticationStatus from "../../../shared/utilities/negotiateAuthenticationStatus";
+import negotiateDemoStatus from "../../../shared/utilities/negotiateDemoStatus";
+import getLanguage from "../../../shared/utilities/getLanguage";
+import getNonce from "../../../shared/utilities/getNonce";
+import getAccentColor from "../../../shared/utilities/getAccentColor";
 import buildAppleTouchStartupImages from "../components/markup/apple-touch-startup-image";
 import buildCssText from "../components/markup/eagerStyles/style";
 import svgX from "../../../shared/markup/svgX";
-import MyVorteAppList from "../../../shared/json/MyVorteAppList.object";
-const buildHtmlResponse = async (ctx) => {
+import MyVorteAppList from "../../ContentHandlers/ddc/MyVorteAppList.object";
+import inlineStringify from "../../../shared/utilities/inlineStringify";
+const buildDocumentResponse = async (ctx) => {
   const [
     nonce,
     language,
@@ -93,7 +94,7 @@ const buildHtmlResponse = async (ctx) => {
 };
 
 const dashboardLayout = html`
-  <navigation-menu>
+  <nav>
     <header>
       <function-trigger class="i" data-fn="">${svgX}</function-trigger>
     </header>
@@ -116,17 +117,22 @@ const dashboardLayout = html`
       </details>
       <details open>
         <summary>VORTEPRENEUR</summary>
-        <navigation-button data-url="$1">
+        <button
+          data-fn="${inlineStringify({
+            name: "displayResourceByName",
+            params: {},
+          })}"
+        >
           ${{}[language]} ${svgPlus}
-        </navigation-button>
+        </button>
       </details>
     </main>
     <footer></footer>
-  </navigation-menu>
+  </nav>
 
-  <use-area> </use-area>
+  <article></article>
 `;
 
 const authenticationLayout = html` <form></form> `;
 
-export default buildHtmlResponse;
+export default buildDocumentResponse;

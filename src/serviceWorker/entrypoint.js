@@ -1,22 +1,24 @@
-import checkForUpdate from "./utilities/checkForUpdate";
-import buildHtmlResponse from "./routes/default";
-import buildIconResponse from "./routes/icons";
-import buildWebmanifestResponse from "./routes/webmanifest";
-import negotiateCache from "./utilities/negotiateCache";
-
 const routes = Object.freeze({
-  default: buildHtmlResponse,
-  webmanifest: buildWebmanifestResponse,
-  icons: buildIconResponse,
-  states: buildMarkupResponse,
-  fonts: negotiateCache,
+  default: buildDocumentResponse,
   images: negotiateCache,
+  fonts: negotiateCache,
+  icons: buildIconResponse,
+  webmanifest: buildWebmanifestResponse,
   "sitemap.xml": negotiateCache,
+});
+
+self.addEventListener("fetch", (event) => {
+  const { pathname, searchParams } = new URL(event.request.url);
+  const path = pathname.split("/").filter(Boolean);
+  const handler = routes[path[0]] ?? routes.default;
+  event.respondWith(handler({ path, event, searchParams }));
+  event.waitUntil(checkForUpdate());
 });
 
 self.addEventListener("install", (event) =>
   event.waitUntil(self.skipWaiting())
 );
+
 self.addEventListener("activate", (event) =>
   event.waitUntil(
     (async () => {
@@ -30,10 +32,13 @@ self.addEventListener("activate", (event) =>
   )
 );
 
-self.addEventListener("fetch", (event) => {
-  const { pathname, searchParams } = new URL(event.request.url);
-  const path = pathname.split("/").filter(Boolean);
-  const handler = routes[path[0]] ?? routes.default;
-  event.respondWith(handler({ path, event, searchParams }));
-  event.waitUntil(checkForUpdate());
+self.addEventListener("message", ({ data }) => {
+  handleMessage(data);
 });
+
+import handleMessage from "./api/handleMessage";
+import checkForUpdate from "../../shared/utilities/checkForUpdate";
+import negotiateCache from "../../shared/utilities/negotiateCache";
+import buildDocumentResponse from "./routes/default";
+import buildIconResponse from "./routes/icons";
+import buildWebmanifestResponse from "./routes/webmanifest";

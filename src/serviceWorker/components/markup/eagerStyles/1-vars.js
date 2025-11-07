@@ -1,7 +1,7 @@
-import getAccentColor from "../../../utilities/getAccentColor";
-import getBackgroundColor from "../../../utilities/getBackgroundColor";
-import getContentColor from "../../../utilities/getContentColor";
-import getContrastAmount from "../../../utilities/getContrastAmount";
+import getAccentColor from "../../../../../shared/utilities/getAccentColor";
+import getBackgroundColor from "../../../../../shared/utilities/getBackgroundColor";
+import getContentColor from "../../../../../shared/utilities/getContentColor";
+import getContrastAmount from "../../../../../shared/utilities/getContrastAmount";
 
 const buildCssVars = async () => {
   const [accentColor, contentColor, backgroundColor, contrastAmount] =

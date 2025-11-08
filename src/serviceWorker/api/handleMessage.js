@@ -1,7 +1,7 @@
-import resourceForRender from "./handlers/resourceForRender";
+import sendResourceForRender from "./handlers/sendResourceForRender";
 
 const handlers = {
-  resourceForRender,
+  sendResourceForRender,
 };
 const handleMessage = async (data) => {
   handlers[data.name](data.params);

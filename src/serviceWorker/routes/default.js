@@ -1,12 +1,12 @@
-import negotiateAuthenticationStatus from "../../shared/utilities/negotiateAuthenticationStatus";
-import negotiateDemoStatus from "../../shared/utilities/negotiateDemoStatus";
-import getLanguage from "../../shared/utilities/getLanguage";
-import getNonce from "../../shared/utilities/getNonce";
-import getAccentColor from "../../shared/utilities/getAccentColor";
+import negotiateAuthenticationStatus from "../../Shared/Utilities/negotiateAuthenticationStatus";
+import negotiateDemoStatus from "../../Shared/Utilities/negotiateDemoStatus";
+import getLanguage from "../../Shared/Utilities/getLanguage";
+import getNonce from "../../Shared/Utilities/getNonce";
+import getAccentColor from "../../Shared/Utilities/getAccentColor";
 import buildAppleTouchStartupImages from "../components/markup/apple-touch-startup-image";
 import buildCssText from "../components/markup/eagerStyles/style";
 import MyVorteAppList from "../../ContentHandlers/ddc/MyVorteAppList.object";
-import inlineStringify from "../../shared/utilities/inlineStringify";
+import inlineStringify from "../../Shared/Utilities/inlineStringify";
 import svgTable from "../../Shared/markup/svgTable";
 const buildDocumentResponse = async (ctx) => {
   const [
@@ -78,7 +78,7 @@ const buildDocumentResponse = async (ctx) => {
         </head>
         <body
           ${isDemo || isAuthenticated
-            ? `data-viewName="${viewName}" data-mascotName="${mascotName}"`
+            ? `data-language="${language}" data-viewName="${viewName}" data-mascotName="${mascotName}"`
             : ``}
         >
           ${isDemo || isAuthenticated ? dashboardLayout : authenticationLayout}
@@ -108,7 +108,11 @@ const dashboardLayout = html`
     <img src="${`/images/${mascotName}/${viewName}`}" alt="" />
   </nav>
 
-  <article></article>
+  <article>
+    <header></header>
+    <main></main>
+    <footer></footer>
+  </article>
 `;
 
 const authenticationLayout = html` <form></form> `;

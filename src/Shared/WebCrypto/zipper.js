@@ -1,4 +1,4 @@
-import { te, td } from "../utilities/coders";
+import { te, td } from "../Utilities/coders";
 export default {
   async zip(object) {
     const jsonBytes = te.encode(JSON.stringify(object));

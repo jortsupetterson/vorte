@@ -1,10 +1,10 @@
 const routes = Object.freeze({
   default: buildDocumentResponse,
-  images: negotiateCache,
-  fonts: negotiateCache,
+  images: ({ event }) => negotiateCache(event.request),
+  fonts: ({ event }) => negotiateCache(event.request),
   icons: buildIconResponse,
   webmanifest: buildWebmanifestResponse,
-  "sitemap.xml": negotiateCache,
+  "sitemap.xml": ({ event }) => negotiateCache(event.request),
 });
 
 self.addEventListener("fetch", (event) => {

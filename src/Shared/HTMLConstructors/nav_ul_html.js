@@ -2,9 +2,8 @@ import svgTable from "../markup/svgTable";
 import inlineStringify from "../../../shared/utilities/inlineStringify";
 
 export default nav_ul_html = (nav_ul_json) => {
-  let markup = ``;
   const lang = document.body.dataset.language;
-  const constructor = {
+  const innerHTML = {
     home(nav_ul_json) {
       const { my_vorte_app_list, vortepreneur_organization_list } = nav_ul_json;
       return html`
@@ -13,7 +12,7 @@ export default nav_ul_html = (nav_ul_json) => {
             <summary>MY VORTE</summary>
             <ul>
               ${(() => {
-                markup = ``;
+                let markup = ``;
                 for (const item of my_vorte_app_list) {
                   markup += {
                     tasks: html` <li data-fn="${inlineStringify({})}">
@@ -49,14 +48,24 @@ export default nav_ul_html = (nav_ul_json) => {
                     </li>`,
                   }[item];
                 }
+                return markup;
               })()}
             </ul>
           </details>
         </li>
         <li>
           <details open>
-            <summary>VORTEPRENEUR</summary>
-            <ul></ul>
+            <summary class="preview">VORTEPRENEUR</summary>
+            <ul>
+              <li data-fn="$2"></li>
+              ${(() => {
+                let markup = ``;
+                for (const organizationName of vortepreneur_organization_list) {
+                  markup += html`<li>${organizationName}</li>`;
+                }
+                return markup;
+              })()}
+            </ul>
           </details>
         </li>
         <li>
@@ -89,14 +98,21 @@ export default nav_ul_html = (nav_ul_json) => {
           </details>
         </li>
         <li>
-          <a
-            href="${new URLSearchParams(self.location.search).has(`demo`)
-              ? ``
-              : ``}"
-          ></a>
+          <a href="${isDemo ? `` : ``}">
+            ${isDemo
+              ? {
+                  fi: "Luo käyttäjä",
+                  sv: "Skapa användare",
+                  en: "Create a user",
+                }[lang]
+              : { fi: "Kirjaudu ulos", sv: "Logga ut", en: "Sign out" }[lang]}
+          </a>
         </li>
       `;
     },
+    settings() {
+      let mark;
+    },
   }[viewName](nav_ul_json);
-  return markup;
+  return innerHTML;
 };

@@ -1,12 +1,11 @@
 import zipper from "../WebCrypto/zipper";
 import negotiateCache from "../Utilities/negotiateCache";
-export default nav_ul_html = async (isDemo) => {
-  const userRes = await negotiateCache(new Request(``));
-  const userBytes = new Uint8Array(await userRes.ArrayBuffer());
-  const user = await zipper.unzip(userBytes);
-
-  const res = {
-    home(isDemo) {
+export default nav_ul_json = async (isDemo) => {
+  const res = await {
+    async home(isDemo) {
+      const userRes = await negotiateCache(new Request(``));
+      const userBytes = new Uint8Array(await userRes.ArrayBuffer());
+      const user = await zipper.unzip(userBytes);
       return {
         my_vorte_app_list: isDemo
           ? ["tasks", "calendar", "networking", "rte"]

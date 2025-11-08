@@ -1,10 +1,9 @@
-const functions = {
-  structSpecifiedResourceInMarkup,
-  create: "",
-  update: "",
-  delete: "",
+import resourceForRender from "./handlers/resourceForRender";
+
+const handlers = {
+  resourceForRender,
 };
 const handleMessage = async (data) => {
-  functions[data.name](data.params);
+  handlers[data.name](data.params);
 };
 export default handleMessage;

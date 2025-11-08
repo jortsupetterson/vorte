@@ -1,13 +1,13 @@
-import negotiateAuthenticationStatus from "../../../shared/utilities/negotiateAuthenticationStatus";
-import negotiateDemoStatus from "../../../shared/utilities/negotiateDemoStatus";
-import getLanguage from "../../../shared/utilities/getLanguage";
-import getNonce from "../../../shared/utilities/getNonce";
-import getAccentColor from "../../../shared/utilities/getAccentColor";
+import negotiateAuthenticationStatus from "../../shared/utilities/negotiateAuthenticationStatus";
+import negotiateDemoStatus from "../../shared/utilities/negotiateDemoStatus";
+import getLanguage from "../../shared/utilities/getLanguage";
+import getNonce from "../../shared/utilities/getNonce";
+import getAccentColor from "../../shared/utilities/getAccentColor";
 import buildAppleTouchStartupImages from "../components/markup/apple-touch-startup-image";
 import buildCssText from "../components/markup/eagerStyles/style";
-import svgX from "../../../shared/markup/svgX";
 import MyVorteAppList from "../../ContentHandlers/ddc/MyVorteAppList.object";
-import inlineStringify from "../../../shared/utilities/inlineStringify";
+import inlineStringify from "../../shared/utilities/inlineStringify";
+import svgTable from "../../Shared/markup/svgTable";
 const buildDocumentResponse = async (ctx) => {
   const [
     nonce,
@@ -21,6 +21,8 @@ const buildDocumentResponse = async (ctx) => {
     getNonce(),
     getLanguage(),
     getAccentColor(),
+    getMascotName(),
+    getViewName(),
     negotiateDemoStatus(ctx),
     negotiateAuthenticationStatus(),
     buildAppleTouchStartupImages(),
@@ -74,12 +76,12 @@ const buildDocumentResponse = async (ctx) => {
             ${mainScripts};
           </script>
         </head>
-        <body>
-          ${isDemo
-            ? dashboardLayout
-            : isAuthenticated
-            ? dashboardLayout
-            : authenticationLayout}
+        <body
+          ${isDemo || isAuthenticated
+            ? `data-viewName="${viewName}" data-mascotName="${mascotName}"`
+            : ``}
+        >
+          ${isDemo || isAuthenticated ? dashboardLayout : authenticationLayout}
         </body>
       </html>
     `,
@@ -95,39 +97,15 @@ const buildDocumentResponse = async (ctx) => {
 
 const dashboardLayout = html`
   <nav>
-    <header>
-      <function-trigger class="i" data-fn="">${svgX}</function-trigger>
-    </header>
-    <main>
-      <details open>
-        <summary>MY VORTE</summary>
-        <ul>
-          ${(() => {
-            let list = "";
-            MyVorteAppList.forEach((listItem) => {
-              list =
-                list +
-                html`<navigation-trigger data-url="${listItem.url}"
-                  >${listItem.svg}${listItem.text[language]}</navigation-trigger
-                >`;
-            });
-            return list;
-          })()}
-        </ul>
-      </details>
-      <details open>
-        <summary>VORTEPRENEUR</summary>
-        <button
-          data-fn="${inlineStringify({
-            name: "displayResourceByName",
-            params: {},
-          })}"
-        >
-          ${{}[language]} ${svgPlus}
-        </button>
-      </details>
-    </main>
-    <footer></footer>
+    <button
+      data-fn="${inlineStringify({
+        name: `toggleNav`,
+      })}"
+    >
+      ${svgTable.svgX}
+    </button>
+    <ul></ul>
+    <img src="${`/images/${mascotName}/${viewName}`}" alt="" />
   </nav>
 
   <article></article>

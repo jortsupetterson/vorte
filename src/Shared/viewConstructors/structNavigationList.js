@@ -20,7 +20,10 @@ const listItemTypes = {
             for (const item of items) {
               markup += html`
                 <li ${item.fn ? `data-fn="${inlineStringify(item.fn)}"` : ``}>
-                  ${item.svg ?? ""}${item.text ?? ""}
+                  ${item.svg ?? ""}
+                  ${typeof item.text === "object"
+                    ? item.text[lang]
+                    : item.text ?? ""}
                 </li>
               `;
             }
@@ -29,7 +32,14 @@ const listItemTypes = {
       </details>
     `;
   },
-  button() {
-    return html``;
+  anchor({ url, title, svg, text }, lang) {
+    return html`
+      <a
+        href="${typeof url === `object` ? url[lang] : url}"
+        title="${typeof title === `object` ? title[lang] : title}}"
+      >
+        ${svg ?? ""} ${typeof text === "object" ? text[lang] : text ?? ""}
+      </a>
+    `;
   },
 };

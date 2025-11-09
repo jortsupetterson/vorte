@@ -3,22 +3,27 @@ const buildDocumentResponse = async (ctx) => {
     nonce,
     language,
     accentColor,
+    backgroundColor,
+    contentColor,
+    contrastAmount,
     mascotName,
     viewName,
     /**/
     isDemo,
     isAuthenticated,
-    cssText,
   ] = await Promise.all([
     getNonce(),
     getLanguage(),
     getAccentColor(),
+    getBackgroundColor(),
+    getContentColor(),
+    getContrastAmount(),
     getMascotName(),
     getViewName(),
+
     /**/
     negotiateDemoStatus(ctx),
     negotiateAuthenticationStatus(),
-    buildCssText(),
   ]);
 
   return new Response(
@@ -59,7 +64,12 @@ const buildDocumentResponse = async (ctx) => {
             crossorigin="use-credentials"
           />
           <style id="eager" nonce="${nonce}">
-            ${cssText}
+            ${await structStyleCss({
+              accentColor,
+              contentColor,
+              backgroundColor,
+              contrastAmount,
+            })}
           </style>
           <script nonce="${nonce}">
             ${mainScripts};
@@ -85,7 +95,7 @@ const buildDocumentResponse = async (ctx) => {
     }
   );
 };
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
 const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
   <nav>
     <button
@@ -108,14 +118,20 @@ const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
       alt="${{ fi: ``, sv: ``, en: `` }[language]}"
     />
   </nav>
-
+  <!---------------------------------------------------------------------------------->
   <article>
     <header></header>
-    <main></main>
+    <main>
+      ${article_main_html(
+        await article_main_json(isDemo, viewName),
+        language,
+        viewName
+      )}
+    </main>
     <footer></footer>
   </article>
 `;
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 const authenticationLayout = async (viewName, mascotName) =>
   html` <form></form> `;
 
@@ -127,11 +143,19 @@ import negotiateDemoStatus from "../../Shared/Utilities/negotiateDemoStatus";
 import getLanguage from "../../Shared/Utilities/getLanguage";
 import getNonce from "../../Shared/Utilities/getNonce";
 import getAccentColor from "../../Shared/Utilities/getAccentColor";
+import getBackgroundColor from "../../Shared/Utilities/getBackgroundColor";
+import getContentColor from "../../Shared/Utilities/getContentColor";
+import getContrastAmount from "../../Shared/Utilities/getContrastAmount";
+
 import getMascotName from "../../Shared/Utilities/getMacotName";
 import getViewName from "../../Shared/Utilities/getViewName";
 
-import buildCssText from "../components/markup/eagerStyles/style";
 import inlineStringify from "../../Shared/Utilities/inlineStringify";
 import svgTable from "../../Shared/markup/svgTable";
+
 import nav_ul_html from "../../Shared/HTMLConstructors/nav_ul_html";
 import nav_ul_json from "../../Shared/JSONConstructors/nav_ul_json";
+import article_main_html from "../../Shared/HTMLConstructors/article_main_html";
+import article_main_json from "../../Shared/JSONConstructors/article_main_json";
+
+import structStyleCss from "../../Styles/structStyle.css";

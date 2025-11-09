@@ -4,8 +4,8 @@ export default (article_main_json, language, viewName) => {
     home(article_main_json) {
       const { widget_list } = article_main_json;
       let markup = ``;
-      for (const item in widget_list) {
-        markup += {
+      for (const item of widget_list) {
+        const constructor = {
           welcome({ firstname }) {
             return html`
               <div>
@@ -75,7 +75,8 @@ export default (article_main_json, language, viewName) => {
               </div>
             `;
           },
-        }[item.name](item.params);
+        }[item.name];
+        markup += constructor(item.params);
       }
       return markup;
     },

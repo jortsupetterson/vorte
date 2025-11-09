@@ -1,6 +1,6 @@
 import zipper from "../WebCrypto/zipper";
 import negotiateCache from "../Utilities/negotiateCache";
-export default async (isDemo) => {
+export default async (isDemo, viewName) => {
   const constructor = {
     async home(isDemo) {
       if (isDemo) {
@@ -46,8 +46,7 @@ export default async (isDemo) => {
 
       return { widget_list: renderableList };
     },
-  };
-
+  }[viewName];
   const JSON = await constructor(isDemo);
   return JSON;
 };

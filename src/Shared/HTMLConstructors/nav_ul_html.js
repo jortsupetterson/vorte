@@ -15,7 +15,7 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                 for (const item of my_vorte_app_list) {
                   markup += {
                     tasks: html` <li data-fn="${inlineStringify({})}">
-                      ${svgTable["svgX"]}${{
+                      ${svgTable["svgList"]}${{
                         fi: "Tehtävät",
                         sv: "Uppgifter",
                         en: "Tasks",

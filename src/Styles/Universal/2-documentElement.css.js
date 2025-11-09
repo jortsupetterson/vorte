@@ -16,13 +16,13 @@ export default css`
     user-select: none;
     touch-action: manipulation;
   }
-  button {
+  [data-fn] {
     pointer-events: all;
     width: max-content;
     height: max-content;
     padding: 1rem;
   }
-  .p {
+  button {
     cursor: pointer;
   }
 `;

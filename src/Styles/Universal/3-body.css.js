@@ -26,6 +26,5 @@ export default css`
     justify-content: flex-start;
     align-items: flex-start;
     filter: contrast(--contrastAmount);
-    overflow: hidden;
   }
 `;

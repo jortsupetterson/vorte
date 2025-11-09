@@ -78,4 +78,21 @@ export default css`
     font-display: swap;
     src: url("/fonts/Poppins/Black.woff2") format("woff2");
   }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html,
+  body {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+  }
 `;

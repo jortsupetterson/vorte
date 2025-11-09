@@ -3,13 +3,13 @@ import inlineStringify from "../Utilities/inlineStringify";
 
 export default (nav_ul_json, language, viewName, isDemo) => {
   const constructor = {
-    home(nav_ul_json) {
+    home(nav_ul_json, language, isDemo) {
       const { my_vorte_app_list, vortepreneur_organization_list } = nav_ul_json;
       return html`
         <li>
-          <details id="MyVorteAppList" open>
+          <details open>
             <summary>MY VORTE</summary>
-            <ul>
+            <ul id="MyVorteAppList">
               ${(() => {
                 let markup = ``;
                 for (const item of my_vorte_app_list) {
@@ -23,7 +23,7 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                     </li>`,
 
                     calendar: html` <li data-fn="${inlineStringify({})}">
-                      ${svgTable["svgX"]}${{
+                      ${svgTable["svgCalendar"]}${{
                         fi: "Kalenteri",
                         sv: "Kalender",
                         en: "Calendar",
@@ -31,7 +31,7 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                     </li>`,
 
                     networking: html` <li data-fn="${inlineStringify({})}">
-                      ${svgTable["svgX"]}${{
+                      ${svgTable["svgNetwork"]}${{
                         fi: "Verkostoituminen",
                         sv: "Nätverkande",
                         en: "Networking",
@@ -39,7 +39,7 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                     </li>`,
 
                     rte: html` <li data-fn="${inlineStringify({})}">
-                      ${svgTable["svgX"]}${{
+                      ${svgTable["svgRoad"]}${{
                         fi: "Polku yrittäjäksi",
                         sv: "Vägen till entreprenörskap",
                         en: "Road to entrepreneurship",
@@ -55,12 +55,21 @@ export default (nav_ul_json, language, viewName, isDemo) => {
         <li>
           <details open>
             <summary class="preview">VORTEPRENEUR</summary>
-            <ul>
-              <li data-fn="$2"></li>
+            <ul id="VortepreneurOrganizationList">
+              <li data-fn="${inlineStringify({})}">
+                ${svgTable["svgPlus"]}
+                ${{
+                  fi: "Lisää organisaatio",
+                  sv: "Lägg till en organisation",
+                  en: "Add an organisation",
+                }[language]}
+              </li>
               ${(() => {
                 let markup = ``;
                 for (const organizationName of vortepreneur_organization_list) {
-                  markup += html`<li>${organizationName}</li>`;
+                  markup += html`<li data-fn="${inlineStringify({})}">
+                    ${svgTable["svgOrganization"]}${organizationName}
+                  </li>`;
                 }
                 return markup;
               })()}
@@ -73,22 +82,22 @@ export default (nav_ul_json, language, viewName, isDemo) => {
               ${{ fi: "KÄYTTÄJÄ", sv: "ANVÄNDARE", en: "USER" }[language]}
             </summary>
             <ul>
-              <li>
-                ${svgTable["svgX"]}
+              <li data-fn="${inlineStringify({})}">
+                ${svgTable["svgPerson"]}
                 ${{
                   fi: "Julkinen profiili",
                   sv: "Offentlig profil",
                   en: "Public profile",
                 }[language]}
               </li>
-              <li>
-                ${svgTable["svgX"]}
+              <li data-fn="${inlineStringify({})}">
+                ${svgTable["svgGear"]}
                 ${{ fi: "Asetukset", sv: "Inställningar", en: "Settings" }[
                   language
                 ]}
               </li>
-              <li>
-                ${svgTable["svgX"]}
+              <li data-fn="${inlineStringify({})}">
+                ${svgTable["svgSubscription"]}
                 ${{ fi: "Tilaus", sv: "Prenumeration", en: "Subscription" }[
                   language
                 ]}
@@ -97,24 +106,26 @@ export default (nav_ul_json, language, viewName, isDemo) => {
           </details>
         </li>
         <li>
-          <a href="${isDemo ? `` : ``}">
+          <button data-fn="${inlineStringify({})}">
             ${isDemo
-              ? {
-                  fi: "Luo käyttäjä",
-                  sv: "Skapa användare",
-                  en: "Create a user",
-                }[language]
+              ? `${
+                  {
+                    fi: "Luo käyttäjä",
+                    sv: "Skapa användare",
+                    en: "Create a user",
+                  }[language]
+                }→`
               : { fi: "Kirjaudu ulos", sv: "Logga ut", en: "Sign out" }[
                   language
                 ]}
-          </a>
+          </button>
         </li>
       `;
     },
-    settings(nav_ul_json) {
+    settings(nav_ul_json, language, isDemo) {
       let mark;
     },
   }[viewName];
-  const innerHTML = constructor(nav_ul_json);
+  const innerHTML = constructor(nav_ul_json, language, isDemo);
   return innerHTML;
 };

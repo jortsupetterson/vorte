@@ -10,7 +10,9 @@ export const functions = {
 };
 
 document.addEventListener("pointerup", async (event) => {
-  const data = JSON.parse(event.target.dataset.fn);
+  const dataStr = event.target.dataset.fn;
+  if (!dataStr) return;
+  const data = JSON.parse(dataStr);
   functions[data.name](data.params ?? null);
 
   //side-effects

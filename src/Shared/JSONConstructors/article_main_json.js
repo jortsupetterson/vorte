@@ -1,35 +1,16 @@
-import zipper from "../WebCrypto/zipper";
-import negotiateCache from "../Utilities/negotiateCache";
 export default async (isDemo, viewName) => {
   const constructor = {
     async home(isDemo) {
-      if (isDemo) {
-        return {
-          widget_list: [
-            {
-              name: "welcome",
-              params: {
-                firstname: "",
-              },
-            },
-            { name: "device_bound_passkey" },
-            { name: "style_customization" },
-            { name: "start_rte" },
-          ],
-        };
-      }
+      const { widget_list, firstname } = await getUserObject(isDemo);
 
-      const userRes = await negotiateCache(new Request(`/user.json`));
-      const userBytes = await userRes.arrayBuffer();
-      const user = await zipper.unzip(userBytes);
-      const truthsource = new Set(user.widget_list);
+      const truthsource = new Set(widget_list);
       const renderableList = [];
 
       if (truthsource.has("welcome")) {
         renderableList.push({
           name: "welcome",
           params: {
-            fistname: ` ${user.firstname}`,
+            firstname,
           },
         });
       }
@@ -50,3 +31,4 @@ export default async (isDemo, viewName) => {
   const JSON = await constructor(isDemo);
   return JSON;
 };
+import getUserObject from "../Utilities/getUserObject";

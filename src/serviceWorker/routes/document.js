@@ -64,7 +64,7 @@ const buildDocumentResponse = async (ctx) => {
             crossorigin="use-credentials"
           />
           <style id="eager" nonce="${nonce}">
-            ${await structStyleCss({
+            ${await structStylesCss({
               accentColor,
               contentColor,
               backgroundColor,
@@ -97,8 +97,9 @@ const buildDocumentResponse = async (ctx) => {
 };
 ////////////////////////////////////////////////////////////////////////////////////
 const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
-  <nav>
+  <nav id="${viewName}">
     <button
+      id="closer"
       data-fn="${inlineStringify({
         name: `toggleNav`,
       })}"
@@ -119,8 +120,22 @@ const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
     />
   </nav>
   <!---------------------------------------------------------------------------------->
-  <article>
-    <header></header>
+  <article id="${viewName}">
+    <header>
+      <div id="controls">
+        <button data-fn="${inlineStringify({ name: `toggleNav` })}">
+          ${svgTable["svgBars"]}
+        </button>
+        <button>${svgTable["svgP2P"]}</button>
+      </div>
+      <h1>
+        ${article_header_h1_html(
+          await article_header_h1_json(isDemo, viewName),
+          language,
+          viewName
+        )}
+      </h1>
+    </header>
     <main>
       ${article_main_html(
         await article_main_json(isDemo, viewName),
@@ -158,4 +173,6 @@ import nav_ul_json from "../../Shared/JSONConstructors/nav_ul_json";
 import article_main_html from "../../Shared/HTMLConstructors/article_main_html";
 import article_main_json from "../../Shared/JSONConstructors/article_main_json";
 
-import structStyleCss from "../../Styles/structStyle.css";
+import structStylesCss from "../../Styles/structStyles.css";
+import article_header_h1_html from "../../Shared/HTMLConstructors/article_header_h1_html";
+import article_header_h1_json from "../../Shared/JSONConstructors/article_header_h1_json";

@@ -20,9 +20,16 @@ export default css`
     pointer-events: all;
     width: max-content;
     height: max-content;
-    padding: 1rem;
+    padding: 0.5rem;
   }
   button {
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  button svg {
+    fill: var(--contentColor);
   }
 `;

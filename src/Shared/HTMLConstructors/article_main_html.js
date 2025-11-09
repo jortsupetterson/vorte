@@ -1,7 +1,7 @@
 import inlineStringify from "../Utilities/inlineStringify";
 export default (article_main_json, language, viewName) => {
   const constructor = {
-    home(article_main_json) {
+    home(article_main_json, language) {
       const { widget_list } = article_main_json;
       let markup = ``;
       for (const item of widget_list) {
@@ -9,19 +9,19 @@ export default (article_main_json, language, viewName) => {
           welcome({ firstname }) {
             return html`
               <div>
-                <h6>
+                <h2>
                   ${{
                     fi: "Tervetuloa Vorteen!",
                     sv: "Välkommen till Vorte!",
                     en: "Welcome to Vorte!",
                   }[language]}
-                </h6>
+                </h2>
                 <p>
                   ${{
                     fi: "Kiitos kun valitsit meidät",
                     sv: "Tack för att du valde oss",
                     en: "Thank you for choosing us",
-                  }[language]}${firstname}!
+                  }[language]}${firstname ? ` ${firstname}` : ""}!
                 </p>
                 <button data-fn="${inlineStringify({})}">ok</button>
               </div>
@@ -81,6 +81,6 @@ export default (article_main_json, language, viewName) => {
       return markup;
     },
   }[viewName];
-  const innerHTML = constructor(article_main_json);
+  const innerHTML = constructor(article_main_json, language);
   return innerHTML;
 };

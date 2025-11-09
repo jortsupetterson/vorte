@@ -1,4 +1,4 @@
-const structCssVars = async ({
+const structCssVars = ({
   accentColor,
   contentColor,
   backgroundColor,

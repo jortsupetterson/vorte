@@ -7,6 +7,7 @@ export const functions = {
       })()
     ),
   toggleNav: () => document.body.querySelector("nav").classList.toggle("open"),
+  setLocation: ({ location }) => (window.location.href = location),
 };
 
 document.addEventListener("pointerup", async (event) => {

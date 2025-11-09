@@ -4,11 +4,11 @@ export default css`
     background: var(--navBackgroundColor);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     transition: flex-basis 0.2s ease, padding 0.2s ease;
     will-change: left, padding;
-    padding: 1.5rem 0 1.5rem 0;
+    padding: 0;
     flex: 0 0 0;
     border-radius: 0;
     margin: 0;
@@ -19,7 +19,7 @@ export default css`
 
   nav.open {
     flex: 0 0 var(--navWidth);
-    padding: 1.5rem;
+    padding: 0 1.5rem 0 1.5rem;
   }
   ${ButtonCss}
   ${UlCss}

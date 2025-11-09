@@ -106,7 +106,12 @@ export default (nav_ul_json, language, viewName, isDemo) => {
           </details>
         </li>
         <li>
-          <button data-fn="${inlineStringify({})}">
+          <button
+            data-fn="${inlineStringify({
+              name: `setLocation`,
+              params: { location: `/` },
+            })}"
+          >
             ${isDemo
               ? `${
                   {

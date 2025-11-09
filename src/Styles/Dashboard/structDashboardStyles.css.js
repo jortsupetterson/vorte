@@ -1,9 +1,8 @@
 export default () => {
   return css`
-    li svg,
     button svg {
-      width: clamp(1.5rem, 1.5rem, 1.5rem);
-      height: clamp(1.5rem, 1.5rem, 1.5rem);
+      width: clamp(1.33rem, 1.33rem, 1.33rem);
+      height: clamp(1.33rem, 1.33rem, 1.33rem);
     }
     ${NavCss}
     ${ArticleCss}

@@ -6,7 +6,7 @@ export default css`
     justify-content: center;
     align-items: center;
     background-color: var(--accentGhostColor);
-    width: clamp(20rem, 20rem, 20rem);
+    width: clamp(20rem, 25rem, 90%);
     border-radius: 0.25rem;
     padding: 2rem;
     padding-bottom: 4rem;
@@ -18,5 +18,6 @@ export default css`
     position: absolute;
     bottom: 1rem;
     right: 1rem;
+    border-radius: 0.05rem;
   }
 `;

@@ -1,8 +1,8 @@
 export default css`
   article header {
     position: relative;
-    width: var(--articleWidth);
-    height: max-content;
+    width: calc(var(--articleWidth) * 0.95);
+    height: clamp(10dvh, 10dvh, 10dvh);
     padding: 1rem;
     border-bottom: 0.1rem solid var(--special3);
     display: flex;

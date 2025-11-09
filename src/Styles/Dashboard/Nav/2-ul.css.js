@@ -2,7 +2,7 @@ export default css`
   nav ul {
     pointer-events: all;
     position: relative;
-    top: 5dvh;
+    top: 10dvh;
     width: var(--navWidth);
     display: flex;
     flex-direction: column;

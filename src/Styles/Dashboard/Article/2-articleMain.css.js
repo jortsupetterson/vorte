@@ -3,11 +3,13 @@ export default css`
     display: flex;
     justify-content: center;
     align-items: center;
-    align-content: center;
+    align-content: flex-start;
     flex-wrap: wrap;
     min-width: var(--articleWidth);
     overflow-y: auto;
+    pointer-events: all;
     height: clamp(95dvh, 95dvh, 95dvh);
+    padding: 2rem;
     gap: 2rem;
   }
 `;

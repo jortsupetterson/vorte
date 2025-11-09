@@ -1,21 +1,13 @@
-import negotiateAuthenticationStatus from "../../Shared/Utilities/negotiateAuthenticationStatus";
-import negotiateDemoStatus from "../../Shared/Utilities/negotiateDemoStatus";
-import getLanguage from "../../Shared/Utilities/getLanguage";
-import getNonce from "../../Shared/Utilities/getNonce";
-import getAccentColor from "../../Shared/Utilities/getAccentColor";
-import buildAppleTouchStartupImages from "../components/markup/apple-touch-startup-image";
-import buildCssText from "../components/markup/eagerStyles/style";
-import MyVorteAppList from "../../ContentHandlers/ddc/MyVorteAppList.object";
-import inlineStringify from "../../Shared/Utilities/inlineStringify";
-import svgTable from "../../Shared/markup/svgTable";
 const buildDocumentResponse = async (ctx) => {
   const [
     nonce,
     language,
     accentColor,
+    mascotName,
+    viewName,
+    /**/
     isDemo,
     isAuthenticated,
-    splashImages,
     cssText,
   ] = await Promise.all([
     getNonce(),
@@ -23,9 +15,9 @@ const buildDocumentResponse = async (ctx) => {
     getAccentColor(),
     getMascotName(),
     getViewName(),
+    /**/
     negotiateDemoStatus(ctx),
     negotiateAuthenticationStatus(),
-    buildAppleTouchStartupImages(),
     buildCssText(),
   ]);
 
@@ -70,18 +62,17 @@ const buildDocumentResponse = async (ctx) => {
             ${cssText}
           </style>
           <script nonce="${nonce}">
-            const app = {
-              language: ${language},
-            };
             ${mainScripts};
           </script>
         </head>
         <body
           ${isDemo || isAuthenticated
-            ? `data-language="${language}" data-viewName="${viewName}" data-mascotName="${mascotName}"`
+            ? `data-language="${language}" data-mascotName="${mascotName}"`
             : ``}
         >
-          ${isDemo || isAuthenticated ? dashboardLayout : authenticationLayout}
+          ${isDemo || isAuthenticated
+            ? await dashboardLayout(isDemo, viewName, mascotName, language)
+            : await authenticationLayout(viewName, mascotName)}
         </body>
       </html>
     `,
@@ -94,8 +85,8 @@ const buildDocumentResponse = async (ctx) => {
     }
   );
 };
-
-const dashboardLayout = html`
+///////////////////////////////////////////////////////
+const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
   <nav>
     <button
       data-fn="${inlineStringify({
@@ -104,8 +95,18 @@ const dashboardLayout = html`
     >
       ${svgTable.svgX}
     </button>
-    <ul></ul>
-    <img src="${`/images/${mascotName}/${viewName}`}" alt="" />
+    <ul>
+      ${nav_ul_html(
+        await nav_ul_json(isDemo, viewName),
+        language,
+        viewName,
+        isDemo
+      )}
+    </ul>
+    <img
+      src="${`/images/${mascotName}/${viewName}`}"
+      alt="${{ fi: ``, sv: ``, en: `` }[language]}"
+    />
   </nav>
 
   <article>
@@ -114,7 +115,23 @@ const dashboardLayout = html`
     <footer></footer>
   </article>
 `;
-
-const authenticationLayout = html` <form></form> `;
+/////////////////////////////////////////////////////
+const authenticationLayout = async (viewName, mascotName) =>
+  html` <form></form> `;
 
 export default buildDocumentResponse;
+
+import negotiateAuthenticationStatus from "../../Shared/Utilities/negotiateAuthenticationStatus";
+import negotiateDemoStatus from "../../Shared/Utilities/negotiateDemoStatus";
+
+import getLanguage from "../../Shared/Utilities/getLanguage";
+import getNonce from "../../Shared/Utilities/getNonce";
+import getAccentColor from "../../Shared/Utilities/getAccentColor";
+import getMascotName from "../../Shared/Utilities/getMacotName";
+import getViewName from "../../Shared/Utilities/getViewName";
+
+import buildCssText from "../components/markup/eagerStyles/style";
+import inlineStringify from "../../Shared/Utilities/inlineStringify";
+import svgTable from "../../Shared/markup/svgTable";
+import nav_ul_html from "../../Shared/HTMLConstructors/nav_ul_html";
+import nav_ul_json from "../../Shared/JSONConstructors/nav_ul_json";

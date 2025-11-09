@@ -1,5 +1,4 @@
-import { SUPPORTED_LANGUAGES } from "../../shared/SUPPORTED_LANGUAGES";
-import { NOWplusYEAR } from "../../shared/NOWplusYEAR";
+import { SUPPORTED_LANGUAGES, NOWplusYEAR } from "../Shared/CONFIG.js";
 const supported = new Set(SUPPORTED_LANGUAGES);
 
 navigator.serviceWorker.register("/sw.js", { scope: "/", type: "module" });

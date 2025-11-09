@@ -1,5 +1,5 @@
 const routes = Object.freeze({
-  default: buildDocumentResponse,
+  document: buildDocumentResponse,
   images: ({ event }) => negotiateCache(event.request),
   fonts: ({ event }) => negotiateCache(event.request),
   icons: buildIconResponse,
@@ -10,7 +10,7 @@ const routes = Object.freeze({
 self.addEventListener("fetch", (event) => {
   const { pathname, searchParams } = new URL(event.request.url);
   const path = pathname.split("/").filter(Boolean);
-  const handler = routes[path[0]] ?? routes.default;
+  const handler = routes[path[0]] ?? routes.document;
   event.respondWith(handler({ path, event, searchParams }));
   event.waitUntil(checkForUpdate());
 });
@@ -37,8 +37,8 @@ self.addEventListener("message", ({ data }) => {
 });
 
 import handleMessage from "./api/handleMessage";
-import checkForUpdate from "../../shared/utilities/checkForUpdate";
-import negotiateCache from "../../shared/utilities/negotiateCache";
-import buildDocumentResponse from "./routes/default";
+import checkForUpdate from "../Shared/Utilities/checkForUpdate";
+import negotiateCache from "../Shared/Utilities/negotiateCache";
+import buildDocumentResponse from "./routes/document";
 import buildIconResponse from "./routes/icons";
 import buildWebmanifestResponse from "./routes/webmanifest";

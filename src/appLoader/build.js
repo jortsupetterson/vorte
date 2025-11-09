@@ -1,4 +1,4 @@
-import { SUPPORTED_LANGUAGES } from "../../shared/SUPPORTED_LANGUAGES.js";
+import { SUPPORTED_LANGUAGES } from "../Shared/CONFIG.js";
 const html = String.raw;
 
 import { build } from "esbuild";

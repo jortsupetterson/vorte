@@ -26,5 +26,5 @@ document.addEventListener("pointerup", async (event) => {
 const mQ = window.matchMedia("(max-width: 548px)");
 const isDemo = new URLSearchParams(window.location.search).has("demo");
 
-import serviceWorker from "./eventHandlers/serviceWorker";
-serviceWorker;
+import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
+renderRecievedResource;

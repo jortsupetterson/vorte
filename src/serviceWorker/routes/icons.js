@@ -1,6 +1,5 @@
 // /icons/{width}x{height} → PNG (accent-tausta, logo vektorina Path2D:llä; ei SVG-dekoodausta)
-import getAccentColor from "../../../shared/utilities/getAccentColor.js";
-
+import getAccentColor from "../../Shared/Utilities/getAccentColor";
 const buildIconResponse = async (ctx) => {
   const sizeStr = (ctx.path?.[1] || "").toLowerCase();
   const [w, h] = sizeStr.split("x").map((n) => parseInt(n, 10));

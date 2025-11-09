@@ -1,7 +1,7 @@
 import zipper from "../WebCrypto/zipper";
 import negotiateCache from "../Utilities/negotiateCache";
-export default article_main_json = async (isDemo) => {
-  const res = await {
+export default async (isDemo) => {
+  const constructor = {
     async home(isDemo) {
       if (isDemo) {
         return {
@@ -19,7 +19,7 @@ export default article_main_json = async (isDemo) => {
         };
       }
 
-      const userRes = await negotiateCache(new Request(``));
+      const userRes = await negotiateCache(new Request(`/user.json`));
       const userBytes = await userRes.arrayBuffer();
       const user = await zipper.unzip(userBytes);
       const truthsource = new Set(user.widget_list);
@@ -46,5 +46,8 @@ export default article_main_json = async (isDemo) => {
 
       return { widget_list: renderableList };
     },
-  }[viewName](isDemo);
+  };
+
+  const JSON = await constructor(isDemo);
+  return JSON;
 };

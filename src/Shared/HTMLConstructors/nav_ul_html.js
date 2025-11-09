@@ -1,9 +1,8 @@
 import svgTable from "../markup/svgTable";
-import inlineStringify from "../../../shared/utilities/inlineStringify";
+import inlineStringify from "../Utilities/inlineStringify";
 
-export default nav_ul_html = (nav_ul_json) => {
-  const lang = document.body.dataset.language;
-  const innerHTML = {
+export default (nav_ul_json, language, viewName, isDemo) => {
+  const constructor = {
     home(nav_ul_json) {
       const { my_vorte_app_list, vortepreneur_organization_list } = nav_ul_json;
       return html`
@@ -20,7 +19,7 @@ export default nav_ul_html = (nav_ul_json) => {
                         fi: "Tehtävät",
                         sv: "Uppgifter",
                         en: "Tasks",
-                      }[lang]}
+                      }[language]}
                     </li>`,
 
                     calendar: html` <li data-fn="${inlineStringify({})}">
@@ -28,7 +27,7 @@ export default nav_ul_html = (nav_ul_json) => {
                         fi: "Kalenteri",
                         sv: "Kalender",
                         en: "Calendar",
-                      }[lang]}
+                      }[language]}
                     </li>`,
 
                     networking: html` <li data-fn="${inlineStringify({})}">
@@ -36,7 +35,7 @@ export default nav_ul_html = (nav_ul_json) => {
                         fi: "Verkostoituminen",
                         sv: "Nätverkande",
                         en: "Networking",
-                      }[lang]}
+                      }[language]}
                     </li>`,
 
                     rte: html` <li data-fn="${inlineStringify({})}">
@@ -44,7 +43,7 @@ export default nav_ul_html = (nav_ul_json) => {
                         fi: "Polku yrittäjäksi",
                         sv: "Vägen till entreprenörskap",
                         en: "Road to entrepreneurship",
-                      }[lang]}
+                      }[language]}
                     </li>`,
                   }[item];
                 }
@@ -71,7 +70,7 @@ export default nav_ul_html = (nav_ul_json) => {
         <li>
           <details open>
             <summary>
-              ${{ fi: "KÄYTTÄJÄ", sv: "ANVÄNDARE", en: "USER" }[lang]}
+              ${{ fi: "KÄYTTÄJÄ", sv: "ANVÄNDARE", en: "USER" }[language]}
             </summary>
             <ul>
               <li>
@@ -80,18 +79,18 @@ export default nav_ul_html = (nav_ul_json) => {
                   fi: "Julkinen profiili",
                   sv: "Offentlig profil",
                   en: "Public profile",
-                }[lang]}
+                }[language]}
               </li>
               <li>
                 ${svgTable["svgX"]}
                 ${{ fi: "Asetukset", sv: "Inställningar", en: "Settings" }[
-                  lang
+                  language
                 ]}
               </li>
               <li>
                 ${svgTable["svgX"]}
                 ${{ fi: "Tilaus", sv: "Prenumeration", en: "Subscription" }[
-                  lang
+                  language
                 ]}
               </li>
             </ul>
@@ -104,15 +103,18 @@ export default nav_ul_html = (nav_ul_json) => {
                   fi: "Luo käyttäjä",
                   sv: "Skapa användare",
                   en: "Create a user",
-                }[lang]
-              : { fi: "Kirjaudu ulos", sv: "Logga ut", en: "Sign out" }[lang]}
+                }[language]
+              : { fi: "Kirjaudu ulos", sv: "Logga ut", en: "Sign out" }[
+                  language
+                ]}
           </a>
         </li>
       `;
     },
-    settings() {
+    settings(nav_ul_json) {
       let mark;
     },
-  }[viewName](nav_ul_json);
+  }[viewName];
+  const innerHTML = constructor(nav_ul_json);
   return innerHTML;
 };

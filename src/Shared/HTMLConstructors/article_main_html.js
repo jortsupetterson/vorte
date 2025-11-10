@@ -2,9 +2,11 @@ import svgTable from "../markup/svgTable";
 import jsonTable from "../markup/jsonTable";
 import inlineStringify from "../Utilities/inlineStringify";
 import getWeekNum from "../Utilities/getWeekNum";
+import getAnchorDate from "../Utilities/getAnchorDate";
+
 export default async (article_main_json, language, viewName) => {
   const constructor = {
-    home(article_main_json, language) {
+    async home(article_main_json, language) {
       const { widget_list } = article_main_json;
       let markup = ``;
       for (const item of widget_list) {
@@ -83,15 +85,16 @@ export default async (article_main_json, language, viewName) => {
       }
       return markup;
     },
-    calendar_day(article_main_json, language) {
+    async calendar_day(article_main_json, language) {
+      const date = await getAnchorDate();
       return html`
         <div id="datePicker">
           <button data-fn="${inlineStringify({})}">
             ${svgTable["svgArrowLeft"]}
           </button>
           <button data-fn="${inlineStringify({})}">
-            ${jsonTable["jsonWeekdays"][new Date().getDay()][language]}
-            ${new Date().toLocaleDateString("fi-FI")}
+            ${jsonTable["jsonWeekdays"][date.getDay()][language]}
+            ${date.toLocaleDateString("fi-FI")}
           </button>
           <button data-fn="${inlineStringify({})}">
             ${svgTable["svgArrowRight"]}
@@ -104,8 +107,8 @@ export default async (article_main_json, language, viewName) => {
         </div>
       `;
     },
-    calendar_week(article_main_json, language) {
-      const date = new Date();
+    async calendar_week(article_main_json, language) {
+      const date = await getAnchorDate();
       return html`
         <div id="datePicker">
           <button data-fn="${inlineStringify({})}">
@@ -127,8 +130,8 @@ export default async (article_main_json, language, viewName) => {
         </div>
       `;
     },
-    calendar_month(article_main_json, language) {
-      const date = new Date();
+    async calendar_month(article_main_json, language) {
+      const date = await getAnchorDate();
       return html`
         <div id="datePicker">
           <button data-fn="${inlineStringify({})}">
@@ -150,6 +153,6 @@ export default async (article_main_json, language, viewName) => {
       `;
     },
   }[viewName];
-  const innerHTML = constructor(article_main_json, language);
+  const innerHTML = await constructor(article_main_json, language);
   return innerHTML;
 };

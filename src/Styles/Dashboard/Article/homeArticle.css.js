@@ -6,7 +6,7 @@ export default css`
     justify-content: center;
     align-items: center;
     background-color: var(--accentGhostColor);
-    width: clamp(20rem, 25rem, 90%);
+    width: clamp(20rem, 25rem, 90dvw);
     border-radius: 0.25rem;
     padding: 2rem;
     padding-bottom: 4rem;
@@ -14,10 +14,11 @@ export default css`
 
   article#home main div button {
     background: var(--contentGhostColor);
-    padding: 0.5rem 1rem;
+    padding: 0.25rem 0.5rem;
     position: absolute;
     bottom: 1rem;
     right: 1rem;
     border-radius: 0.05rem;
+    font-size: small;
   }
 `;

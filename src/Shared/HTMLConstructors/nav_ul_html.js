@@ -3,7 +3,7 @@ import inlineStringify from "../Utilities/inlineStringify";
 
 export default (nav_ul_json, language, viewName, isDemo) => {
   const constructor = {
-    home(nav_ul_json, language, isDemo) {
+    home({ nav_ul_json, language, isDemo }) {
       const { my_vorte_app_list, vortepreneur_organization_list } = nav_ul_json;
       return html`
         <li>
@@ -22,7 +22,18 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                       }[language]}
                     </li>`,
 
-                    calendar: html` <li data-fn="${inlineStringify({})}">
+                    calendar: html` <li
+                      data-fn="${inlineStringify({
+                        name: `msgToSw`,
+                        params: {
+                          name: `sendResourceForRender`,
+                          params: {
+                            viewName: `calendar`,
+                            components: [`nav ul`],
+                          },
+                        },
+                      })}"
+                    >
                       ${svgTable["svgCalendar"]}${{
                         fi: "Kalenteri",
                         sv: "Kalender",
@@ -125,12 +136,64 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                 ]}
           </button>
         </li>
+        <ul></ul>
       `;
     },
-    settings(nav_ul_json, language, isDemo) {
+    settings({ nav_ul_json, language }) {
       let mark;
     },
+    calendar({ nav_ul_json, language }) {
+      const { open_on_start } = nav_ul_json;
+      return html`
+        <li>
+          <button
+            id="to_root"
+            data-fn="${inlineStringify({
+              name: `msgToSw`,
+              params: {
+                name: `sendResourceForRender`,
+                params: { viewName: `home`, components: [`nav ul`] },
+              },
+            })}"
+          >
+            ${svgTable["svgArrowLeft"]}
+          </button>
+        </li>
+        <li>
+          <details open>
+            <summary>MY VORTE</summary>
+            <h2>
+              ${{ fi: "Kalenteri", sv: "Kalender", en: "Calendar" }[language]}
+            </h2>
+            <ul>
+              <li data-fn="">
+                ${svgTable["svgCalendarDay"]}
+                ${{ fi: "Päivänäkymä", sv: "Dagsvy", en: "Day view" }[language]}
+              </li>
+              <li data-fn="">
+                ${svgTable["svgCalendarWeek"]}
+                ${{ fi: "Viikkonäkymä", sv: "Veckovy", en: "Week view" }[
+                  language
+                ]}
+              </li>
+              <li data-fn="">
+                ${svgTable["svgCalendar"]}
+                ${{ fi: "Kuukausinäkymä", sv: "Månadsvy", en: "Month view" }[
+                  language
+                ]}
+              </li>
+              <li data-fn="">
+                ${svgTable["svgGear"]}
+                ${{ fi: "Asetukset", sv: "Instalingär", en: "Settings" }[
+                  language
+                ]}
+              </li>
+            </ul>
+          </details>
+        </li>
+      `;
+    },
   }[viewName];
-  const innerHTML = constructor(nav_ul_json, language, isDemo);
+  const innerHTML = constructor({ nav_ul_json, language, isDemo });
   return innerHTML;
 };

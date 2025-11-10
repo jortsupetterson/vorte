@@ -51,6 +51,9 @@ export default css`
     width: clamp(1.25rem, 1.25rem, 1.25rem);
     height: clamp(1.25rem, 1.25rem, 1.25rem);
   }
+
+  nav ul li details ul li[data-fn].active svg,
+  nav ul li details ul li[data-fn].active,
   nav ul li details ul li[data-fn]:hover svg,
   nav ul li details ul li[data-fn]:hover {
     fill: var(--accentColor);

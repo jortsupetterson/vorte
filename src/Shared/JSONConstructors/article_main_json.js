@@ -1,7 +1,7 @@
 export default async (isDemo, viewName) => {
   const constructor = {
     async home(isDemo) {
-      const { widget_list, firstname } = await getUserObject(isDemo);
+      const { widget_list, firstname } = await fetchUserObject(isDemo);
 
       const truthsource = new Set(widget_list);
       const renderableList = [];
@@ -31,4 +31,4 @@ export default async (isDemo, viewName) => {
   const JSON = await constructor(isDemo);
   return JSON;
 };
-import getUserObject from "../Utilities/getUserObject";
+import fetchUserObject from "../Utilities/fetchUserObject";

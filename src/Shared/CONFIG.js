@@ -17,3 +17,5 @@ export const DEAFULT_VORTEPRENEUR_ORGANIZATION_LIST = ["Example Oy"];
 
 export const DEFAULT_FIRSTNAME = "Botti";
 export const DEFAULT_LASTNAME = "Example";
+
+export const DEFAULT_CALENDAR_OPEN_ON_START_CHOICE = "day";

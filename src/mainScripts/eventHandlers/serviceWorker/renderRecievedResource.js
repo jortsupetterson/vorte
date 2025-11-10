@@ -1,9 +1,12 @@
 export default (async () => {
   navigator.serviceWorker.addEventListener("message", async ({ data }) => {
-    const { CSSSelector, JSON } = data;
-    const html = HTMLConstructors[CSSSelector](
+    const { CSSSelector, JSON, viewName, isDemo } = data;
+    const constructor = HTMLConstructors[CSSSelector];
+    const html = constructor(
       JSON,
-      document.documentElement.lang
+      document.documentElement.lang,
+      viewName,
+      isDemo
     );
     document.body.querySelector(CSSSelector).innerHTML = html;
   });

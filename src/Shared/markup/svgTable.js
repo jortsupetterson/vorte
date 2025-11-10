@@ -12,9 +12,17 @@ export default {
   svgOrganization,
   svgNewuser,
   svgPlus,
+  svgArrowLeft,
+  svgArrowRight,
+  svgCalendarWeek,
+  svgCalendarDay,
 };
+import svgArrowLeft from "./SVG/svgArrowLeft";
+import svgArrowRight from "./SVG/svgArrowRight";
 import svgBars from "./SVG/svgBars";
 import svgCalendar from "./SVG/svgCalendar";
+import svgCalendarDay from "./SVG/svgCalendarDay";
+import svgCalendarWeek from "./SVG/svgCalendarWeek";
 import svgGear from "./SVG/svgGear";
 import svgList from "./SVG/svgList";
 import svgNetwork from "./SVG/svgNetwork";

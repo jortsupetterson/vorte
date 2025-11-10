@@ -26,6 +26,8 @@ const buildDocumentResponse = async (ctx) => {
     negotiateAuthenticationStatus(),
   ]);
 
+  if (!isDemo) return Response.redirect("https://why.vorte.app");
+
   return new Response(
     html`
       <!DOCTYPE html>

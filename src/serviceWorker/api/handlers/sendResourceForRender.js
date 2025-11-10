@@ -5,9 +5,10 @@ export default async ({ isDemo, viewName, components }) => {
   });
 
   for (const CSSSelector of components) {
-    const JSON = JSONConstructors[CSSSelector](isDemo, viewName);
+    const constructor = JSONConstructors[CSSSelector];
+    const JSON = await constructor(isDemo, viewName);
     for (const client of clients) {
-      client.postMessage({ CSSSelector, JSON });
+      client.postMessage({ CSSSelector, JSON, viewName, isDemo });
     }
   }
 };

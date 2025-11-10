@@ -31,6 +31,12 @@ export default async (isDemo, viewName) => {
       const { calendar_events_list } = await fetchCalendarObject(isDemo);
       return { calendar_events_list };
     },
+    async calendar_week() {
+      return {};
+    },
+    async calendar_month() {
+      return {};
+    },
   }[viewName];
   const JSON = await constructor(isDemo);
   return JSON;

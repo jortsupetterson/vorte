@@ -223,13 +223,39 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                 ${svgTable["svgCalendarDay"]}
                 ${{ fi: "Päivänäkymä", sv: "Dagsvy", en: "Day view" }[language]}
               </li>
-              <li id="calendar_week" data-fn="">
+              <li
+                id="calendar_week"
+                ${isActive(articleId, `calendar_week`)}
+                data-fn="${inlineStringify({
+                  name: `msgToSw`,
+                  params: {
+                    name: `sendResourceForRender`,
+                    params: {
+                      viewName: `calendar_week`,
+                      components: [`article main`, `article header h1`],
+                    },
+                  },
+                })}"
+              >
                 ${svgTable["svgCalendarWeek"]}
                 ${{ fi: "Viikkonäkymä", sv: "Veckovy", en: "Week view" }[
                   language
                 ]}
               </li>
-              <li id="calendar_month" data-fn="">
+              <li
+                id="calendar_month"
+                ${isActive(articleId, `calendar_month`)}
+                data-fn="${inlineStringify({
+                  name: `msgToSw`,
+                  params: {
+                    name: `sendResourceForRender`,
+                    params: {
+                      viewName: `calendar_month`,
+                      components: [`article main`, `article header h1`],
+                    },
+                  },
+                })}"
+              >
                 ${svgTable["svgCalendar"]}
                 ${{ fi: "Kuukausinäkymä", sv: "Månadsvy", en: "Month view" }[
                   language

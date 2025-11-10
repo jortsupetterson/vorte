@@ -1,6 +1,7 @@
 import svgTable from "../markup/svgTable";
 import jsonTable from "../markup/jsonTable";
 import inlineStringify from "../Utilities/inlineStringify";
+import getWeekNum from "../Utilities/getWeekNum";
 export default async (article_main_json, language, viewName) => {
   const constructor = {
     home(article_main_json, language) {
@@ -91,6 +92,51 @@ export default async (article_main_json, language, viewName) => {
           <button data-fn="${inlineStringify({})}">
             ${jsonTable["jsonWeekdays"][new Date().getDay()][language]}
             ${new Date().toLocaleDateString("fi-FI")}
+          </button>
+          <button data-fn="${inlineStringify({})}">
+            ${svgTable["svgArrowRight"]}
+          </button>
+        </div>
+
+        <div id="calendarView">
+          <div id="timeline"></div>
+          <div id="events"></div>
+        </div>
+      `;
+    },
+    calendar_week(article_main_json, language) {
+      const date = new Date();
+      return html`
+        <div id="datePicker">
+          <button data-fn="${inlineStringify({})}">
+            ${svgTable["svgArrowLeft"]}
+          </button>
+          <button data-fn="${inlineStringify({})}">
+            ${{ fi: "viikko", sv: "vecka", en: "week" }[language]}
+            ${getWeekNum(date)}
+            ${jsonTable["jsonMonths"][date.getMonth()][language]}
+          </button>
+          <button data-fn="${inlineStringify({})}">
+            ${svgTable["svgArrowRight"]}
+          </button>
+        </div>
+
+        <div id="calendarView">
+          <div id="timeline"></div>
+          <div id="events"></div>
+        </div>
+      `;
+    },
+    calendar_month(article_main_json, language) {
+      const date = new Date();
+      return html`
+        <div id="datePicker">
+          <button data-fn="${inlineStringify({})}">
+            ${svgTable["svgArrowLeft"]}
+          </button>
+          <button data-fn="${inlineStringify({})}">
+            ${jsonTable["jsonMonths"][date.getMonth()][language]}
+            ${date.getFullYear()}
           </button>
           <button data-fn="${inlineStringify({})}">
             ${svgTable["svgArrowRight"]}

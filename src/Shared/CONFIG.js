@@ -8,6 +8,7 @@ export const DEFAULT_WIDGET_LIST = [
   "start_rte",
 ];
 export const DEFAULT_MY_VORTE_APP_LIST = [
+  "home",
   "tasks",
   "calendar",
   "networking",
@@ -19,3 +20,11 @@ export const DEFAULT_FIRSTNAME = "Botti";
 export const DEFAULT_LASTNAME = "Example";
 
 export const DEFAULT_CALENDAR_OPEN_ON_START_CHOICE = "day";
+export const DEFAULT_CALENDAR_EVENT_LIST = [
+  {
+    category: "Team meeet",
+    from: "6.00",
+    till: "8.00",
+    info: ``,
+  },
+];

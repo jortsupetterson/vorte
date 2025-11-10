@@ -1,20 +1,52 @@
 import svgTable from "../markup/svgTable";
 import inlineStringify from "../Utilities/inlineStringify";
 
-export default (nav_ul_json, language, viewName, isDemo) => {
+const isActive = (articleId, itemId) => {
+  if (articleId.includes(itemId)) {
+    return `class="active"`;
+  }
+};
+
+export default async (nav_ul_json, language, viewName, isDemo) => {
+  const cookie = await cookieStore.get("articleId");
+  const articleId = cookie?.value ?? "home";
   const constructor = {
     home({ nav_ul_json, language, isDemo }) {
       const { my_vorte_app_list, vortepreneur_organization_list } = nav_ul_json;
       return html`
         <li>
-          <details open>
-            <summary>MY VORTE</summary>
+          <div>
+            <p>MY VORTE</p>
             <ul id="MyVorteAppList">
               ${(() => {
                 let markup = ``;
                 for (const item of my_vorte_app_list) {
                   markup += {
-                    tasks: html` <li data-fn="${inlineStringify({})}">
+                    home: html`<li
+                      id="home"
+                      ${isActive(articleId, `home`)}
+                      data-fn="${inlineStringify({
+                        name: `msgToSw`,
+                        params: {
+                          name: `sendResourceForRender`,
+                          params: {
+                            viewName: `home`,
+                            components: [`article main`],
+                          },
+                        },
+                      })}"
+                    >
+                      ${svgTable["svgHouse"]}${{
+                        fi: "Koti",
+                        sv: "Hem",
+                        en: "Home",
+                      }[language]}
+                    </li>`,
+                    tasks: html`<li
+                      id="tasks"
+                      ${isActive(articleId, `tasks`)}
+                      data-fn="${inlineStringify({})}"
+                    >
                       ${svgTable["svgList"]}${{
                         fi: "Tehtävät",
                         sv: "Uppgifter",
@@ -23,6 +55,8 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                     </li>`,
 
                     calendar: html` <li
+                      id="calendar"
+                      ${isActive(articleId, `calendar`)}
                       data-fn="${inlineStringify({
                         name: `msgToSw`,
                         params: {
@@ -41,7 +75,10 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                       }[language]}
                     </li>`,
 
-                    networking: html` <li data-fn="${inlineStringify({})}">
+                    networking: html` <li
+                      id="networking"
+                      data-fn="${inlineStringify({})}"
+                    >
                       ${svgTable["svgNetwork"]}${{
                         fi: "Verkostoituminen",
                         sv: "Nätverkande",
@@ -49,7 +86,7 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                       }[language]}
                     </li>`,
 
-                    rte: html` <li data-fn="${inlineStringify({})}">
+                    rte: html` <li id="rte" data-fn="${inlineStringify({})}">
                       ${svgTable["svgRoad"]}${{
                         fi: "Polku yrittäjäksi",
                         sv: "Vägen till entreprenörskap",
@@ -61,11 +98,11 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                 return markup;
               })()}
             </ul>
-          </details>
+          </div>
         </li>
         <li>
-          <details open>
-            <summary class="preview">VORTEPRENEUR</summary>
+          <div>
+            <p class="preview">VORTEPRENEUR</p>
             <ul id="VortepreneurOrganizationList">
               <li data-fn="${inlineStringify({})}">
                 ${svgTable["svgPlus"]}
@@ -85,13 +122,11 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                 return markup;
               })()}
             </ul>
-          </details>
+          </div>
         </li>
         <li>
-          <details open>
-            <summary>
-              ${{ fi: "KÄYTTÄJÄ", sv: "ANVÄNDARE", en: "USER" }[language]}
-            </summary>
+          <div>
+            <p>${{ fi: "KÄYTTÄJÄ", sv: "ANVÄNDARE", en: "USER" }[language]}</p>
             <ul>
               <li data-fn="${inlineStringify({})}">
                 ${svgTable["svgPerson"]}
@@ -114,7 +149,7 @@ export default (nav_ul_json, language, viewName, isDemo) => {
                 ]}
               </li>
             </ul>
-          </details>
+          </div>
         </li>
         <li>
           <button
@@ -147,7 +182,7 @@ export default (nav_ul_json, language, viewName, isDemo) => {
       return html`
         <li>
           <button
-            id="to_root"
+            id="home"
             data-fn="${inlineStringify({
               name: `msgToSw`,
               params: {
@@ -160,36 +195,49 @@ export default (nav_ul_json, language, viewName, isDemo) => {
           </button>
         </li>
         <li>
-          <details open>
-            <summary>MY VORTE</summary>
+          <div>
+            <p>MY VORTE</p>
             <h2>
               ${{ fi: "Kalenteri", sv: "Kalender", en: "Calendar" }[language]}
             </h2>
             <ul>
-              <li data-fn="">
+              <li
+                id="calendar_day"
+                ${isActive(articleId, `calendar_day`)}
+                data-fn="${inlineStringify({
+                  name: `msgToSw`,
+                  params: {
+                    name: `sendResourceForRender`,
+                    params: {
+                      viewName: `calendar_day`,
+                      components: [`article main`],
+                    },
+                  },
+                })}"
+              >
                 ${svgTable["svgCalendarDay"]}
                 ${{ fi: "Päivänäkymä", sv: "Dagsvy", en: "Day view" }[language]}
               </li>
-              <li data-fn="">
+              <li id="calendar_week" data-fn="">
                 ${svgTable["svgCalendarWeek"]}
                 ${{ fi: "Viikkonäkymä", sv: "Veckovy", en: "Week view" }[
                   language
                 ]}
               </li>
-              <li data-fn="">
+              <li id="calendar_month" data-fn="">
                 ${svgTable["svgCalendar"]}
                 ${{ fi: "Kuukausinäkymä", sv: "Månadsvy", en: "Month view" }[
                   language
                 ]}
               </li>
-              <li data-fn="">
+              <li id="calendar_settings" data-fn="">
                 ${svgTable["svgGear"]}
                 ${{ fi: "Asetukset", sv: "Instalingär", en: "Settings" }[
                   language
                 ]}
               </li>
             </ul>
-          </details>
+          </div>
         </li>
       `;
     },

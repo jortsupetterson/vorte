@@ -6,7 +6,7 @@ export default css`
     justify-content: center;
     align-items: center;
     background-color: var(--accentGhostColor);
-    width: clamp(20rem, 25rem, 90dvw);
+    width: clamp(15rem, 25rem, 85dvw);
     border-radius: 0.25rem;
     padding: 2rem;
     padding-bottom: 4rem;

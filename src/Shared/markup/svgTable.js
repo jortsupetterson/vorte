@@ -16,6 +16,7 @@ export default {
   svgArrowRight,
   svgCalendarWeek,
   svgCalendarDay,
+  svgHouse,
 };
 import svgArrowLeft from "./SVG/svgArrowLeft";
 import svgArrowRight from "./SVG/svgArrowRight";
@@ -24,6 +25,7 @@ import svgCalendar from "./SVG/svgCalendar";
 import svgCalendarDay from "./SVG/svgCalendarDay";
 import svgCalendarWeek from "./SVG/svgCalendarWeek";
 import svgGear from "./SVG/svgGear";
+import svgHouse from "./SVG/svgHouse";
 import svgList from "./SVG/svgList";
 import svgNetwork from "./SVG/svgNetwork";
 import svgNewuser from "./SVG/svgNewuser";

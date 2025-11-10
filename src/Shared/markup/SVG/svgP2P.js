@@ -1,11 +1,5 @@
 export default html`
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="27"
-    height="34"
-    viewBox="0 0 27 34"
-    fill="none"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 34">
     <path
       d="M0 18.8644V25C0 26.6569 1.34315 28 3 28H15C16.6569 28 18
               26.6569 18 25V18.8266C18 18.0041 17.6624 17.2178 17.0661

@@ -6,6 +6,9 @@ export default async (isDemo, viewName) => {
         firstname,
       };
     },
+    async calendar_day() {
+      return {};
+    },
   }[viewName];
   const JSON = await constructor(isDemo);
   return JSON;

@@ -1,3 +1,5 @@
+import svgTable from "../markup/svgTable";
+import jsonTable from "../markup/jsonTable";
 import inlineStringify from "../Utilities/inlineStringify";
 export default (article_main_json, language, viewName) => {
   const constructor = {
@@ -80,7 +82,21 @@ export default (article_main_json, language, viewName) => {
       }
       return markup;
     },
-    calendar_day(article_main_json, language) {},
+    calendar_day(article_main_json, language) {
+      return html`
+        <div id="datePicker">
+          <button data-fn="${inlineStringify({})}">
+            ${svgTable["svgArrowLeft"]}
+          </button>
+          <button data-fn="${inlineStringify({})}">
+            ${jsonTable["jsonWeekdays"][new Date().getDay()][language]}
+          </button>
+          <button data-fn="${inlineStringify({})}">
+            ${svgTable["svgArrowRight"]}
+          </button>
+        </div>
+      `;
+    },
   }[viewName];
   const innerHTML = constructor(article_main_json, language);
   return innerHTML;

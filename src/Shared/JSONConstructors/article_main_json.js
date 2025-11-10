@@ -27,8 +27,13 @@ export default async (isDemo, viewName) => {
 
       return { widget_list: renderableList };
     },
+    async calendar_day(isDemo) {
+      const { calendar_events_list } = await fetchCalendarObject(isDemo);
+      return { calendar_events_list };
+    },
   }[viewName];
   const JSON = await constructor(isDemo);
   return JSON;
 };
+import fetchCalendarObject from "../Utilities/fetchCalendarObject";
 import fetchUserObject from "../Utilities/fetchUserObject";

@@ -6,28 +6,69 @@ export const functions = {
         return msg;
       })()
     ),
-  toggleNav: () => document.body.querySelector("nav").classList.toggle("open"),
+  toggleNav: () => navEl.classList.toggle("open"),
   setLocation: ({ location }) => (window.location.href = location),
 };
 
 document.addEventListener("pointerup", async (event) => {
   const dataStr = event.target.dataset.fn;
   if (!dataStr) return;
-  const data = JSON.parse(dataStr);
-  functions[data.name](data.params ?? null);
+  const { name, params } = JSON.parse(dataStr);
+  functions[name](params ?? null);
 
   //side-effects
-  if (
-    data.type === "navigate" &&
-    mQ.matches &&
-    document.body.querySelector("nav").classList.contains("open")
-  ) {
-    functions.toggleNav();
+  const msg = params?.params ?? null;
+
+  if (name === "msgToSw" && msg.components.includes("nav ul")) {
+    const viewName = msg.viewName;
+    const cut = viewName.indexOf("_");
+    const base = cut === -1 ? viewName : viewName.slice(0, cut);
+    const newMascotSource = `/images/${document.body.dataset.mascotname}/${base}.webp`;
+    if (newMascotSource !== mascotEl.src) {
+      mascotEl.src = newMascotSource;
+    }
+    navEl.id = viewName;
+    cookieStore.set({
+      name: "navId",
+      value: msg.viewName,
+      expires: NOWplusYEAR,
+    });
+  }
+
+  if (name === "msgToSw" && msg.components.includes("article main")) {
+    articleEl.id = msg.viewName;
+    if (mQ.matches && navEl.classList.contains("open")) functions.toggleNav();
+    const currentlyActive = navEl.querySelector("ul [data-fn].active");
+    if (currentlyActive?.id !== msg.viewName) {
+      currentlyActive?.classList.remove("active");
+    }
+    navEl
+      .querySelector(`ul [data-fn]#${msg.viewName}`)
+      ?.classList.add("active");
+
+    cookieStore.set({
+      name: "articleId",
+      value: msg.viewName,
+      expires: NOWplusYEAR,
+    });
   }
 });
 
 const mQ = window.matchMedia("(max-width: 548px)");
 const isDemo = new URLSearchParams(window.location.search).has("demo");
 
+let navEl, mascotEl, articleEl;
+
+async function cacheElements() {
+  navEl = document.body.querySelector("nav");
+  mascotEl = document.body.querySelector("nav img");
+  articleEl = document.body.querySelector("article");
+}
+
+if (document.readyState === "loading")
+  document.addEventListener("DOMContentLoaded", cacheElements, { once: true });
+else cacheElements();
+
+import { NOWplusYEAR } from "../Shared/CONFIG";
 import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
 renderRecievedResource;

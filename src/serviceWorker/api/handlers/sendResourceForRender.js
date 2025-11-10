@@ -14,8 +14,8 @@ export default async ({ isDemo, viewName, components }) => {
 };
 
 const JSONConstructors = {
-  "nav ul": (isDemo, viewName) => nav_ul_json(isDemo, viewName),
-  "article main": (isDemo, viewName) => article_main_json(isDemo),
+  "nav ul": nav_ul_json,
+  "article main": article_main_json,
 };
 
 import article_main_json from "../../../Shared/JSONConstructors/article_main_json";

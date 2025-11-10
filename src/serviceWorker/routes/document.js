@@ -7,7 +7,9 @@ const buildDocumentResponse = async (ctx) => {
     contentColor,
     contrastAmount,
     mascotName,
-    viewName,
+    /**/
+    navId,
+    articleId,
     /**/
     isDemo,
     isAuthenticated,
@@ -19,8 +21,9 @@ const buildDocumentResponse = async (ctx) => {
     getContentColor(),
     getContrastAmount(),
     getMascotName(),
-    getViewName(),
-
+    /**/
+    getNavId(),
+    getArticleId(),
     /**/
     negotiateDemoStatus(ctx),
     negotiateAuthenticationStatus(),
@@ -83,8 +86,14 @@ const buildDocumentResponse = async (ctx) => {
             : ``}
         >
           ${isDemo || isAuthenticated
-            ? await dashboardLayout(isDemo, viewName, mascotName, language)
-            : await authenticationLayout(viewName, mascotName)}
+            ? await dashboardLayout(
+                isDemo,
+                navId,
+                articleId,
+                mascotName,
+                language
+              )
+            : await authenticationLayout(mascotName)}
         </body>
       </html>
     `,
@@ -98,8 +107,14 @@ const buildDocumentResponse = async (ctx) => {
   );
 };
 ////////////////////////////////////////////////////////////////////////////////////
-const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
-  <nav id="${viewName}">
+const dashboardLayout = async (
+  isDemo,
+  navId,
+  articleId,
+  mascotName,
+  language
+) => html`
+  <nav id="${navId}" class="open">
     <button
       id="closer"
       data-fn="${inlineStringify({
@@ -109,20 +124,21 @@ const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
       ${svgTable.svgX}
     </button>
     <ul>
-      ${nav_ul_html(
-        await nav_ul_json(isDemo, viewName),
+      ${await nav_ul_html(
+        await nav_ul_json(isDemo, navId),
         language,
-        viewName,
+        navId,
         isDemo
       )}
     </ul>
     <img
-      src="${`/images/${mascotName}/${viewName}`}"
+      fetchpriority="high"
+      src="${`/images/${mascotName}/${navId}.webp`}"
       alt="${{ fi: ``, sv: ``, en: `` }[language]}"
     />
   </nav>
   <!---------------------------------------------------------------------------------->
-  <article id="${viewName}">
+  <article id="${articleId}">
     <header>
       <div id="controls">
         <button data-fn="${inlineStringify({ name: `toggleNav` })}">
@@ -131,26 +147,25 @@ const dashboardLayout = async (isDemo, viewName, mascotName, language) => html`
         <button>${svgTable["svgP2P"]}</button>
       </div>
       <h1>
-        ${article_header_h1_html(
-          await article_header_h1_json(isDemo, viewName),
+        ${await article_header_h1_html(
+          await article_header_h1_json(isDemo, articleId),
           language,
-          viewName
+          articleId
         )}
       </h1>
     </header>
     <main>
-      ${article_main_html(
-        await article_main_json(isDemo, viewName),
+      ${await article_main_html(
+        await article_main_json(isDemo, articleId),
         language,
-        viewName
+        articleId
       )}
     </main>
     <footer></footer>
   </article>
 `;
 /////////////////////////////////////////////////////////////////////////////////////
-const authenticationLayout = async (viewName, mascotName) =>
-  html` <form></form> `;
+const authenticationLayout = async (mascotName) => html` <form></form> `;
 
 export default buildDocumentResponse;
 
@@ -165,7 +180,8 @@ import getContentColor from "../../Shared/Utilities/getContentColor";
 import getContrastAmount from "../../Shared/Utilities/getContrastAmount";
 
 import getMascotName from "../../Shared/Utilities/getMacotName";
-import getViewName from "../../Shared/Utilities/getViewName";
+import getNavId from "../../Shared/Utilities/getNavId";
+import getArticleId from "../../Shared/Utilities/getArticleId";
 
 import inlineStringify from "../../Shared/Utilities/inlineStringify";
 import svgTable from "../../Shared/markup/svgTable";

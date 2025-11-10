@@ -82,8 +82,6 @@ export default (article_main_json, language, viewName) => {
     },
     calendar_day(article_main_json, language) {},
   }[viewName];
-  const innerHTML = constructor(article_main_json, language){
-    
-  };
+  const innerHTML = constructor(article_main_json, language);
   return innerHTML;
 };

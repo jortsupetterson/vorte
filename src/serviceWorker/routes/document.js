@@ -9,6 +9,7 @@ const buildDocumentResponse = async (ctx) => {
     mascotName,
     /**/
     navId,
+    navStatus,
     articleId,
     /**/
     isDemo,
@@ -23,6 +24,7 @@ const buildDocumentResponse = async (ctx) => {
     getMascotName(),
     /**/
     getNavId(),
+    getNavStatus(),
     getArticleId(),
     /**/
     negotiateDemoStatus(ctx),
@@ -89,6 +91,7 @@ const buildDocumentResponse = async (ctx) => {
             ? await dashboardLayout(
                 isDemo,
                 navId,
+                navStatus,
                 articleId,
                 mascotName,
                 language
@@ -110,11 +113,12 @@ const buildDocumentResponse = async (ctx) => {
 const dashboardLayout = async (
   isDemo,
   navId,
+  navStatus,
   articleId,
   mascotName,
   language
 ) => html`
-  <nav id="${navId}" class="open">
+  <nav id="${navId}" ${navStatus ? `class="open"` : ``}>
     <button
       id="closer"
       data-fn="${inlineStringify({
@@ -181,6 +185,7 @@ import getContrastAmount from "../../Shared/Utilities/getContrastAmount";
 
 import getMascotName from "../../Shared/Utilities/getMacotName";
 import getNavId from "../../Shared/Utilities/getNavId";
+import getNavStatus from "../../Shared/Utilities/getNavStatus";
 import getArticleId from "../../Shared/Utilities/getArticleId";
 
 import inlineStringify from "../../Shared/Utilities/inlineStringify";

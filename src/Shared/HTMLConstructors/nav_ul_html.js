@@ -31,7 +31,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                           name: `sendResourceForRender`,
                           params: {
                             viewName: `home`,
-                            components: [`article main`],
+                            components: [`article main`, `article header h1`],
                           },
                         },
                       })}"
@@ -171,7 +171,12 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                 ]}
           </button>
         </li>
-        <ul></ul>
+        <ul>
+          <li data-fn=""></li>
+        </ul>
+        <ul>
+          <li data-fn=""></li>
+        </ul>
       `;
     },
     settings({ nav_ul_json, language }) {
@@ -210,7 +215,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                     name: `sendResourceForRender`,
                     params: {
                       viewName: `calendar_day`,
-                      components: [`article main`],
+                      components: [`article main`, `article header h1`],
                     },
                   },
                 })}"

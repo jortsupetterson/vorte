@@ -18,8 +18,10 @@ export default css`
   ${ArticleMainCss}
   ${ArticleFooterCss}
   ${homeArticleCss}
+  ${calendarArticleCss}
 `;
 import ArticleHeaderCss from "./1-articleHeader.css";
 import ArticleMainCss from "./2-articleMain.css";
 import ArticleFooterCss from "./3-articleFooter.css";
 import homeArticleCss from "./homeArticle.css";
+import calendarArticleCss from "./calendarArticle.css";

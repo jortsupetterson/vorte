@@ -6,7 +6,10 @@ export const functions = {
         return msg;
       })()
     ),
-  toggleNav: () => navEl.classList.toggle("open"),
+  toggleNav: () => {
+    const result = navEl.classList.toggle("open");
+    cookieStore.set({ name: "navStatus", value: result, expires: NOWplusYEAR });
+  },
   setLocation: ({ location }) => (window.location.href = location),
 };
 
@@ -61,7 +64,7 @@ let navEl, mascotEl, articleEl;
 
 async function cacheElements() {
   navEl = document.body.querySelector("nav");
-  mascotEl = document.body.querySelector("nav img");
+  mascotEl = navEl.querySelector("img");
   articleEl = document.body.querySelector("article");
 }
 

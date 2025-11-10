@@ -1,7 +1,7 @@
 import svgTable from "../markup/svgTable";
 import jsonTable from "../markup/jsonTable";
 import inlineStringify from "../Utilities/inlineStringify";
-export default (article_main_json, language, viewName) => {
+export default async (article_main_json, language, viewName) => {
   const constructor = {
     home(article_main_json, language) {
       const { widget_list } = article_main_json;
@@ -90,10 +90,16 @@ export default (article_main_json, language, viewName) => {
           </button>
           <button data-fn="${inlineStringify({})}">
             ${jsonTable["jsonWeekdays"][new Date().getDay()][language]}
+            ${new Date().toLocaleDateString("fi-FI")}
           </button>
           <button data-fn="${inlineStringify({})}">
             ${svgTable["svgArrowRight"]}
           </button>
+        </div>
+
+        <div id="calendarView">
+          <div id="timeline"></div>
+          <div id="events"></div>
         </div>
       `;
     },

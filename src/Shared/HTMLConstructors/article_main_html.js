@@ -191,6 +191,7 @@ export default async (article_main_json, language, viewName) => {
       return html`
         <div id="datePicker">
           <button
+            id="prev"
             data-fn="${inlineStringify({
               name: `msgToSw`,
               params: {
@@ -208,12 +209,13 @@ export default async (article_main_json, language, viewName) => {
             ${svgTable["svgArrowLeft"]}
           </button>
 
-          <button data-fn="${inlineStringify({})}">
+          <button id="toggler" data-fn="${inlineStringify({})}">
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
             ${anchor_date.getFullYear()}
           </button>
 
           <button
+            id="next"
             data-fn="${inlineStringify({
               name: `msgToSw`,
               params: {
@@ -232,13 +234,48 @@ export default async (article_main_json, language, viewName) => {
           </button>
         </div>
 
-        <div id="calendarView">
-          <div id="timeline"></div>
-          <div id="events"></div>
+        <div id="calendarDisplay">
+          <div id="side"></div>
+          <div id="head"></div>
+          <div id="body">
+            ${(() => {
+              const cells = buildMonthCells(anchor_date);
+              return `${[0, 1, 2, 3, 4]
+                .map(
+                  (r) => html`<div class="week">
+                    ${cells
+                      .slice(r * 7, r * 7 + 7)
+                      .map(
+                        (cell) =>
+                          html`<div class="day ${cell.type}">${cell.d}</div>`
+                      )
+                      .join("")}
+                  </div>`
+                )
+                .join("")}`;
+            })()}
+          </div>
         </div>
       `;
     },
   }[viewName];
   const innerHTML = await constructor(article_main_json, language);
   return innerHTML;
+};
+
+const buildMonthCells = (anchor_date) => {
+  const year = anchor_date.getFullYear(),
+    month = anchor_date.getMonth();
+  const first = new Date(year, month, 1);
+  const start = (first.getDay() + 6) % 7;
+  const days = new Date(year, month + 1, 0).getDate();
+  const prevDays = new Date(year, month, 0).getDate();
+  const cells = [];
+  for (let idx = 0; idx < 35; idx++) {
+    const day = idx - start + 1;
+    if (day < 1) cells.push({ d: prevDays + day, type: "prev" });
+    else if (day > days) cells.push({ d: day - days, type: "next" });
+    else cells.push({ d: day, type: "curr" });
+  }
+  return cells;
 };

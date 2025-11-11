@@ -2,7 +2,6 @@ import svgTable from "../markup/svgTable";
 import jsonTable from "../markup/jsonTable";
 import inlineStringify from "../Utilities/inlineStringify";
 import getWeekNum from "../Utilities/getWeekNum";
-import getAnchorDate from "../Utilities/getAnchorDate";
 
 export default async (article_main_json, language, viewName) => {
   const constructor = {
@@ -86,17 +85,45 @@ export default async (article_main_json, language, viewName) => {
       return markup;
     },
     async calendar_day(article_main_json, language) {
-      const date = await getAnchorDate();
+      const { anchor_date } = article_main_json;
       return html`
         <div id="datePicker">
-          <button data-fn="${inlineStringify({})}">
+          <button
+            data-fn="${inlineStringify({
+              name: `msgToSw`,
+              params: {
+                name: `sendResourceForRender`,
+                params: {
+                  viewName: `calendar_day`,
+                  components: [`article main`],
+                  customParams: {
+                    days: -1,
+                  },
+                },
+              },
+            })}"
+          >
             ${svgTable["svgArrowLeft"]}
           </button>
           <button data-fn="${inlineStringify({})}">
-            ${jsonTable["jsonWeekdays"][date.getDay()][language]}
-            ${date.toLocaleDateString("fi-FI")}
+            ${jsonTable["jsonWeekdays"][anchor_date.getDay()][language]}
+            ${anchor_date.toLocaleDateString("fi-FI")}
           </button>
-          <button data-fn="${inlineStringify({})}">
+          <button
+            data-fn="${inlineStringify({
+              name: `msgToSw`,
+              params: {
+                name: `sendResourceForRender`,
+                params: {
+                  viewName: `calendar_day`,
+                  components: [`article main`],
+                  customParams: {
+                    days: 1,
+                  },
+                },
+              },
+            })}"
+          >
             ${svgTable["svgArrowRight"]}
           </button>
         </div>
@@ -108,18 +135,47 @@ export default async (article_main_json, language, viewName) => {
       `;
     },
     async calendar_week(article_main_json, language) {
-      const date = await getAnchorDate();
+      const { anchor_date } = article_main_json;
+
       return html`
         <div id="datePicker">
-          <button data-fn="${inlineStringify({})}">
+          <button
+            data-fn="${inlineStringify({
+              name: `msgToSw`,
+              params: {
+                name: `sendResourceForRender`,
+                params: {
+                  viewName: `calendar_week`,
+                  components: [`article main`],
+                  customParams: {
+                    weeks: -1,
+                  },
+                },
+              },
+            })}"
+          >
             ${svgTable["svgArrowLeft"]}
           </button>
           <button data-fn="${inlineStringify({})}">
             ${{ fi: "viikko", sv: "vecka", en: "week" }[language]}
-            ${getWeekNum(date)}
-            ${jsonTable["jsonMonths"][date.getMonth()][language]}
+            ${getWeekNum(anchor_date)}
+            ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
           </button>
-          <button data-fn="${inlineStringify({})}">
+          <button
+            data-fn="${inlineStringify({
+              name: `msgToSw`,
+              params: {
+                name: `sendResourceForRender`,
+                params: {
+                  viewName: `calendar_week`,
+                  components: [`article main`],
+                  customParams: {
+                    weeks: 1,
+                  },
+                },
+              },
+            })}"
+          >
             ${svgTable["svgArrowRight"]}
           </button>
         </div>
@@ -131,17 +187,47 @@ export default async (article_main_json, language, viewName) => {
       `;
     },
     async calendar_month(article_main_json, language) {
-      const date = await getAnchorDate();
+      const { anchor_date } = article_main_json;
       return html`
         <div id="datePicker">
-          <button data-fn="${inlineStringify({})}">
+          <button
+            data-fn="${inlineStringify({
+              name: `msgToSw`,
+              params: {
+                name: `sendResourceForRender`,
+                params: {
+                  viewName: `calendar_month`,
+                  components: [`article main`],
+                  customParams: {
+                    months: -1,
+                  },
+                },
+              },
+            })}"
+          >
             ${svgTable["svgArrowLeft"]}
           </button>
+
           <button data-fn="${inlineStringify({})}">
-            ${jsonTable["jsonMonths"][date.getMonth()][language]}
-            ${date.getFullYear()}
+            ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
+            ${anchor_date.getFullYear()}
           </button>
-          <button data-fn="${inlineStringify({})}">
+
+          <button
+            data-fn="${inlineStringify({
+              name: `msgToSw`,
+              params: {
+                name: `sendResourceForRender`,
+                params: {
+                  viewName: `calendar_month`,
+                  components: [`article main`],
+                  customParams: {
+                    months: 1,
+                  },
+                },
+              },
+            })}"
+          >
             ${svgTable["svgArrowRight"]}
           </button>
         </div>

@@ -1,4 +1,4 @@
-export default async ({ isDemo, viewName, components }) => {
+export default async ({ isDemo, viewName, components, customParams }) => {
   const clients = await self.clients.matchAll({
     type: "window",
     includeUncontrolled: true,
@@ -6,7 +6,7 @@ export default async ({ isDemo, viewName, components }) => {
 
   for (const CSSSelector of components) {
     const constructor = JSONConstructors[CSSSelector];
-    const JSON = await constructor(isDemo, viewName);
+    const JSON = await constructor({ isDemo, viewName, customParams });
     for (const client of clients) {
       client.postMessage({ CSSSelector, JSON, viewName, isDemo });
     }

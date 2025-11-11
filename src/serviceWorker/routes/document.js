@@ -129,7 +129,7 @@ const dashboardLayout = async (
     </button>
     <ul>
       ${await nav_ul_html(
-        await nav_ul_json(isDemo, navId),
+        await nav_ul_json({ isDemo, viewName: navId }),
         language,
         navId,
         isDemo
@@ -152,7 +152,7 @@ const dashboardLayout = async (
       </div>
       <h1>
         ${await article_header_h1_html(
-          await article_header_h1_json(isDemo, articleId),
+          await article_header_h1_json({ isDemo, viewName: articleId }),
           language,
           articleId
         )}
@@ -160,7 +160,7 @@ const dashboardLayout = async (
     </header>
     <main>
       ${await article_main_html(
-        await article_main_json(isDemo, articleId),
+        await article_main_json({ isDemo, viewName: articleId }),
         language,
         articleId
       )}

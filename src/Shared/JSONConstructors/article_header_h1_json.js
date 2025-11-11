@@ -1,10 +1,13 @@
-export default async (isDemo, viewName) => {
+export default async ({ isDemo, viewName }) => {
   const constructor = {
     async home() {
       const { firstname } = await fetchUserObject(isDemo);
       return {
         firstname,
       };
+    },
+    async calendar() {
+      return {};
     },
     async calendar_day() {
       return {};

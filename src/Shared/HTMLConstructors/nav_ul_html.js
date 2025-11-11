@@ -31,7 +31,11 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                           name: `sendResourceForRender`,
                           params: {
                             viewName: `home`,
-                            components: [`article main`, `article header h1`],
+                            components: [
+                              `article main`,
+                              `article footer`,
+                              `article header h1`,
+                            ],
                           },
                         },
                       })}"
@@ -215,7 +219,11 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                     name: `sendResourceForRender`,
                     params: {
                       viewName: `calendar_day`,
-                      components: [`article main`, `article header h1`],
+                      components: [
+                        `article main`,
+                        `article footer`,
+                        `article header h1`,
+                      ],
                     },
                   },
                 })}"
@@ -232,7 +240,11 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                     name: `sendResourceForRender`,
                     params: {
                       viewName: `calendar_week`,
-                      components: [`article main`, `article header h1`],
+                      components: [
+                        `article main`,
+                        `article footer`,
+                        `article header h1`,
+                      ],
                     },
                   },
                 })}"
@@ -251,7 +263,11 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                     name: `sendResourceForRender`,
                     params: {
                       viewName: `calendar_month`,
-                      components: [`article main`, `article header h1`],
+                      components: [
+                        `article main`,
+                        `article footer`,
+                        `article header h1`,
+                      ],
                     },
                   },
                 })}"

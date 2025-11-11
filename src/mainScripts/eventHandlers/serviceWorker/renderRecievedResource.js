@@ -16,6 +16,7 @@ const HTMLConstructors = {
   "nav ul": nav_ul_html,
   "article main": article_main_html,
   "article header h1": article_header_h1_html,
+  "article footer": article_footer_html,
 };
 
 // Optimized DOM ops
@@ -65,6 +66,7 @@ function patchHTML(target, html) {
   target.replaceChildren(frag);
   __last.set(target, next);
 }
+import article_footer_html from "../../../Shared/HTMLConstructors/article_footer_html";
 import article_header_h1_html from "../../../Shared/HTMLConstructors/article_header_h1_html";
 import article_main_html from "../../../Shared/HTMLConstructors/article_main_html";
 import nav_ul_html from "../../../Shared/HTMLConstructors/nav_ul_html";

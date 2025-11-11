@@ -166,7 +166,11 @@ const dashboardLayout = async (
       )}
     </main>
     <footer>
-      <button data-fn="">mukauta näkymää</button>
+      ${await article_footer_html(
+        await article_footer_json({ isDemo, viewName: articleId }),
+        language,
+        articleId
+      )}
     </footer>
   </article>
 `;
@@ -201,3 +205,5 @@ import article_main_json from "../../Shared/JSONConstructors/article_main_json";
 import structStylesCss from "../../Styles/structStyles.css";
 import article_header_h1_html from "../../Shared/HTMLConstructors/article_header_h1_html";
 import article_header_h1_json from "../../Shared/JSONConstructors/article_header_h1_json";
+import article_footer_html from "../../Shared/HTMLConstructors/article_footer_html";
+import article_footer_json from "../../Shared/JSONConstructors/article_footer_json";

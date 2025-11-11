@@ -165,7 +165,9 @@ const dashboardLayout = async (
         articleId
       )}
     </main>
-    <footer></footer>
+    <footer>
+      <button data-fn="">mukauta näkymää</button>
+    </footer>
   </article>
 `;
 /////////////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ export default css`
     min-width: var(--articleWidth);
     overflow-y: auto;
     pointer-events: all;
-    height: clamp(95dvh, 95dvh, 95dvh);
+    height: clamp(80dvh, 80dvh, 80dvh);
     padding: 2rem;
     gap: 2rem;
   }

@@ -1,4 +1,5 @@
 export const SUPPORTED_LANGUAGES = ["fi", "sv", "en"];
+export const DAY_MS = 86400000;
 export const NOWplusYEAR = new Date(Date.now() + 31536000 * 1000);
 export const SUPPORTED_VIEWNAMES = ["home"];
 export const DEFAULT_WIDGET_LIST = [
@@ -22,7 +23,7 @@ export const DEFAULT_LASTNAME = "Example";
 export const DEFAULT_CALENDAR_OPEN_ON_START_CHOICE = "day";
 export const DEFAULT_CALENDAR_EVENT_LIST = [
   {
-    category: "Team meeet",
+    category: "Team meet",
     from: "6.00",
     till: "8.00",
     info: ``,

@@ -9,6 +9,12 @@ export default (async () => {
       isDemo
     );
     schedule(CSSSelector, html);
+    if (CSSSelector === "nav ul") {
+      navEl.id = viewName;
+    }
+    if (CSSSelector === "article main") {
+      articleEl.id = viewName;
+    }
   });
 })();
 
@@ -70,3 +76,4 @@ import article_footer_html from "../../../Shared/HTMLConstructors/article_footer
 import article_header_h1_html from "../../../Shared/HTMLConstructors/article_header_h1_html";
 import article_main_html from "../../../Shared/HTMLConstructors/article_main_html";
 import nav_ul_html from "../../../Shared/HTMLConstructors/nav_ul_html";
+import { navEl, articleEl } from "../../script";

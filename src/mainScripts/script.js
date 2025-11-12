@@ -30,7 +30,6 @@ document.addEventListener("pointerup", async (event) => {
     if (newMascotSource !== mascotEl.src) {
       mascotEl.src = newMascotSource;
     }
-    navEl.id = viewName;
     cookieStore.set({
       name: "navId",
       value: msg.viewName,
@@ -39,7 +38,6 @@ document.addEventListener("pointerup", async (event) => {
   }
 
   if (name === "msgToSw" && msg.components.includes("article main")) {
-    articleEl.id = msg.viewName;
     if (mQ.matches && navEl.classList.contains("open")) functions.toggleNav();
     const currentlyActive = navEl.querySelector("ul [data-fn].active");
     if (currentlyActive?.id !== msg.viewName) {
@@ -60,7 +58,7 @@ document.addEventListener("pointerup", async (event) => {
 const mQ = window.matchMedia("(max-width: 548px)");
 const isDemo = new URLSearchParams(window.location.search).has("demo");
 
-let navEl, mascotEl, articleEl;
+export let navEl, mascotEl, articleEl;
 
 async function cacheElements() {
   navEl = document.body.querySelector("nav");

@@ -82,47 +82,14 @@ export default async (article_main_json, language, viewName) => {
     async calendar_day(article_main_json, language) {
       const { anchor_date } = article_main_json;
       return html`
-        <div id="datePicker">
-          <button
-            data-fn="${inlineStringify({
-              name: `msgToSw`,
-              params: {
-                name: `sendResourceForRender`,
-                params: {
-                  viewName: `calendar_day`,
-                  components: [`article main`],
-                  customParams: {
-                    days: -1,
-                  },
-                },
-              },
-            })}"
-          >
-            ${svgTable["svgArrowLeft"]}
-          </button>
-          <button data-fn="${inlineStringify({})}">
+        ${structDatePicker(
+          "days",
+          "calendar_day",
+          html` <button id="toggler" data-fn="${inlineStringify({})}">
             ${jsonTable["jsonWeekdays"][anchor_date.getDay()][language]}
             ${anchor_date.toLocaleDateString("fi-FI")}
-          </button>
-          <button
-            data-fn="${inlineStringify({
-              name: `msgToSw`,
-              params: {
-                name: `sendResourceForRender`,
-                params: {
-                  viewName: `calendar_day`,
-                  components: [`article main`],
-                  customParams: {
-                    days: 1,
-                  },
-                },
-              },
-            })}"
-          >
-            ${svgTable["svgArrowRight"]}
-          </button>
-        </div>
-
+          </button>`
+        )}
         <div id="calendarView">
           <div id="timeline"></div>
           <div id="events"></div>
@@ -133,47 +100,15 @@ export default async (article_main_json, language, viewName) => {
       const { anchor_date } = article_main_json;
 
       return html`
-        <div id="datePicker">
-          <button
-            data-fn="${inlineStringify({
-              name: `msgToSw`,
-              params: {
-                name: `sendResourceForRender`,
-                params: {
-                  viewName: `calendar_week`,
-                  components: [`article main`],
-                  customParams: {
-                    weeks: -1,
-                  },
-                },
-              },
-            })}"
-          >
-            ${svgTable["svgArrowLeft"]}
-          </button>
-          <button data-fn="${inlineStringify({})}">
+        ${structDatePicker(
+          "weeks",
+          "calendar_week",
+          html` <button data-fn="${inlineStringify({})}">
             ${{ fi: "viikko", sv: "vecka", en: "week" }[language]}
-            ${getWeekNum(anchor_date)}
+            ${getWeekNumber(anchor_date)}
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
-          </button>
-          <button
-            data-fn="${inlineStringify({
-              name: `msgToSw`,
-              params: {
-                name: `sendResourceForRender`,
-                params: {
-                  viewName: `calendar_week`,
-                  components: [`article main`],
-                  customParams: {
-                    weeks: 1,
-                  },
-                },
-              },
-            })}"
-          >
-            ${svgTable["svgArrowRight"]}
-          </button>
-        </div>
+          </button>`
+        )}
 
         <div id="calendarView">
           <div id="timeline"></div>
@@ -184,50 +119,14 @@ export default async (article_main_json, language, viewName) => {
     async calendar_month(article_main_json, language) {
       const { anchor_date } = article_main_json;
       return html`
-        <div id="datePicker">
-          <button
-            id="prev"
-            data-fn="${inlineStringify({
-              name: `msgToSw`,
-              params: {
-                name: `sendResourceForRender`,
-                params: {
-                  viewName: `calendar_month`,
-                  components: [`article main`],
-                  customParams: {
-                    months: -1,
-                  },
-                },
-              },
-            })}"
-          >
-            ${svgTable["svgArrowLeft"]}
-          </button>
-
-          <button id="toggler" data-fn="${inlineStringify({})}">
+        ${structDatePicker(
+          "months",
+          "calendar_month",
+          html` <button id="toggler" data-fn="${inlineStringify({})}">
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
             ${anchor_date.getFullYear()}
-          </button>
-
-          <button
-            id="next"
-            data-fn="${inlineStringify({
-              name: `msgToSw`,
-              params: {
-                name: `sendResourceForRender`,
-                params: {
-                  viewName: `calendar_month`,
-                  components: [`article main`],
-                  customParams: {
-                    months: 1,
-                  },
-                },
-              },
-            })}"
-          >
-            ${svgTable["svgArrowRight"]}
-          </button>
-        </div>
+          </button>`
+        )}
         <div id="calendarDisplay">
           ${(() => {
             const table = getMonthTable(anchor_date, language); // 7x8: [ [null,abbr...], [week,{d,type}×7]×6 ]
@@ -257,8 +156,9 @@ export default async (article_main_json, language, viewName) => {
   const innerHTML = await constructor(article_main_json, language);
   return innerHTML;
 };
-import getMonthTable from "../Utilities/getMonthTable";
-import svgTable from "../markup/svgTable";
+
 import jsonTable from "../markup/jsonTable";
 import inlineStringify from "../Utilities/inlineStringify";
-import getWeekNum from "../Utilities/getWeekNum";
+import getMonthTable from "../Utilities/Time/getMonthTable";
+import structDatePicker from "../markup/HTML/structDatePicker";
+import getWeekNumber from "../Utilities/Time/getWeekNumber";

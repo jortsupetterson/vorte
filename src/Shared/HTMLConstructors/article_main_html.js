@@ -90,10 +90,7 @@ export default async (article_main_json, language, viewName) => {
             ${anchor_date.toLocaleDateString("fi-FI")}
           </button>`
         )}
-        <div id="calendarView">
-          <div id="timeline"></div>
-          <div id="events"></div>
-        </div>
+        <div id="calendarDisplay"></div>
       `;
     },
     async calendar_week(article_main_json, language) {
@@ -110,9 +107,14 @@ export default async (article_main_json, language, viewName) => {
           </button>`
         )}
 
-        <div id="calendarView">
-          <div id="timeline"></div>
-          <div id="events"></div>
+        <div id="calendarDisplay">
+          ${(() => {
+            let markup = ``;
+            for (let i = 0; i < 7; i++) {
+              markup += html`<div class="col"></div>`;
+            }
+            return markup;
+          })()}
         </div>
       `;
     },

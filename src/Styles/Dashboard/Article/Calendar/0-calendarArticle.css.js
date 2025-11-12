@@ -31,6 +31,10 @@ export default css`
       aspect-ratio: 3/4;
     }
   }
+  ${CalendarDayCss}
+  ${CalendarWeekCss}
   ${CalendarMonthCss}
 `;
+import CalendarDayCss from "./1-calendarDay.css";
+import CalendarWeekCss from "./2-calendarWeek.css";
 import CalendarMonthCss from "./3-calendarMonth.css";

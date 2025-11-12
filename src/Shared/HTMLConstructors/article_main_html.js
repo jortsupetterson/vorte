@@ -1,8 +1,3 @@
-import svgTable from "../markup/svgTable";
-import jsonTable from "../markup/jsonTable";
-import inlineStringify from "../Utilities/inlineStringify";
-import getWeekNum from "../Utilities/getWeekNum";
-
 export default async (article_main_json, language, viewName) => {
   const constructor = {
     async home(article_main_json, language) {
@@ -233,28 +228,28 @@ export default async (article_main_json, language, viewName) => {
             ${svgTable["svgArrowRight"]}
           </button>
         </div>
-
         <div id="calendarDisplay">
-          <div id="side"></div>
-          <div id="head"></div>
-          <div id="body">
-            ${(() => {
-              const cells = buildMonthCells(anchor_date);
-              return `${[0, 1, 2, 3, 4]
-                .map(
-                  (r) => html`<div class="week">
-                    ${cells
-                      .slice(r * 7, r * 7 + 7)
-                      .map(
-                        (cell) =>
-                          html`<div class="day ${cell.type}">${cell.d}</div>`
-                      )
-                      .join("")}
-                  </div>`
-                )
-                .join("")}`;
-            })()}
-          </div>
+          ${(() => {
+            const table = getMonthTable(anchor_date, language); // 7x8: [ [null,abbr...], [week,{d,type}×7]×6 ]
+            let out = "";
+            for (let r = 0; r < 7; r++) {
+              out += '<div class="row">';
+              const row = table[r];
+              for (let c = 0; c < 8; c++) {
+                const cell = row[c];
+                if (r === 0) {
+                  out += `<div class="cell head">${cell ?? ""}</div>`;
+                } else if (c === 0) {
+                  out += `<div class="cell week">${cell}</div>`;
+                } else {
+                  const val = cell.day ?? cell.d;
+                  out += `<div class="cell ${cell.type}">${val}</div>`;
+                }
+              }
+              out += "</div>";
+            }
+            return out;
+          })()}
         </div>
       `;
     },
@@ -262,20 +257,8 @@ export default async (article_main_json, language, viewName) => {
   const innerHTML = await constructor(article_main_json, language);
   return innerHTML;
 };
-
-const buildMonthCells = (anchor_date) => {
-  const year = anchor_date.getFullYear(),
-    month = anchor_date.getMonth();
-  const first = new Date(year, month, 1);
-  const start = (first.getDay() + 6) % 7;
-  const days = new Date(year, month + 1, 0).getDate();
-  const prevDays = new Date(year, month, 0).getDate();
-  const cells = [];
-  for (let idx = 0; idx < 35; idx++) {
-    const day = idx - start + 1;
-    if (day < 1) cells.push({ d: prevDays + day, type: "prev" });
-    else if (day > days) cells.push({ d: day - days, type: "next" });
-    else cells.push({ d: day, type: "curr" });
-  }
-  return cells;
-};
+import getMonthTable from "../Utilities/getMonthTable";
+import svgTable from "../markup/svgTable";
+import jsonTable from "../markup/jsonTable";
+import inlineStringify from "../Utilities/inlineStringify";
+import getWeekNum from "../Utilities/getWeekNum";

@@ -14,14 +14,16 @@ export default css`
     contain: content;
     height: clamp(100dvh, 100dvh, 100dvh);
   }
+
   ${ArticleHeaderCss}
   ${ArticleMainCss}
   ${ArticleFooterCss}
+
   ${homeArticleCss}
-  ${calendarArticleCss}
+  ${CalendarArticleCss}
 `;
 import ArticleHeaderCss from "./1-articleHeader.css";
 import ArticleMainCss from "./2-articleMain.css";
 import ArticleFooterCss from "./3-articleFooter.css";
 import homeArticleCss from "./homeArticle.css";
-import calendarArticleCss from "./calendarArticle.css";
+import CalendarArticleCss from "./Calendar/0-calendarArticle.css";

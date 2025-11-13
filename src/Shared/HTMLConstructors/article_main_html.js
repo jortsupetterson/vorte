@@ -95,7 +95,7 @@ export default async (article_main_json, language, viewName) => {
     },
     async calendar_week(article_main_json, language) {
       const { anchor_date } = article_main_json;
-
+      const monday = getThisMonday(anchor_date).getDate();
       return html`
         ${structDatePicker(
           "weeks",
@@ -106,12 +106,16 @@ export default async (article_main_json, language, viewName) => {
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
           </button>`
         )}
-
         <div id="calendarDisplay">
           ${(() => {
             let markup = ``;
             for (let i = 0; i < 7; i++) {
-              markup += html`<div class="col"></div>`;
+              markup += html` <div class="col">
+                <div class="label">
+                  ${jsonTable["jsonWeekdayAbbrevations"][language][i]}
+                  <span>${monday + i}</span>
+                </div>
+              </div>`;
             }
             return markup;
           })()}
@@ -164,3 +168,4 @@ import inlineStringify from "../Utilities/inlineStringify";
 import getMonthTable from "../Utilities/Time/getMonthTable";
 import structDatePicker from "../markup/HTML/structDatePicker";
 import getWeekNumber from "../Utilities/Time/getWeekNumber";
+import getThisMonday from "../Utilities/Time/getThisMonday";

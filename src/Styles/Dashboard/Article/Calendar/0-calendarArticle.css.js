@@ -24,12 +24,6 @@ export default css`
     position: relative;
     flex-direction: column;
     width: clamp(20rem, 90%, 90vw);
-    aspect-ratio: 4/3;
-  }
-  @media (orientation: portrait) {
-    article[id^="calendar"] #calendarDisplay {
-      aspect-ratio: 3/4;
-    }
   }
   ${CalendarDayCss}
   ${CalendarWeekCss}

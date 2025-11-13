@@ -2,7 +2,15 @@ export default css`
   article#calendar_month #calendarDisplay {
     display: flex;
     justify-content: flex-end;
+    aspect-ratio: 4/3;
   }
+
+  @media (orientation: portrait) {
+    article#calendar_month #calendarDisplay {
+      aspect-ratio: 3/4;
+    }
+  }
+
   article#calendar_month .row {
     display: flex;
     flex-wrap: nowrap;

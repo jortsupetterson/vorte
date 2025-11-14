@@ -5,8 +5,8 @@ export default css`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    min-height: 80%;
     height: max-content;
+    min-height: 70%;
   }
   article#calendar_week .col {
     position: relative;

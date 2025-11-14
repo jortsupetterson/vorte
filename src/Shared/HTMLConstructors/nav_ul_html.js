@@ -12,7 +12,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
   const articleId = cookie?.value ?? "home";
   const constructor = {
     home({ nav_ul_json, language, isDemo }) {
-      const { my_vorte_app_list, vortepreneur_organization_list } = nav_ul_json;
+      const { my_vorte_apps, vortepreneur_organizations } = nav_ul_json;
       return html`
         <li>
           <div>
@@ -20,7 +20,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
             <ul id="MyVorteAppList">
               ${(() => {
                 let markup = ``;
-                for (const item of my_vorte_app_list) {
+                for (const item of my_vorte_apps) {
                   markup += {
                     home: html`<li
                       id="home"
@@ -118,7 +118,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
               </li>
               ${(() => {
                 let markup = ``;
-                for (const organizationName of vortepreneur_organization_list) {
+                for (const organizationName of vortepreneur_organizations) {
                   markup += html`<li data-fn="${inlineStringify({})}">
                     ${svgTable["svgOrganization"]}${organizationName}
                   </li>`;

@@ -94,8 +94,9 @@ export default async (article_main_json, language, viewName) => {
       `;
     },
     async calendar_week(article_main_json, language) {
-      const { anchor_date } = article_main_json;
-      const monday = getThisMonday(anchor_date).getDate();
+      const { anchor_date, monday_date, event_list } = article_main_json;
+      const nonce = await getNonce();
+      const monday = monday_date.getDate();
       return html`
         ${structDatePicker(
           "weeks",
@@ -110,11 +111,19 @@ export default async (article_main_json, language, viewName) => {
           ${(() => {
             let markup = ``;
             for (let i = 0; i < 7; i++) {
+              const dayNum = monday + i;
               markup += html` <div class="col">
                 <div class="label">
                   ${jsonTable["jsonWeekdayAbbrevations"][language][i]}
-                  <span>${monday + i}</span>
+                  <span>${dayNum}</span>
                 </div>
+                ${(() => {
+                  const thisDaysEvents = event_list[dayNum];
+                  if (!thisDaysEvents) return "";
+                  for (const event of thisDaysEvents) {
+                    return html`<li>${JSON.stringify(event)}</li>`;
+                  }
+                })()}
               </div>`;
             }
             return markup;
@@ -169,3 +178,5 @@ import getMonthTable from "../Utilities/Time/getMonthTable";
 import structDatePicker from "../markup/HTML/structDatePicker";
 import getWeekNumber from "../Utilities/Time/getWeekNumber";
 import getThisMonday from "../Utilities/Time/getThisMonday";
+import getNonce from "../Utilities/getNonce";
+import calendarEventSearch from "../Utilities/Time/calendarEventSearch";

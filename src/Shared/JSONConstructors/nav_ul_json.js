@@ -2,12 +2,12 @@ export default async ({ isDemo, viewName }) => {
   const stub = get_1(viewName);
   const constructor = {
     async home(isDemo) {
-      const { my_vorte_app_list, vortepreneur_organization_list } =
+      const { my_vorte_apps, vortepreneur_organizations } =
         await fetchUserObject(isDemo);
 
       return {
-        my_vorte_app_list,
-        vortepreneur_organization_list,
+        my_vorte_apps,
+        vortepreneur_organizations,
       };
     },
     async settings() {

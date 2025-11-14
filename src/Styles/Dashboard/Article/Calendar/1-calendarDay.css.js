@@ -5,5 +5,6 @@ export default css`
     padding: 0.5rem;
     border-radius: 0.5rem;
     background: var(--accentGhostColor);
+    min-height: 70%;
   }
 `;

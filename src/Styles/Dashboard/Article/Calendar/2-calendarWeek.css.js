@@ -7,7 +7,6 @@ export default css`
     justify-content: flex-end;
     align-items: flex-start;
   }
-
   article#calendar_week .col {
     position: relative;
     display: flex;
@@ -20,6 +19,7 @@ export default css`
     padding: 0.5rem;
     border-radius: 0.5rem;
     height: 100%;
+    overflow: hidden;
   }
   article#calendar_week .col div {
     position: absolute;
@@ -49,7 +49,6 @@ export default css`
     align-items: center;
     gap: 1rem;
   }
-
   article#calendar_week .col div span {
     font-weight: 200;
     font-size: x-small;

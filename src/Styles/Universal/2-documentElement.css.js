@@ -32,4 +32,8 @@ export default css`
   button svg {
     fill: var(--contentColor);
   }
+  .padding {
+    min-height: 2rem;
+    min-width: 100%;
+  }
 `;

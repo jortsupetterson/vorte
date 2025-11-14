@@ -101,7 +101,7 @@ export default async (article_main_json, language, viewName) => {
       const timelineStartMinutes =
           range.min > 6 * 60 ? 6 * 60 : Math.floor(range.min / 180) * 180,
         timelineEndMinutes =
-          range.max < 21 * 60 ? 21 * 60 : Math.ceil(range.max / 180) * 180;
+          range.max < 21 * 60 ? 18 * 60 : Math.ceil(range.max / 180) * 180;
       const displayHeight = timelineEndMinutes - timelineStartMinutes;
 
       const nonce = await getNonce();
@@ -240,6 +240,7 @@ export default async (article_main_json, language, viewName) => {
           ${structHourTimeline(timelineStartMinutes, timelineEndMinutes)}
           ${grid}
         </div>
+        <div class="padding"></div>
       `;
     },
 

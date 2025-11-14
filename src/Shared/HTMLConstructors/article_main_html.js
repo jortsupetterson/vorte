@@ -79,6 +79,7 @@ export default async (article_main_json, language, viewName) => {
       }
       return markup;
     },
+
     async calendar_day(article_main_json, language) {
       const { anchor_date } = article_main_json;
       return html`
@@ -93,44 +94,155 @@ export default async (article_main_json, language, viewName) => {
         <div id="calendarDisplay"></div>
       `;
     },
+
     async calendar_week(article_main_json, language) {
       const { anchor_date, monday_date, event_list } = article_main_json;
+      const range = findWeeksTimeRange(event_list);
+      const timelineStartMinutes =
+          range.min > 6 * 60 ? 6 * 60 : Math.floor(range.min / 180) * 180,
+        timelineEndMinutes =
+          range.max < 21 * 60 ? 21 * 60 : Math.ceil(range.max / 180) * 180;
+      const displayHeight = timelineEndMinutes - timelineStartMinutes;
+
       const nonce = await getNonce();
       const monday = monday_date.getDate();
+      const styleRules = [];
+
+      const grid = (() => {
+        let markup = ``;
+
+        for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+          const dayNum = monday + dayOffset;
+
+          markup += html`<div class="col">
+            <div class="label">
+              ${jsonTable["jsonWeekdayAbbrevations"][language][dayOffset]}
+              <span>${dayNum}</span>
+            </div>
+
+            ${(() => {
+              const rawEvents = event_list[dayNum];
+              if (!rawEvents) return "";
+
+              const thisDaysEvents = [];
+
+              for (const event of rawEvents) {
+                const startDate = new Date(event.starts_at);
+                const startHours = startDate.getHours();
+                const startMinutes = startDate.getMinutes();
+                const startTotal = startHours * 60 + startMinutes;
+                const endTotalRaw = startTotal + event.duration_minutes;
+
+                if (endTotalRaw <= 24 * 60) {
+                  thisDaysEvents.push(event);
+                  continue;
+                }
+
+                const todayDuration = 24 * 60 - startTotal;
+                const nextDuration = endTotalRaw - 24 * 60;
+
+                thisDaysEvents.push({
+                  ...event,
+                  duration_minutes: todayDuration,
+                });
+
+                const nextDayDate = new Date(event.starts_at);
+                nextDayDate.setDate(nextDayDate.getDate() + 1);
+                nextDayDate.setHours(0, 0, 0, 0);
+
+                const nextDayNum = dayNum + 1;
+                (event_list[nextDayNum] ||= []).push({
+                  ...event,
+                  starts_at: nextDayDate.toISOString(),
+                  duration_minutes: nextDuration,
+                });
+              }
+
+              thisDaysEvents.sort(
+                (a, b) => new Date(a.starts_at) - new Date(b.starts_at)
+              );
+
+              let column = ``;
+
+              for (const event of thisDaysEvents) {
+                const { starts_at, duration_minutes, category } = event;
+                const id = `ev-${getContentFingerptint(event)}`;
+
+                const eventStartTime = new Date(starts_at);
+                const eventStartHours = eventStartTime.getHours();
+                const eventStartMinutes = eventStartTime.getMinutes();
+                const eventStartTotalMinutes =
+                  eventStartHours * 60 + eventStartMinutes;
+                const eventStartPosition =
+                  eventStartTotalMinutes - timelineStartMinutes;
+
+                const endTotalRaw = eventStartTotalMinutes + duration_minutes;
+                const endTotal = endTotalRaw >= 24 * 60 ? 24 * 60 : endTotalRaw;
+
+                let eventEndHours;
+                let eventEndMinutes;
+
+                if (endTotal === 24 * 60) {
+                  eventEndHours = 23;
+                  eventEndMinutes = 59;
+                } else {
+                  eventEndHours = (endTotal / 60) | 0;
+                  eventEndMinutes = endTotal % 60;
+                }
+
+                styleRules.push(`
+              div#${id} {
+                top: calc(${eventStartPosition} * ${DEFAULT_PIXEL_HEIGHT}px);
+                height: calc(${duration_minutes} * ${DEFAULT_PIXEL_HEIGHT}px);
+                background: rgb(from var(--contentColor) r g b / 0.13);
+              }
+            `);
+
+                column += `<div id="${id}">
+              <span>${eventStartHours}.${
+                  eventStartMinutes < 10
+                    ? "0" + eventStartMinutes
+                    : eventStartMinutes
+                }-${eventEndHours}.${
+                  eventEndMinutes < 10 ? "0" + eventEndMinutes : eventEndMinutes
+                }</span>
+              ${category}
+            </div>`;
+              }
+
+              return column;
+            })()}
+          </div>`;
+        }
+
+        return markup;
+      })();
+
+      const styles = styleRules.join("");
+
       return html`
         ${structDatePicker(
           "weeks",
           "calendar_week",
-          html` <button data-fn="${inlineStringify({})}">
+          html`<button data-fn="${inlineStringify({})}">
             ${{ fi: "viikko", sv: "vecka", en: "week" }[language]}
             ${getWeekNumber(anchor_date)}
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
           </button>`
         )}
         <div id="calendarDisplay">
-          ${(() => {
-            let markup = ``;
-            for (let i = 0; i < 7; i++) {
-              const dayNum = monday + i;
-              markup += html` <div class="col">
-                <div class="label">
-                  ${jsonTable["jsonWeekdayAbbrevations"][language][i]}
-                  <span>${dayNum}</span>
-                </div>
-                ${(() => {
-                  const thisDaysEvents = event_list[dayNum];
-                  if (!thisDaysEvents) return "";
-                  for (const event of thisDaysEvents) {
-                    return html`<li>${JSON.stringify(event)}</li>`;
-                  }
-                })()}
-              </div>`;
-            }
-            return markup;
-          })()}
+          <style nonce="${nonce}">
+            #calendarDisplay{
+               min-height: calc(${displayHeight} * ${DEFAULT_PIXEL_HEIGHT}px);
+             }
+             ${styles}
+          </style>
+          ${structHourTimeline(timelineStartMinutes, timelineEndMinutes)}
+          ${grid}
         </div>
       `;
     },
+
     async calendar_month(article_main_json, language) {
       const { anchor_date } = article_main_json;
       return html`
@@ -180,3 +292,7 @@ import getWeekNumber from "../Utilities/Time/getWeekNumber";
 import getThisMonday from "../Utilities/Time/getThisMonday";
 import getNonce from "../Utilities/getNonce";
 import calendarEventSearch from "../Utilities/Time/calendarEventSearch";
+import getContentFingerptint from "../Utilities/Codec/getContentFingerptint";
+import { DEFAULT_PIXEL_HEIGHT, DEFAULT_START } from "../CONFIG";
+import structHourTimeline from "../markup/HTML/structHourTimeline";
+import findWeeksTimeRange from "../Utilities/Time/findWeeksTimeRange";

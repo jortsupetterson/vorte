@@ -25,10 +25,21 @@ export default css`
     flex-direction: column;
     width: clamp(20rem, 90%, 90vw);
   }
+  article[id^="calendar"] #calendarDisplay #hourTimeline {
+    display: flex;
+    flex-direction: column;
+    font-weight: 100;
+    font-size: small;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100%;
+    padding: 0.5rem;
+  }
   ${CalendarDayCss}
   ${CalendarWeekCss}
   ${CalendarMonthCss}
 `;
+import { DEFAULT_HEIGHT } from "../../../../Shared/CONFIG";
 import CalendarDayCss from "./1-calendarDay.css";
 import CalendarWeekCss from "./2-calendarWeek.css";
 import CalendarMonthCss from "./3-calendarMonth.css";

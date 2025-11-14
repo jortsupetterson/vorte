@@ -1,4 +1,4 @@
-import { DAY_MS } from "../../CONFIG";
+import { DAY_MS } from "../../CONFIG.js";
 
 export default (d) => {
   const time = d.getTime();

@@ -57,7 +57,6 @@ export default async ({ isDemo, viewName, customParams }) => {
             new Date(monday_date),
             sunday_date
           );
-          console.log(event_list);
           return {
             anchor_date,
             monday_date,

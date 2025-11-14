@@ -5,9 +5,9 @@ export default (calendar, cursorDate, endDate = cursorDate) => {
     const iso = cursorDate.toISOString().slice(0, 10);
     const dayNumber = cursorDate.getUTCDate();
     const events = calendar[iso];
-
-    out[dayNumber] = events;
-
+    if (events) {
+      out[dayNumber] = events;
+    }
     cursorDate.setUTCDate(cursorDate.getUTCDate() + 1);
   }
 

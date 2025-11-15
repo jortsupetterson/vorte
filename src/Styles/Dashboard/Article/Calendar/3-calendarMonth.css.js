@@ -58,7 +58,7 @@ export default css`
   article#calendar_month .cell.prev,
   article#calendar_month .cell.curr,
   article#calendar_month .cell.next {
-    min-width: calc(90% / 7);
+    width: calc(90% / 7);
     min-height: 100%;
     margin-left: calc(5% / 7);
     padding: 0.5rem;
@@ -69,11 +69,27 @@ export default css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    gap: 0.2rem;
     font-size: small;
   }
 
   article#calendar_month .cell.next,
   article#calendar_month .cell.prev {
     background: var(--contentGhostColor);
+  }
+
+  article#calendar_month .cell.curr {
+    overflow: hidden;
+  }
+
+  article#calendar_month .cell.curr span {
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: x-small;
+    line-height: normal;
+    font-weight: 100;
+    padding: 0.2rem;
   }
 `;

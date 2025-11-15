@@ -73,8 +73,6 @@ export default async ({ isDemo, viewName, customParams }) => {
           const event_list = calendarEventSearch(calendar, firstDay, lastDay);
           return {
             anchor_date,
-            firstDay,
-            lastDay,
             event_list,
           };
         },

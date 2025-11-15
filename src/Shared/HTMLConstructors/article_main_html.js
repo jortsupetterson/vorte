@@ -101,7 +101,7 @@ export default async (article_main_json, language, viewName) => {
       const timelineStartMinutes =
           range.min > 6 * 60 ? 6 * 60 : Math.floor(range.min / 180) * 180,
         timelineEndMinutes =
-          range.max < 21 * 60 ? 18 * 60 : Math.ceil(range.max / 180) * 180;
+          range.max < 18 * 60 ? 18 * 60 : Math.ceil(range.max / 180) * 180;
       const displayHeight = timelineEndMinutes - timelineStartMinutes;
 
       const nonce = await getNonce();
@@ -245,7 +245,7 @@ export default async (article_main_json, language, viewName) => {
     },
 
     async calendar_month(article_main_json, language) {
-      const { anchor_date } = article_main_json;
+      const { anchor_date, event_list } = article_main_json;
       return html`
         ${structDatePicker(
           "months",
@@ -269,8 +269,21 @@ export default async (article_main_json, language, viewName) => {
                 } else if (c === 0) {
                   out += `<div class="cell week">${cell}</div>`;
                 } else {
-                  const val = cell.day ?? cell.d;
-                  out += `<div class="cell ${cell.type}">${val}</div>`;
+                  const dayNum = cell.day ?? cell.d;
+                  const events = event_list[dayNum] ?? "";
+                  out += `<div class="cell ${cell.type}">${dayNum}${(() => {
+                    let inner = ``;
+                    if (Array.isArray(events)) {
+                      let extraCount = 0;
+                      events.forEach(({ category }, index) => {
+                        if (index < 2) inner += `<span>${category}</span>`;
+                        else extraCount++;
+                      });
+                      if (extraCount > 0)
+                        inner += `<span>+${extraCount}</span>`;
+                    }
+                    return inner;
+                  })()}</div>`;
                 }
               }
               out += "</div>";

@@ -16,10 +16,10 @@ export default css`
     gap: 0;
     margin-left: calc(5% / 7);
     background: var(--accentGhostColor);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+    padding: 0.4rem;
+    border-radius: 0.4rem;
     height: 100%;
-    overflow: hidden;
+    padding-bottom: 1rem;
   }
   article#calendar_week .col div {
     position: absolute;
@@ -33,9 +33,9 @@ export default css`
     justify-content: center;
     align-items: flex-start;
     min-height: max-content;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    transform: scale(0.8);
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    transform: scale(0.9);
   }
   article#calendar_week .col .label {
     top: 0;

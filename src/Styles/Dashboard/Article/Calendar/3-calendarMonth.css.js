@@ -32,6 +32,10 @@ export default css`
     min-height: none;
   }
 
+  article#calendar_month .cell {
+    border: solid 1px transparent;
+  }
+
   article#calendar_month .cell.head {
     min-width: calc(90% / 7);
     margin-left: calc(5% / 7);
@@ -49,10 +53,15 @@ export default css`
     max-width: max-content;
     max-height: max-content;
     line-height: 1;
-    padding: 0;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
     font-size: medium;
     margin-right: 1%;
     font-weight: 100;
+  }
+
+  article#calendar_month .cell.week:hover {
+    background: var(--contentGhostColor);
   }
 
   article#calendar_month .cell.prev,
@@ -80,6 +89,10 @@ export default css`
 
   article#calendar_month .cell.curr {
     overflow: hidden;
+  }
+
+  article#calendar_month .cell.curr:hover {
+    border-color: var(--contentColor);
   }
 
   article#calendar_month .cell.curr span {

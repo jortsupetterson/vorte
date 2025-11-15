@@ -1,6 +1,6 @@
 import jsonTable from "../../markup/jsonTable";
 import getThisMonday from "./getThisMonday";
-import getWeekNumber from "./getWeekNumber";
+import getWeekNumber from "./weekNumberFromDate";
 
 export default (anchorDate, language) => {
   const year = anchorDate.getFullYear();
@@ -41,7 +41,10 @@ export default (anchorDate, language) => {
     }
 
     const rowArray = new Array(8);
-    rowArray[0] = getWeekNumber(currentMonday);
+    rowArray[0] = {
+      date: new Date(currentMonday).toISOString().slice(0, 10),
+      number: getWeekNumber(currentMonday),
+    };
 
     const base = weekIndex * 7;
     for (let dayIndex = 0; dayIndex < 7; dayIndex++) {

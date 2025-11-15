@@ -29,14 +29,16 @@ export default async ({ isDemo, viewName, customParams }) => {
       return { widget_list: renderableList };
     },
     async calendar({ isDemo, customParams }) {
-      const anchor_date = await shiftDate(
-        customParams ?? {
-          years: 0,
-          months: 0,
-          weeks: 0,
-          days: 0,
-        }
-      );
+      const anchor_date = customParams?.anchor_date
+        ? new Date(customParams.anchor_date)
+        : await shiftDate(
+            customParams ?? {
+              years: 0,
+              months: 0,
+              weeks: 0,
+              days: 0,
+            }
+          );
       const calendar = await fetchCalendarObject(isDemo);
 
       const specific = {

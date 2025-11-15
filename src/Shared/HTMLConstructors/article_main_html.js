@@ -119,78 +119,79 @@ export default async (article_main_json, language, viewName) => {
               ${jsonTable["jsonWeekdayAbbrevations"][language][dayOffset]}
               <span>${dayNum}</span>
             </div>
+            <div class="col-inner">
+              ${(() => {
+                const rawEvents = event_list[dayNum];
+                if (!rawEvents) return "";
 
-            ${(() => {
-              const rawEvents = event_list[dayNum];
-              if (!rawEvents) return "";
+                const thisDaysEvents = [];
 
-              const thisDaysEvents = [];
+                for (const event of rawEvents) {
+                  const startDate = new Date(event.starts_at);
+                  const startHours = startDate.getHours();
+                  const startMinutes = startDate.getMinutes();
+                  const startTotal = startHours * 60 + startMinutes;
+                  const endTotalRaw = startTotal + event.duration_minutes;
 
-              for (const event of rawEvents) {
-                const startDate = new Date(event.starts_at);
-                const startHours = startDate.getHours();
-                const startMinutes = startDate.getMinutes();
-                const startTotal = startHours * 60 + startMinutes;
-                const endTotalRaw = startTotal + event.duration_minutes;
+                  if (endTotalRaw <= 24 * 60) {
+                    thisDaysEvents.push(event);
+                    continue;
+                  }
 
-                if (endTotalRaw <= 24 * 60) {
-                  thisDaysEvents.push(event);
-                  continue;
+                  const todayDuration = 24 * 60 - startTotal;
+                  const nextDuration = endTotalRaw - 24 * 60;
+
+                  thisDaysEvents.push({
+                    ...event,
+                    duration_minutes: todayDuration,
+                  });
+
+                  const nextDayDate = new Date(event.starts_at);
+                  nextDayDate.setDate(nextDayDate.getDate() + 1);
+                  nextDayDate.setHours(0, 0, 0, 0);
+
+                  const nextDayNum = dayNum + 1;
+                  (event_list[nextDayNum] ||= []).push({
+                    ...event,
+                    starts_at: nextDayDate.toISOString(),
+                    duration_minutes: nextDuration,
+                  });
                 }
 
-                const todayDuration = 24 * 60 - startTotal;
-                const nextDuration = endTotalRaw - 24 * 60;
+                thisDaysEvents.sort(
+                  (a, b) => new Date(a.starts_at) - new Date(b.starts_at)
+                );
 
-                thisDaysEvents.push({
-                  ...event,
-                  duration_minutes: todayDuration,
-                });
+                let column = ``;
 
-                const nextDayDate = new Date(event.starts_at);
-                nextDayDate.setDate(nextDayDate.getDate() + 1);
-                nextDayDate.setHours(0, 0, 0, 0);
+                for (const event of thisDaysEvents) {
+                  const { starts_at, duration_minutes, category } = event;
+                  const id = `ev-${getContentFingerptint(event)}`;
 
-                const nextDayNum = dayNum + 1;
-                (event_list[nextDayNum] ||= []).push({
-                  ...event,
-                  starts_at: nextDayDate.toISOString(),
-                  duration_minutes: nextDuration,
-                });
-              }
+                  const eventStartTime = new Date(starts_at);
+                  const eventStartHours = eventStartTime.getHours();
+                  const eventStartMinutes = eventStartTime.getMinutes();
+                  const eventStartTotalMinutes =
+                    eventStartHours * 60 + eventStartMinutes;
+                  const eventStartPosition =
+                    eventStartTotalMinutes - timelineStartMinutes;
 
-              thisDaysEvents.sort(
-                (a, b) => new Date(a.starts_at) - new Date(b.starts_at)
-              );
+                  const endTotalRaw = eventStartTotalMinutes + duration_minutes;
+                  const endTotal =
+                    endTotalRaw >= 24 * 60 ? 24 * 60 : endTotalRaw;
 
-              let column = ``;
+                  let eventEndHours;
+                  let eventEndMinutes;
 
-              for (const event of thisDaysEvents) {
-                const { starts_at, duration_minutes, category } = event;
-                const id = `ev-${getContentFingerptint(event)}`;
+                  if (endTotal === 24 * 60) {
+                    eventEndHours = 23;
+                    eventEndMinutes = 59;
+                  } else {
+                    eventEndHours = (endTotal / 60) | 0;
+                    eventEndMinutes = endTotal % 60;
+                  }
 
-                const eventStartTime = new Date(starts_at);
-                const eventStartHours = eventStartTime.getHours();
-                const eventStartMinutes = eventStartTime.getMinutes();
-                const eventStartTotalMinutes =
-                  eventStartHours * 60 + eventStartMinutes;
-                const eventStartPosition =
-                  eventStartTotalMinutes - timelineStartMinutes;
-
-                const endTotalRaw = eventStartTotalMinutes + duration_minutes;
-                const endTotal = endTotalRaw >= 24 * 60 ? 24 * 60 : endTotalRaw;
-
-                let eventEndHours;
-                let eventEndMinutes;
-
-                if (endTotal === 24 * 60) {
-                  eventEndHours = 23;
-                  eventEndMinutes = 59;
-                } else {
-                  eventEndHours = (endTotal / 60) | 0;
-                  eventEndMinutes = endTotal % 60;
-                }
-
-                styleRules.push(`
+                  styleRules.push(`
               div#${id} {
                 top: calc(${eventStartPosition} * ${DEFAULT_PIXEL_HEIGHT}px);
                 height: calc(${duration_minutes} * ${DEFAULT_PIXEL_HEIGHT}px);
@@ -198,20 +199,23 @@ export default async (article_main_json, language, viewName) => {
               }
             `);
 
-                column += `<div id="${id}">
+                  column += `<div id="${id}">
               <span>${eventStartHours}.${
-                  eventStartMinutes < 10
-                    ? "0" + eventStartMinutes
-                    : eventStartMinutes
-                }-${eventEndHours}.${
-                  eventEndMinutes < 10 ? "0" + eventEndMinutes : eventEndMinutes
-                }</span>
+                    eventStartMinutes < 10
+                      ? "0" + eventStartMinutes
+                      : eventStartMinutes
+                  }-${eventEndHours}.${
+                    eventEndMinutes < 10
+                      ? "0" + eventEndMinutes
+                      : eventEndMinutes
+                  }</span>
               ${category}
             </div>`;
-              }
+                }
 
-              return column;
-            })()}
+                return column;
+              })()}
+            </div>
           </div>`;
         }
 
@@ -259,11 +263,23 @@ export default async (article_main_json, language, viewName) => {
             if (r === 0) {
               out += `<div class="cell head">${cell ?? ""}</div>`;
             } else if (c === 0) {
-              out += `<div class="cell week">${cell}</div>`;
+              out += `<button class="cell week" data-fn="${inlineStringify({
+                name: "msgToSw",
+                params: {
+                  name: "sendResourceForRender",
+                  params: {
+                    viewName: "calendar_week",
+                    components: ["article main", "article header h1"],
+                    customParams: { anchor_date: cell.date },
+                  },
+                },
+              })}">${cell.number}</button>`;
             } else {
-              const dayNum = cell.day ?? cell.d;
+              const dayNum = cell.d;
               const events = event_list[dayNum] ?? "";
-              out += `<div class="cell ${cell.type}">${dayNum}${(() => {
+              out += `<div class="cell ${cell.type}" ${
+                cell.type === "curr" ? `data-fn=""` : ""
+              }>${dayNum}${(() => {
                 let inner = ``;
                 if (Array.isArray(events)) {
                   let extraCount = 0;
@@ -316,7 +332,7 @@ import jsonTable from "../markup/jsonTable";
 import inlineStringify from "../Utilities/inlineStringify";
 import getMonthTable from "../Utilities/Time/getMonthTable";
 import structDatePicker from "../markup/HTML/structDatePicker";
-import getWeekNumber from "../Utilities/Time/getWeekNumber";
+import getWeekNumber from "../Utilities/Time/weekNumberFromDate";
 import getThisMonday from "../Utilities/Time/getThisMonday";
 import getNonce from "../Utilities/getNonce";
 import calendarEventSearch from "../Utilities/Time/calendarEventSearch";

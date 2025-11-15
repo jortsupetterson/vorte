@@ -59,7 +59,7 @@ export default css`
   article#calendar_month .cell.curr,
   article#calendar_month .cell.next {
     width: calc(90% / 7);
-    min-height: 100%;
+    height: 100%;
     margin-left: calc(5% / 7);
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -91,5 +91,6 @@ export default css`
     line-height: normal;
     font-weight: 100;
     padding: 0.2rem;
+    border-radius: 0.2rem;
   }
 `;

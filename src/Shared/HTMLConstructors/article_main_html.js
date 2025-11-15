@@ -245,9 +245,54 @@ export default async (article_main_json, language, viewName) => {
     },
 
     async calendar_month(article_main_json, language) {
+      const nonce = await getNonce();
+      const styleRules = [];
       const { anchor_date, event_list } = article_main_json;
-      return html`
-        ${structDatePicker(
+      const markup = (() => {
+        const table = getMonthTable(anchor_date, language); // 7x8: [ [null,abbr...], [week,{d,type}×7]×6 ]
+        let out = "";
+        for (let r = 0; r < 7; r++) {
+          out += '<div class="row">';
+          const row = table[r];
+          for (let c = 0; c < 8; c++) {
+            const cell = row[c];
+            if (r === 0) {
+              out += `<div class="cell head">${cell ?? ""}</div>`;
+            } else if (c === 0) {
+              out += `<div class="cell week">${cell}</div>`;
+            } else {
+              const dayNum = cell.day ?? cell.d;
+              const events = event_list[dayNum] ?? "";
+              out += `<div class="cell ${cell.type}">${dayNum}${(() => {
+                let inner = ``;
+                if (Array.isArray(events)) {
+                  let extraCount = 0;
+                  const categoryHashes = new Set();
+                  events.forEach(({ category }, index) => {
+                    if (index < 2) {
+                      const catHash = `cat-${getContentFingerptint(category)}`;
+                      if (!categoryHashes.has(catHash))
+                        categoryHashes.add(catHash);
+                      styleRules.push(`
+                        span.${catHash} {
+                            background: rgb(from var(--contentColor) r g b / 0.13);
+                        }
+                        `);
+                      inner += `<span class="${catHash}">${category}</span>`;
+                    } else extraCount++;
+                  });
+                  if (extraCount > 0) inner += `<span>+${extraCount}</span>`;
+                }
+                return inner;
+              })()}</div>`;
+            }
+          }
+          out += "</div>";
+        }
+        return out;
+      })();
+      const styles = styleRules.join("");
+      return html` ${structDatePicker(
           "months",
           "calendar_month",
           html` <button id="toggler" data-fn="${inlineStringify({})}">
@@ -256,42 +301,11 @@ export default async (article_main_json, language, viewName) => {
           </button>`
         )}
         <div id="calendarDisplay">
-          ${(() => {
-            const table = getMonthTable(anchor_date, language); // 7x8: [ [null,abbr...], [week,{d,type}×7]×6 ]
-            let out = "";
-            for (let r = 0; r < 7; r++) {
-              out += '<div class="row">';
-              const row = table[r];
-              for (let c = 0; c < 8; c++) {
-                const cell = row[c];
-                if (r === 0) {
-                  out += `<div class="cell head">${cell ?? ""}</div>`;
-                } else if (c === 0) {
-                  out += `<div class="cell week">${cell}</div>`;
-                } else {
-                  const dayNum = cell.day ?? cell.d;
-                  const events = event_list[dayNum] ?? "";
-                  out += `<div class="cell ${cell.type}">${dayNum}${(() => {
-                    let inner = ``;
-                    if (Array.isArray(events)) {
-                      let extraCount = 0;
-                      events.forEach(({ category }, index) => {
-                        if (index < 2) inner += `<span>${category}</span>`;
-                        else extraCount++;
-                      });
-                      if (extraCount > 0)
-                        inner += `<span>+${extraCount}</span>`;
-                    }
-                    return inner;
-                  })()}</div>`;
-                }
-              }
-              out += "</div>";
-            }
-            return out;
-          })()}
-        </div>
-      `;
+          <style nonce="${nonce}">
+            ${styles}
+          </style>
+          ${markup}
+        </div>`;
     },
   }[viewName];
   const innerHTML = await constructor(article_main_json, language);

@@ -1,11 +1,3 @@
-const __policy = globalThis.trustedTypes
-  ? globalThis.trustedTypes.createPolicy("vorte-ui", {
-      createHTML(value) {
-        return value;
-      },
-    })
-  : null;
-
 export default (async () => {
   navigator.serviceWorker.addEventListener("message", async ({ data }) => {
     const { CSSSelector, JSON, viewName, isDemo } = data;
@@ -92,3 +84,4 @@ import article_header_h1_html from "../../../Shared/HTMLConstructors/article_hea
 import article_main_html from "../../../Shared/HTMLConstructors/article_main_html";
 import nav_ul_html from "../../../Shared/HTMLConstructors/nav_ul_html";
 import { navEl, articleEl } from "../../script";
+import { __policy } from "../../__policy";

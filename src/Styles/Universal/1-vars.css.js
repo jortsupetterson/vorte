@@ -17,6 +17,12 @@ const structCssVars = ({
       --contentGhostColor: rgb(from var(--contentColor) r g b / 0.06);
       --accentGhostColor: rgb(from var(--accentColor) r g b / 0.08);
 
+      --overlayColor: ${alphaComposite(
+        alphaComposite(backgroundColor, accentColor, 0.16),
+        contentColor,
+        0.06
+      )};
+
       --special1: #323232;
       --special2: #4a4a4a;
       --special3: rgb(from var(--accentColor) r g b / 0.17);
@@ -33,3 +39,4 @@ const structCssVars = ({
   `;
 };
 export default structCssVars;
+import alphaComposite from "../../Shared/Utilities/Styling/alphaComposite";

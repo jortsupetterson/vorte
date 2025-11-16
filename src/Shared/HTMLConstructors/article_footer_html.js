@@ -8,7 +8,13 @@ export default async (article_footer_json, lanugage, viewName, isDemo) => {
       return html` <button data-fn="">mukauta näkymää</button> `;
     },
     async calendar() {
-      return html` <button data-fn="">lisää tapahtuma</button> `;
+      return html`
+        <button
+          data-fn="${inlineStringify({ name: `toggleCalendarEventForm` })}"
+        >
+          lisää tapahtuma
+        </button>
+      `;
     },
   }[stub];
   const innerHTML = await constructor({

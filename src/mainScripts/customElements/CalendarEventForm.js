@@ -13,6 +13,7 @@ const HTML = html`
       en: "Create an event",
     }[DOC.lang]}
   </h3>
+  <div></div>
 `;
 
 (async () => {
@@ -20,9 +21,11 @@ const HTML = html`
     const CSS = html`
       <style id="calendar-event-form-style" nonce="${await getNonce()}">
         calendar-event-form {
+          background: var(--overlayColor);
+          border-radius: 1rem;
         }
       </style>
-    `;
+    `.trim();
     const safeHTML = __policy ? __policy.createHTML(CSS) : CSS;
 
     document.head.insertAdjacentHTML("beforeend", safeHTML);

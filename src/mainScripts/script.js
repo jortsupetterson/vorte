@@ -11,6 +11,10 @@ export const functions = {
     cookieStore.set({ name: "navStatus", value: result, expires: NOWplusYEAR });
   },
   setLocation: ({ location }) => (window.location.href = location),
+  toggleCalendarEventForm: () => {
+    let form = articleMain.querySelector("calendar-event-form");
+    form ? form.remove() : articleMain.appendChild(new CalendarEventForm());
+  },
 };
 
 //universal clicks
@@ -86,12 +90,13 @@ document.onkeydown = (event) => {
 const mQ = window.matchMedia("(max-width: 548px)");
 const isDemo = new URLSearchParams(window.location.search).has("demo");
 
-export let navEl, mascotEl, articleEl;
+export let navEl, mascotEl, articleEl, articleMain;
 
 async function cacheElements() {
   navEl = document.body.querySelector("nav");
   mascotEl = navEl.querySelector("img");
   articleEl = document.body.querySelector("article");
+  articleMain = articleEl.querySelector("main");
 }
 
 if (document.readyState === "loading")
@@ -101,5 +106,8 @@ else cacheElements();
 import { NOWplusYEAR } from "../Shared/CONFIG";
 import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
 renderRecievedResource;
+
 import { ColorInput } from "./customElements/ColorInput";
 customElements.define("color-input", ColorInput, { extends: "input" });
+import { CalendarEventForm } from "./customElements/CalendarEventForm";
+customElements.define("calendar-event-form", CalendarEventForm);

@@ -39,7 +39,6 @@ export default css`
   ${CalendarWeekCss}
   ${CalendarMonthCss}
 `;
-import { DEFAULT_HEIGHT } from "../../../../Shared/CONFIG";
 import CalendarDayCss from "./1-calendarDay.css";
 import CalendarWeekCss from "./2-calendarWeek.css";
 import CalendarMonthCss from "./3-calendarMonth.css";

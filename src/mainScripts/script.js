@@ -101,3 +101,5 @@ else cacheElements();
 import { NOWplusYEAR } from "../Shared/CONFIG";
 import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
 renderRecievedResource;
+import { ColorInput } from "./customElements/ColorInput";
+customElements.define("color-input", ColorInput, { extends: "input" });

@@ -81,7 +81,55 @@ export default async (article_main_json, language, viewName) => {
     },
 
     async calendar_day(article_main_json, language) {
-      const { anchor_date } = article_main_json;
+      const { anchor_date, event_list } = article_main_json;
+      const nonce = await getNonce();
+      const styleRules = [];
+      const categoryHashes = new Set();
+      const markup = (() => {
+        let htm = ``;
+        for (const {
+          category,
+          info,
+          starts_at,
+          duration_minutes,
+        } of event_list) {
+          const catHash = `cat-${getContentFingerptint(category)}`;
+          if (!categoryHashes.has(catHash)) {
+            categoryHashes.add(catHash);
+            styleRules.push(`
+              .${catHash} {
+                background: rgb(from var(--contentColor) r g b / 0.13);
+              }
+              `);
+          }
+
+          const eventStartDate = new Date(starts_at);
+          const eventStartHours = eventStartDate.getHours();
+          const eventStartMinutes = eventStartDate.getMinutes();
+          const eventTotalMinutes =
+            eventStartHours * 60 + eventStartMinutes + duration_minutes;
+          const eventEndMinutes = eventTotalMinutes % 60;
+          const eventEndHours = (eventTotalMinutes - eventEndMinutes) / 60;
+
+          htm += html`
+            <div class="${catHash}">
+              <span>
+                <span>
+                  ${eventStartHours}.${eventStartMinutes < 10
+                    ? "0" + eventStartMinutes
+                    : eventStartMinutes}-${eventEndHours}.${eventEndMinutes < 10
+                    ? "0" + eventEndMinutes
+                    : eventEndMinutes}
+                </span>
+                ${category}
+              </span>
+              <span>${info}</span>
+            </div>
+          `;
+        }
+        return htm;
+      })();
+      const styles = styleRules.join("");
       return html`
         ${structDatePicker(
           "days",
@@ -91,7 +139,12 @@ export default async (article_main_json, language, viewName) => {
             ${anchor_date.toLocaleDateString("fi-FI")}
           </button>`
         )}
-        <div id="calendarDisplay"></div>
+        <div id="calendarDisplay">
+          <style nonce="${nonce}">
+            ${styles}
+          </style>
+          ${markup}
+        </div>
       `;
     },
 

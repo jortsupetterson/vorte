@@ -1,5 +1,4 @@
 export const SUPPORTED_LANGUAGES = ["fi", "sv", "en"];
-export const DAY_MS = 86400000;
 export const NOWplusYEAR = new Date(Date.now() + 31536000 * 1000);
 
 import getThisMonday from "./Utilities/Time/getThisMonday.js";

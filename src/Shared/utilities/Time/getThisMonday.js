@@ -1,5 +1,4 @@
-import { DAY_MS } from "../../CONFIG.js";
-
+import { DAY_MS } from "../../SAVINGS.js";
 export default (d) => {
   const time = d.getTime();
   const utcMidnight = time - (((time % DAY_MS) + DAY_MS) % DAY_MS);

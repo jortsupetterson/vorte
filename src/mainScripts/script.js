@@ -13,7 +13,17 @@ export const functions = {
   setLocation: ({ location }) => (window.location.href = location),
 };
 
-document.addEventListener("pointerup", async (event) => {
+//universal clicks
+let downX = 0;
+let downY = 0;
+document.onpointerdown = (event) => {
+  downX = event.clientX;
+  downY = event.clientY;
+};
+document.onpointerup = async (event) => {
+  const move = Math.hypot(event.clientX - downX, event.clientY - downY);
+  if (move > 10) return;
+
   const dataStr = event.target.dataset.fn;
   if (!dataStr) return;
   const { name, params } = JSON.parse(dataStr);
@@ -53,7 +63,25 @@ document.addEventListener("pointerup", async (event) => {
       expires: NOWplusYEAR,
     });
   }
-});
+};
+
+//mobile swipes
+let startX;
+document.ontouchstart = (event) => (startX = event.touches[0].clientX);
+document.ontouchend = (event) => {
+  const difference = event.changedTouches[0].clientX - startX;
+  if (difference > 50) functions.toggleNav();
+  else if (difference < -50 && navEl.classList.contains("open"))
+    functions.toggleNav();
+};
+
+//keyboard clicks
+document.onkeydown = (event) => {
+  if (event.key === "Tab") {
+    event.preventDefault();
+    functions.toggleNav();
+  }
+};
 
 const mQ = window.matchMedia("(max-width: 548px)");
 const isDemo = new URLSearchParams(window.location.search).has("demo");

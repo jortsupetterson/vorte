@@ -22,7 +22,7 @@ export default css`
     justify-content: center;
     background: var(--accentGhostColor);
     border-radius: 0.4rem;
-    border: solid 1px transparent;
+    border: solid 0.01rem transparent;
   }
 
   article#calendar_week .col-inner:hover {

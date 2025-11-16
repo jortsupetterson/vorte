@@ -11,7 +11,7 @@ const mainScripts = await readFile("./temp/main.js", "utf-8");
 
 await build({
   entryPoints: ["./src/serviceWorker/entrypoint.js"],
-  outfile: "./dist/static/sw.js",
+  outfile: "./dist/static/ServiceWorker",
   bundle: true,
   minify: true,
   treeShaking: true,

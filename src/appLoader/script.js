@@ -1,7 +1,10 @@
 import { SUPPORTED_LANGUAGES, NOWplusYEAR } from "../Shared/CONFIG.js";
 const supported = new Set(SUPPORTED_LANGUAGES);
 
-navigator.serviceWorker.register("/sw.js", { scope: "/", type: "module" });
+navigator.serviceWorker.register("/ServiceWorker", {
+  scope: "/",
+  type: "module",
+});
 
 const { pathname } = new URL(window.location.href);
 

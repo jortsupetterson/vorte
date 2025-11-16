@@ -6,6 +6,7 @@ export default css`
     align-content: flex-start;
     flex-wrap: wrap;
     min-width: var(--articleWidth);
+    overflow-x: hidden;
     overflow-y: auto;
     pointer-events: all;
     height: clamp(80dvh, 80dvh, 80dvh);

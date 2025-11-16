@@ -30,7 +30,7 @@ export default (anchorDate, language) => {
   const table = new Array(7);
 
   const head = new Array(8);
-  head[0] = null;
+  head[0] = "00";
   const labels = jsonTable["jsonWeekdayAbbrevations"][language];
   for (let colIndex = 0; colIndex < 7; colIndex++) {
     head[colIndex + 1] = labels[colIndex];

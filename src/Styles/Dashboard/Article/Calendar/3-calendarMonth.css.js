@@ -23,30 +23,14 @@ export default css`
   }
 
   article#calendar_month .row:first-of-type {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: flex-start;
-    width: clamp(100%, 100%, 100%);
     height: auto;
     min-height: none;
   }
 
   article#calendar_month .cell {
-    border: solid 1px transparent;
+    border: solid 0.01rem transparent;
   }
-
-  article#calendar_month .cell.head {
-    min-width: calc(90% / 7);
-    margin-left: calc(5% / 7);
-    font-size: medium;
-    font-weight: 100;
-  }
-
-  article#calendar_month .cell.head:first-of-type {
-    min-width: 5%;
-  }
-
+  article#calendar_month .cell.head:first-of-type,
   article#calendar_month .cell.week {
     min-height: max-content;
     min-width: max-content;
@@ -55,7 +39,7 @@ export default css`
     line-height: 1;
     padding: 0.2rem;
     border-radius: 0.2rem;
-    font-size: medium;
+    font-size: small;
     margin-right: 1%;
     font-weight: 100;
   }
@@ -63,7 +47,7 @@ export default css`
   article#calendar_month .cell.week:hover {
     background: var(--contentGhostColor);
   }
-
+  article#calendar_month .cell.head,
   article#calendar_month .cell.prev,
   article#calendar_month .cell.curr,
   article#calendar_month .cell.next {
@@ -80,6 +64,15 @@ export default css`
     align-items: flex-start;
     gap: 0.2rem;
     font-size: small;
+  }
+
+  article#calendar_month .cell.head {
+    background: transparent;
+    font-weight: 100;
+  }
+
+  article#calendar_month .cell.head:first-of-type {
+    opacity: 0;
   }
 
   article#calendar_month .cell.next,

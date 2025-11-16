@@ -105,6 +105,7 @@ const buildDocumentResponse = async (ctx) => {
       headers: {
         "content-language": language,
         "content-type": "text/html; charset=utf-8",
+        "Content-Security-Policy": `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}';manifest-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none';`,
       },
     }
   );

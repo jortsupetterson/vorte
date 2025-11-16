@@ -23,7 +23,7 @@ export default css`
     display: flex;
     position: relative;
     flex-direction: column;
-    width: clamp(20rem, 90%, 90vw);
+    width: clamp(20rem, 100%, 95vw);
   }
   article[id^="calendar"] #calendarDisplay #hourTimeline {
     display: flex;

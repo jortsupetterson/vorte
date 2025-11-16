@@ -268,6 +268,7 @@ export default async (article_main_json, language, viewName) => {
     async calendar_month(article_main_json, language) {
       const nonce = await getNonce();
       const styleRules = [];
+      const categoryHashes = new Set();
       const { anchor_date, event_list } = article_main_json;
       const markup = (() => {
         const table = getMonthTable(anchor_date, language); // 7x8: [ [null,abbr...], [week,{d,type}×7]×6 ]
@@ -312,17 +313,17 @@ export default async (article_main_json, language, viewName) => {
                 let inner = ``;
                 if (Array.isArray(events)) {
                   let extraCount = 0;
-                  const categoryHashes = new Set();
                   events.forEach(({ category }, index) => {
                     if (index < 2) {
                       const catHash = `cat-${getContentFingerptint(category)}`;
-                      if (!categoryHashes.has(catHash))
+                      if (!categoryHashes.has(catHash)) {
                         categoryHashes.add(catHash);
-                      styleRules.push(`
+                        styleRules.push(`
                         span.${catHash} {
                             background: rgb(from var(--contentColor) r g b / 0.13);
                         }
                         `);
+                      }
                       inner += `<span class="${catHash}">${category}</span>`;
                     } else extraCount++;
                   });

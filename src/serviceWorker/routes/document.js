@@ -105,7 +105,16 @@ const buildDocumentResponse = async (ctx) => {
       headers: {
         "content-language": language,
         "content-type": "text/html; charset=utf-8",
-        "Content-Security-Policy": `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'nonce-${nonce}';manifest-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none';`,
+        "Content-Security-Policy": `default-src 'none'; require-trusted-types-for 'script'; script-src 'nonce-${nonce}' 'unsafe-inline'; style-src 'nonce-${nonce}' 'unsafe-inline'; manifest-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none';`,
+        "Trusted-Types": "vorte-ui",
+        "Strict-Transport-Security":
+          "max-age=63072000; includeSubDomains; preload",
+        "Cross-Origin-Embedder-Policy": "require-corp",
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Resource-Policy": "same-origin",
+        "X-UA-Compatible": "IE=edge",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
       },
     }
   );

@@ -1,3 +1,11 @@
+const __policy = globalThis.trustedTypes
+  ? globalThis.trustedTypes.createPolicy("vorte-ui", {
+      createHTML(value) {
+        return value;
+      },
+    })
+  : null;
+
 export default (async () => {
   navigator.serviceWorker.addEventListener("message", async ({ data }) => {
     const { CSSSelector, JSON, viewName, isDemo } = data;
@@ -57,21 +65,28 @@ const __last = new WeakMap();
 const __rx = /[<>&]/;
 const __range = document.createRange();
 const __tpl = document.createElement("template");
+
 function patchHTML(target, html) {
   const next = html + "";
   if (__last.get(target) === next) return;
+
   if (!__rx.test(next)) {
     target.textContent = next;
     __last.set(target, next);
     return;
   }
+
+  const safeHTML = __policy ? __policy.createHTML(next) : next;
+
   __range.selectNodeContents(target);
   const frag = __range.createContextualFragment
-    ? __range.createContextualFragment(next)
-    : ((__tpl.innerHTML = next), __tpl.content.cloneNode(true));
+    ? __range.createContextualFragment(safeHTML)
+    : ((__tpl.innerHTML = safeHTML), __tpl.content.cloneNode(true));
+
   target.replaceChildren(frag);
   __last.set(target, next);
 }
+
 import article_footer_html from "../../../Shared/HTMLConstructors/article_footer_html";
 import article_header_h1_html from "../../../Shared/HTMLConstructors/article_header_h1_html";
 import article_main_html from "../../../Shared/HTMLConstructors/article_main_html";

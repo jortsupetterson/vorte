@@ -8,3 +8,5 @@ export const WEEKS_IN_YEAR = (y) => {
   const leap = y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0);
   return jan1 === 4 || (leap && jan1 === 3) ? 53 : 52;
 };
+export const DOC =
+  typeof document === "undefined" ? null : document.documentElement;

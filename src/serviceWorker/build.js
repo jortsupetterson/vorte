@@ -11,7 +11,7 @@ const mainScripts = await readFile("./temp/main.js", "utf-8");
 
 await build({
   entryPoints: ["./src/serviceWorker/entrypoint.js"],
-  outfile: "./dist/static/ServiceWorker",
+  outfile: "./temp/sw.js",
   bundle: true,
   minify: true,
   treeShaking: true,
@@ -23,3 +23,9 @@ await build({
   },
   plugins: [contentMinifierPlugin()],
 });
+
+const serviceWorker = await readFile("./temp/sw.js", "utf-8");
+
+const collapsed = serviceWorker.replace(/[\r\n]+/g, "");
+
+await writeFile(`./dist/static/ServiceWorker`, collapsed);

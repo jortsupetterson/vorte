@@ -1,16 +1,4 @@
-(async () => {
-  if (!document.getElementById("color-input-style")) {
-    const HTML = html`
-      <style id="color-input-style" nonce="${await getNonce()}">
-        color-input {
-        }
-      </style>
-    `;
-    const safeHTML = __policy ? __policy.createHTML(HTML) : HTML;
-
-    document.head.insertAdjacentHTML("beforeend", safeHTML);
-  }
-})();
+const SLUG = "color-input";
 
 export class ColorInput extends HTMLInputElement {
   constructor() {
@@ -32,5 +20,3 @@ export class ColorInput extends HTMLInputElement {
 import { DOC } from "../../Shared/SAVINGS";
 import { NOWplusYEAR } from "../../Shared/CONFIG";
 import { __policy } from "../__policy";
-
-import getNonce from "../../Shared/Utilities/getNonce";

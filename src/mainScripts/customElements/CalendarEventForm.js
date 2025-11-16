@@ -1,3 +1,5 @@
+const SLUG = "calendar-event-form";
+
 export class CalendarEventForm extends HTMLElement {
   constructor() {
     super();
@@ -13,25 +15,28 @@ const HTML = html`
       en: "Create an event",
     }[DOC.lang]}
   </h3>
-  <div></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
+  <div class="field"></div>
 `;
 
-(async () => {
-  if (!document.getElementById("color-input-style")) {
-    const CSS = html`
-      <style id="calendar-event-form-style" nonce="${await getNonce()}">
-        calendar-event-form {
-          background: var(--overlayColor);
-          border-radius: 1rem;
-        }
-      </style>
-    `.trim();
-    const safeHTML = __policy ? __policy.createHTML(CSS) : CSS;
-
-    document.head.insertAdjacentHTML("beforeend", safeHTML);
-  }
-})();
-
+style(
+  SLUG,
+  css`
+    ${SLUG} {
+      background: var(--overlayColor);
+      border-radius: 1rem;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: all;
+      padding: 1rem;
+    }
+  `
+);
 import { DOC } from "../../Shared/SAVINGS";
-import getNonce from "../../Shared/Utilities/getNonce";
+import style from "../createHTML/style";
 import { __policy } from "../__policy";

@@ -20,7 +20,11 @@ export default (anchorDate, language) => {
         ? { d: daysPrev + day, type: "prev" }
         : day > daysThis
         ? { d: day - daysThis, type: "next" }
-        : { d: day, type: "curr" };
+        : {
+            d: day,
+            type: "curr",
+            date: `${year}-${month + 1}-${day}`,
+          };
   }
 
   const table = new Array(7);

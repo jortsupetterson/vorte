@@ -106,6 +106,8 @@ export default async (article_main_json, language, viewName) => {
 
       const nonce = await getNonce();
       const monday = monday_date.getDate();
+      const month = monday_date.getMonth();
+      const year = monday_date.getFullYear();
       const styleRules = [];
 
       const grid = (() => {
@@ -119,7 +121,22 @@ export default async (article_main_json, language, viewName) => {
               ${jsonTable["jsonWeekdayAbbrevations"][language][dayOffset]}
               <span>${dayNum}</span>
             </div>
-            <div class="col-inner">
+            <div
+              class="col-inner"
+              data-fn="${inlineStringify({
+                name: `msgToSw`,
+                params: {
+                  name: `sendResourceForRender`,
+                  params: {
+                    viewName: `calendar_day`,
+                    components: [`article main`, `article header h1`],
+                    customParams: {
+                      anchor_date: `${year}-${month + 1}-${dayNum}`,
+                    },
+                  },
+                },
+              })}"
+            >
               ${(() => {
                 const rawEvents = event_list[dayNum];
                 if (!rawEvents) return "";
@@ -278,7 +295,19 @@ export default async (article_main_json, language, viewName) => {
               const dayNum = cell.d;
               const events = event_list[dayNum] ?? "";
               out += `<div class="cell ${cell.type}" ${
-                cell.type === "curr" ? `data-fn=""` : ""
+                cell.type === "curr"
+                  ? `data-fn="${inlineStringify({
+                      name: "msgToSw",
+                      params: {
+                        name: "sendResourceForRender",
+                        params: {
+                          viewName: "calendar_day",
+                          components: ["article main", "article header h1"],
+                          customParams: { anchor_date: cell.date },
+                        },
+                      },
+                    })}"`
+                  : ""
               }>${dayNum}${(() => {
                 let inner = ``;
                 if (Array.isArray(events)) {

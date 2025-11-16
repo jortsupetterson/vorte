@@ -22,6 +22,11 @@ export default css`
     justify-content: center;
     background: var(--accentGhostColor);
     border-radius: 0.4rem;
+    border: solid 1px transparent;
+  }
+
+  article#calendar_week .col-inner:hover {
+    border-color: var(--contentColor);
   }
 
   article#calendar_week .col-inner div {

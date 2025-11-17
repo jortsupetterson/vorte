@@ -134,7 +134,7 @@ export default async (article_main_json, language, viewName) => {
         ${structDatePicker(
           "days",
           "calendar_day",
-          html` <button id="toggler" data-fn="${inlineStringify({})}">
+          html` <button id="toggler" is="date-wheel">
             ${jsonTable["jsonWeekdays"][anchor_date.getDay()][language]}
             ${anchor_date.toLocaleDateString("fi-FI")}
           </button>`
@@ -298,7 +298,7 @@ export default async (article_main_json, language, viewName) => {
         ${structDatePicker(
           "weeks",
           "calendar_week",
-          html`<button data-fn="${inlineStringify({})}">
+          html`<button id="toggler" is="date-wheel">
             ${{ fi: "viikko", sv: "vecka", en: "week" }[language]}
             ${getWeekNumber(anchor_date)}
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
@@ -394,7 +394,7 @@ export default async (article_main_json, language, viewName) => {
       return html` ${structDatePicker(
           "months",
           "calendar_month",
-          html` <button id="toggler" data-fn="${inlineStringify({})}">
+          html` <button id="toggler" is="date-wheel">
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
             ${anchor_date.getFullYear()}
           </button>`

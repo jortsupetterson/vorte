@@ -95,4 +95,23 @@ export default css`
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
   }
+
+  .scroll {
+    overflow-y: auto;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #666 transparent; /* Firefox */
+  }
+
+  .scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scroll::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 3px;
+  }
+
+  .scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
 `;

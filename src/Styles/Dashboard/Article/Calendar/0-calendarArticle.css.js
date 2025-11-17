@@ -4,18 +4,22 @@ export default css`
     justify-content: flex-start;
     flex-wrap: nowrap;
   }
-  article[id^="calendar"] div#datePicker {
+  article[id^="calendar"] #datePicker {
     display: flex;
     justify-content: center;
     gap: 1rem;
     align-items: flex-end;
   }
-  article[id^="calendar"] div#datePicker button {
+  article[id^="calendar"] #datePicker button {
+    position: relative;
     background: var(--contentGhostColor);
     border-radius: 0.2rem;
     padding: 0.5rem 1rem;
   }
-  article[id^="calendar"] div#datePicker button svg {
+  article[id^="calendar"] #datePicker #toggler {
+    width: clamp(5rem, 180px, 95vw);
+  }
+  article[id^="calendar"] #datePicker button svg {
     fill: rgb(from var(--contentColor) r g b / 0.4);
     height: 1rem;
   }

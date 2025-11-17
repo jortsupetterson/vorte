@@ -111,3 +111,5 @@ import { ColorInput } from "./customElements/ColorInput";
 customElements.define("color-input", ColorInput, { extends: "input" });
 import { CalendarEventForm } from "./customElements/CalendarEventForm";
 customElements.define("calendar-event-form", CalendarEventForm);
+import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel";
+customElements.define(DATE_WHEEL, DateWheel, { extends: "button" });

@@ -6,14 +6,10 @@ export const functions = {
         return msg;
       })()
     ),
+  setLocation: ({ location }) => (window.location.href = location),
   toggleNav: () => {
     const result = navEl.classList.toggle("open");
     cookieStore.set({ name: "navStatus", value: result, expires: NOWplusYEAR });
-  },
-  setLocation: ({ location }) => (window.location.href = location),
-  toggleCalendarEventForm: () => {
-    let form = articleMain.querySelector("calendar-event-form");
-    form ? form.remove() : articleMain.appendChild(new CalendarEventForm());
   },
   toggleDateWheel: async () => {
     let wheel = articleMain.querySelector("date-wheel");
@@ -25,6 +21,10 @@ export const functions = {
             (await getAnchorDate()).getMonth()
           )
         );
+  },
+  toggleCalendarEventForm: () => {
+    let form = articleMain.querySelector("calendar-event-form");
+    form ? form.remove() : articleMain.appendChild(new CalendarEventForm());
   },
 };
 
@@ -84,10 +84,10 @@ document.onpointerup = async (event) => {
 let startX;
 document.ontouchstart = (event) => (startX = event.touches[0].clientX);
 document.ontouchend = (event) => {
+  let open = navEl.classList.contains("open");
   const difference = event.changedTouches[0].clientX - startX;
-  if (difference > 100) functions.toggleNav();
-  else if (difference < -100 && navEl.classList.contains("open"))
-    functions.toggleNav();
+  if (!open && difference > 100) functions.toggleNav();
+  else if (open && difference < -100) functions.toggleNav();
 };
 
 //keyboard clicks
@@ -115,6 +115,7 @@ if (document.readyState === "loading")
 else cacheElements();
 
 import { NOWplusYEAR } from "../Shared/CONFIG";
+import getAnchorDate from "../Shared/Utilities/getAnchorDate.js";
 import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
 renderRecievedResource;
 
@@ -123,5 +124,4 @@ customElements.define("color-input", ColorInput, { extends: "input" });
 import { CalendarEventForm } from "./customElements/CalendarEventForm";
 customElements.define("calendar-event-form", CalendarEventForm);
 import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel/Class.js";
-import getAnchorDate from "../Shared/Utilities/getAnchorDate.js";
 customElements.define(DATE_WHEEL, DateWheel);

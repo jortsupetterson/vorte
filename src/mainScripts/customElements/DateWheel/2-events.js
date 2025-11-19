@@ -31,6 +31,18 @@ export default (wheel_container, wheel_items) => {
       touchStart = currentY;
     }
   };
+
+  wheel_container.onpointerenter = () => wheel_container.focus();
+  wheel_container.onkeydown = (ev) => {
+    if (ev.key === "ArrowDown") {
+      ev.preventDefault();
+      throttledRoll("down", wheel_container, wheel_items);
+    }
+    if (ev.key === "ArrowUp") {
+      ev.preventDefault();
+      throttledRoll("up", wheel_container, wheel_items);
+    }
+  };
 };
 
 import throttledRoll from "./functions/throttledRoll";

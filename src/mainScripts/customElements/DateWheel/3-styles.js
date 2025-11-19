@@ -96,4 +96,4 @@ export default style(
   `
 );
 import style from "../../createHTML/style";
-import { DATE_WHEEL } from "./class";
+import { DATE_WHEEL } from "./Class.js";

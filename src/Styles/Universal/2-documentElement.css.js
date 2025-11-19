@@ -16,6 +16,9 @@ export default css`
     user-select: none;
     touch-action: manipulation;
   }
+  *:focus {
+    outline: none;
+  }
   [data-fn] {
     pointer-events: all;
     width: max-content;

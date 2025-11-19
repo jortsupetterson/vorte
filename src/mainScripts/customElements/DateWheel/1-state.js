@@ -1,11 +1,12 @@
 /** @type {1|2} */
-let shared_mode = 2;
+let shared_mode = localStorage.getItem("DateWheel.shared_mode") ?? 2;
 
 //elementNodes
 const mode_switch = document.createElement("button");
 const wheel_container = document.createElement("div");
 mode_switch.id = "mode_switch";
 wheel_container.id = "wheel";
+wheel_container.tabIndex = 0;
 
 /** @type {HTMLSpanElement[]} */
 let wheel_items;

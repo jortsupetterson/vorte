@@ -16,7 +16,6 @@ export default style(
       flex-direction: column;
       justify-content: space-evenly;
       align-items: center;
-      pointer-events: all;
     }
 
     date-wheel #mode_switch {
@@ -29,6 +28,7 @@ export default style(
     }
 
     date-wheel #wheel_container {
+      pointer-events: all;
       height: clamp(60%, 60%, 60%);
       width: 80%;
       position: relative;
@@ -56,7 +56,6 @@ export default style(
       top: 0;
       left: 0;
       width: 100%;
-      pointer-events: all;
       display: flex;
       justify-content: center;
       align-items: center;

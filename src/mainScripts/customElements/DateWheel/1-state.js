@@ -2,9 +2,9 @@
 const mode = localStorage.getItem("DateWheel.wheel_mode") ?? "month";
 
 const anchor_date = await getAnchorDate();
-const year = anchor_date.getUTCFullYear();
-const month = anchor_date.getUTCMonth();
-const date = anchor_date.getUTCDate();
+const year = anchor_date.getFullYear();
+const month = anchor_date.getMonth();
+const date = anchor_date.getDate();
 
 export const wheel_state = { mode, year, month, date };
 
@@ -41,7 +41,7 @@ export default async (returnVoid = true) => {
       item.textContent = jsonTable["jsonMonths"][monthIndex][DOC.lang];
 
       const itemDate = new Date(year, monthIndex, date);
-      item.dataset.anchor_date = itemDate.toISOString().slice(0, 10);
+      item.dataset.anchor_date = itemDate.toISOString();
 
       monthIndex++;
     }
@@ -55,7 +55,7 @@ export default async (returnVoid = true) => {
       item.textContent = String(yearIndex);
 
       const itemDate = new Date(yearIndex, month, date);
-      item.dataset.anchor_date = itemDate.toISOString().slice(0, 10);
+      item.dataset.anchor_date = itemDate.toISOString();
 
       yearIndex++;
     }
@@ -64,30 +64,7 @@ export default async (returnVoid = true) => {
   //Must append last for roll logic to work and only once also
   if (!returnVoid) {
     const indicator = document.createElement("span");
-    indicator.onpointerup = () => {
-      let anchor_date = new Date(
-        wheel_state.year,
-        wheel_state.month,
-        wheel_state.date
-      )
-        .toISOString()
-        .slice(0, 10);
-      functions.msgToSw({
-        name: "sendResourceForRender",
-        params: {
-          viewName: "calendar_month",
-          components: ["article main"],
-          customParams: {
-            anchor_date,
-          },
-        },
-      });
-      cookieStore.set({
-        name: "anchorDate",
-        value: anchor_date,
-        expires: NOWplusYEAR,
-      });
-    };
+    onSafeClick(indicator, selectDate);
     indicator.id = "indicator";
     wheel_container.appendChild(indicator);
 
@@ -99,5 +76,5 @@ export default async (returnVoid = true) => {
 import jsonTable from "../../../Shared/markup/jsonTable";
 import getAnchorDate from "../../../Shared/Utilities/getAnchorDate";
 import { DOC } from "../../../Shared/SAVINGS";
-import { functions } from "../../script";
-import { NOWplusYEAR } from "../../../Shared/CONFIG";
+import selectDate from "./functions/selectDate";
+import onSafeClick from "../../../Shared/Utilities/onSafeClick";

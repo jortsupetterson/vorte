@@ -10,21 +10,21 @@ export default (wheel_mode, wheel_container, wheel_items) => {
 
   const first = wheel_items[0];
   const anchor_date = new Date(first.dataset.anchor_date);
-  const year = anchor_date.getUTCFullYear();
-  const month = anchor_date.getUTCMonth();
-  const date = anchor_date.getUTCDate();
+  const year = anchor_date.getFullYear();
+  const month = anchor_date.getMonth();
+  const date = anchor_date.getDate();
 
   if (wheel_mode === "month") {
     const prevMonthNum = (month + 11) % 12;
     const prevDate = new Date(year, prevMonthNum, date);
-    item.dataset.anchor_date = prevDate.toISOString().slice(0, 10);
+    item.dataset.anchor_date = prevDate.toISOString();
     item.textContent = jsonTable["jsonMonths"][prevMonthNum][DOC.lang];
   }
 
   if (wheel_mode === "year") {
     const prevYearNum = year - 1;
     const prevDate = new Date(prevYearNum, month, date);
-    item.dataset.anchor_date = prevDate.toISOString().slice(0, 10);
+    item.dataset.anchor_date = prevDate.toISOString();
     item.textContent = String(prevYearNum);
   }
 

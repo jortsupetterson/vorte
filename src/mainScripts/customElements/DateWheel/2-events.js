@@ -56,7 +56,6 @@ export default (mode_switch, wheel_container, wheel_items) => {
     }
     if (ev.key === "Alt") {
       ev.preventDefault();
-
       wheel_state.mode = wheel_state.mode === "month" ? "year" : "month";
       updateState(true);
       localStorage.setItem("DateWheel.wheel_mode", wheel_state.mode);

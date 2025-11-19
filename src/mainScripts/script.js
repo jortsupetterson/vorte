@@ -51,16 +51,7 @@ export const functions = {
 };
 
 //universal clicks
-let downX = 0;
-let downY = 0;
-document.onpointerdown = (event) => {
-  downX = event.clientX;
-  downY = event.clientY;
-};
-document.onpointerup = async (event) => {
-  const move = Math.hypot(event.clientX - downX, event.clientY - downY);
-  if (move > 10) return;
-
+onSafeClick(document, async (event) => {
   const dataStr = event.target.dataset.fn;
   if (!dataStr) return;
   const { name, params } = JSON.parse(dataStr);
@@ -100,7 +91,7 @@ document.onpointerup = async (event) => {
       expires: NOWplusYEAR,
     });
   }
-};
+});
 
 //mobile swipes
 let startX;
@@ -137,6 +128,7 @@ if (document.readyState === "loading")
 else cacheElements();
 
 import { NOWplusYEAR } from "../Shared/CONFIG";
+import onSafeClick from "../Shared/Utilities/onSafeClick.js";
 import getAnchorDate from "../Shared/Utilities/getAnchorDate.js";
 import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
 renderRecievedResource;

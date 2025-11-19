@@ -21,9 +21,9 @@ export default (roll_direction, wheel_mode, wheel_container, wheel_items) => {
     wheel_container.querySelector("span:nth-child(4)").dataset.anchor_date
   );
 
-  wheel_state.year = anchor_date.getUTCFullYear();
-  wheel_state.month = anchor_date.getUTCMonth();
-  wheel_state.date = anchor_date.getUTCDate();
+  wheel_state.year = anchor_date.getFullYear();
+  wheel_state.month = anchor_date.getMonth();
+  wheel_state.date = anchor_date.getDate();
 };
 
 import rollWheelDown from "./rollWheelDown";

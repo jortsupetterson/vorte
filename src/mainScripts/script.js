@@ -33,6 +33,7 @@ export const functions = {
       if (activeOverlayElement) activeOverlayElement.remove();
       articleMain.appendChild(overlayElement);
       activeOverlayElement = overlayElement;
+      overlayElement.querySelector("#wheel_container").focus();
     }
   },
   toggleCalendarEventForm: () => {

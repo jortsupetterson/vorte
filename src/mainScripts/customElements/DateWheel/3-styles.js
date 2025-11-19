@@ -22,6 +22,10 @@ export default style(
     date-wheel #mode_switch {
       font-size: small;
       padding: 0.2rem 0.4rem;
+      border-radius: 0.2rem;
+      pointer-events: all;
+      cursor: pointer;
+      background: var(--contentGhostColor);
     }
 
     date-wheel #wheel_container {
@@ -82,8 +86,6 @@ export default style(
 
     date-wheel #wheel_container span:nth-child(4) {
       opacity: 1;
-      pointer-events: all;
-      cursor: pointer;
     }
 
     date-wheel #wheel_container #indicator {
@@ -95,6 +97,8 @@ export default style(
       height: 15%;
       width: 80%;
       z-index: -1;
+      pointer-events: all;
+      cursor: pointer;
     }
   `
 );

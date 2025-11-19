@@ -391,12 +391,16 @@ export default async (article_main_json, language, viewName) => {
         return out;
       })();
       const styles = styleRules.join("");
+      const year = anchor_date.getFullYear();
+      const month = anchor_date.getMonth();
       return html` ${structDatePicker(
           "months",
           "calendar_month",
-          html` <button id="toggler" is="date-wheel">
-            ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
-            ${anchor_date.getFullYear()}
+          html` <button
+            id="toggler"
+            data-fn="${inlineStringify({ name: `toggleDateWheel` })}"
+          >
+            ${jsonTable["jsonMonths"][month][language]} ${year}
           </button>`
         )}
         <div id="calendarDisplay">

@@ -78,7 +78,7 @@ const buildDocumentResponse = async (ctx) => {
               contrastAmount,
             })}
           </style>
-          <script nonce="${nonce}">
+          <script type="module" nonce="${nonce}">
             ${mainScripts};
           </script>
         </head>

@@ -16,7 +16,6 @@ export default css`
     user-select: none;
     touch-action: manipulation;
   }
-  [is],
   [data-fn] {
     pointer-events: all;
     width: max-content;

@@ -15,6 +15,10 @@ export const functions = {
     let form = articleMain.querySelector("calendar-event-form");
     form ? form.remove() : articleMain.appendChild(new CalendarEventForm());
   },
+  toggleDateWheel: () => {
+    let wheel = articleMain.querySelector("date-wheel");
+    wheel ? wheel.remove() : articleMain.appendChild(new DateWheel());
+  },
 };
 
 //universal clicks
@@ -111,5 +115,5 @@ import { ColorInput } from "./customElements/ColorInput";
 customElements.define("color-input", ColorInput, { extends: "input" });
 import { CalendarEventForm } from "./customElements/CalendarEventForm";
 customElements.define("calendar-event-form", CalendarEventForm);
-import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel";
-customElements.define(DATE_WHEEL, DateWheel, { extends: "button" });
+import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel/Class.js";
+customElements.define(DATE_WHEEL, DateWheel);

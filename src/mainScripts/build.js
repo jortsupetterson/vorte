@@ -6,6 +6,7 @@ await build({
   minify: true,
   bundle: true,
   treeShaking: true,
+  format: "esm",
   plugins: [contentMinifierPlugin()],
   define: {
     css: "String.raw",

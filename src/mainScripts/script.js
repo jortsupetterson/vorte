@@ -85,8 +85,8 @@ let startX;
 document.ontouchstart = (event) => (startX = event.touches[0].clientX);
 document.ontouchend = (event) => {
   const difference = event.changedTouches[0].clientX - startX;
-  if (difference > 50) functions.toggleNav();
-  else if (difference < -50 && navEl.classList.contains("open"))
+  if (difference > 100) functions.toggleNav();
+  else if (difference < -100 && navEl.classList.contains("open"))
     functions.toggleNav();
 };
 

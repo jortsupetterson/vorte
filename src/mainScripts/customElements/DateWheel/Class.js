@@ -1,7 +1,4 @@
 export const DATE_WHEEL = "date-wheel";
-import sharedState from "./sharedState";
-let { sharedMode, sharedOpen, dropdown, mode_switch } = await sharedState;
-
 export class DateWheel extends HTMLElement {
   constructor() {
     super();
@@ -47,7 +44,13 @@ export class DateWheel extends HTMLElement {
   }
 }
 
-import { __policy } from "../../__policy";
+import state from "./1-state";
+let { sharedMode, sharedOpen, dropdown, mode_switch } = await sharedState;
 
-import styleCss from "./style.css";
-styleCss;
+import events from "./2-events";
+events(wheel);
+
+import styles from "./3-styles";
+styles;
+
+import { __policy } from "../../__policy";

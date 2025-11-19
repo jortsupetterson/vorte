@@ -3,7 +3,7 @@
  * @param {HTMLSpanElement[]} wheel_items
  */
 
-export default (wheel_container, wheel_items) => {
+export default (shared_mode, wheel_container, wheel_items) => {
   const item = wheel_items.pop();
   item.remove();
 

@@ -36,7 +36,7 @@ let { shared_mode, mode_switch, wheel_container, wheel_items } =
   await sharedState();
 
 import events from "./2-events";
-queueMicrotask(() => events(wheel_container, wheel_items));
+queueMicrotask(() => events(shared_mode, wheel_container, wheel_items));
 
 import styles from "./3-styles";
 styles;

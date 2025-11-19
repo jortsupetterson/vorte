@@ -1,9 +1,10 @@
 /**
+ * @param {1|2} shared_mode
  * @param {HTMLDivElement} wheel_container
  * @param {HTMLSpanElement[]} wheel_items
  * @returns {void} Attaches events to the DateWheel component
  */
-export default (wheel_container, wheel_items) => {
+export default (shared_mode, wheel_container, wheel_items) => {
   // MOUSE_WHEEL
   wheel_container.onwheel = (ev) => {
     ev.preventDefault();
@@ -36,11 +37,11 @@ export default (wheel_container, wheel_items) => {
   wheel_container.onkeydown = (ev) => {
     if (ev.key === "ArrowDown") {
       ev.preventDefault();
-      throttledRoll("down", wheel_container, wheel_items);
+      throttledRoll("down", shared_mode, wheel_container, wheel_items);
     }
     if (ev.key === "ArrowUp") {
       ev.preventDefault();
-      throttledRoll("up", wheel_container, wheel_items);
+      throttledRoll("up", shared_mode, wheel_container, wheel_items);
     }
   };
 };

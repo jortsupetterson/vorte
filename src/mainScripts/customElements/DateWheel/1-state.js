@@ -16,20 +16,19 @@ export default async () => {
 
   const anchor_date = await getAnchorDate();
 
-  let monthIndex = anchor_date.getMonth() - 3;
-  monthIndex = monthIndex < 0 ? 11 + monthIndex : monthIndex;
-
-  for (let i = 0; i < wheel_items.length; i++) {
-    const item = document.createElement("span");
-    monthIndex = monthIndex > 11 ? 0 : monthIndex;
-    item.textContent = jsonTable["jsonMonths"][monthIndex][DOC.lang];
-    item.dataset.year = String(anchor_date.getFullYear());
-    item.dataset.monthNum = String(monthIndex);
-    wheel_items[i] = item;
-    wheel_container.appendChild(item);
-    monthIndex++;
+  if (shared_mode === 2) {
+    let monthIndex = anchor_date.getMonth() - 3;
+    monthIndex = monthIndex < 0 ? 11 + monthIndex : monthIndex;
+    for (let i = 0; i < wheel_items.length; i++) {
+      const item = document.createElement("span");
+      monthIndex = monthIndex > 11 ? 0 : monthIndex;
+      item.textContent = jsonTable["jsonMonths"][monthIndex][DOC.lang];
+      item.dataset.anchor_date = anchor_date.toISOString().slice(0, 10);
+      wheel_items[i] = item;
+      wheel_container.appendChild(item);
+      monthIndex++;
+    }
   }
-
   //Must append last for roll logic to work
   const indicator = document.createElement("span");
   indicator.id = "indicator";

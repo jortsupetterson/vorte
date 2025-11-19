@@ -17,9 +17,9 @@ export default (roll_direction, wheel_mode, wheel_container, wheel_items) => {
     rollWheelDown(wheel_mode, wheel_container, wheel_items);
   else rollWheelUp(wheel_mode, wheel_container, wheel_items);
 
-  const anchor_date = new Date(
-    wheel_container.querySelector("span:nth-child(4)").dataset.anchor_date
-  );
+  const span = wheel_items[3];
+
+  const anchor_date = new Date(span.dataset.anchor_date);
 
   wheel_state.year = anchor_date.getFullYear();
   wheel_state.month = anchor_date.getMonth();

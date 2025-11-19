@@ -1,4 +1,4 @@
-export default () => {
+export default async () => {
   let anchor_date = new Date(
     wheel_state.year,
     wheel_state.month,
@@ -16,7 +16,7 @@ export default () => {
       },
     },
   });
-  cookieStore.set({
+  await cookieStore.set({
     name: "anchorDate",
     value: anchor_date,
     expires: NOWplusYEAR,

@@ -78,4 +78,4 @@ Even as we minimize the need for user interaction, we never compromise on the **
 Join our Discord server to discuss how you can contribute:  
 [https://discord.gg/5HXEHJKK](https://discord.gg/5HXEHJKK)
 
-Check the `docs` dir for additional instructions
+Check the [`docs`](./docs/) dir for additional information on coding principles, requirements, and domain specific concepts.

@@ -1,8 +1,7 @@
 export default style(
   DATE_WHEEL,
   css`
-    date-wheel,
-    date-wheel #dropdown {
+    date-wheel {
       position: absolute;
       z-index: 1;
       bottom: -0.2rem;
@@ -20,12 +19,12 @@ export default style(
       pointer-events: all;
     }
 
-    date-wheel #dropdown #mode_switch {
+    date-wheel #mode_switch {
       font-size: small;
       padding: 0.2rem 0.4rem;
     }
 
-    date-wheel #dropdown #wheel {
+    date-wheel #wheel {
       height: clamp(60%, 60%, 60%);
       width: 80%;
       position: relative;
@@ -46,7 +45,7 @@ export default style(
         transparent 100%
       );
     }
-    date-wheel #dropdown #wheel > span {
+    date-wheel #wheel > span {
       height: 20%;
       transition: transform 0.3s ease, opacity 0.3s ease;
       position: absolute;
@@ -75,16 +74,16 @@ export default style(
         const translate = baseTranslate + offset;
         const rotate = (index - 4) * 22.5;
 
-        css += `date-wheel #dropdown #wheel span:nth-child(${index}){transform: translateY(${translate}%) scale(${scale}) rotateX(${rotate}deg);} `;
+        css += `date-wheel #wheel span:nth-child(${index}){transform: translateY(${translate}%) scale(${scale}) rotateX(${rotate}deg);} `;
       }
       return css;
     })()}
 
-    date-wheel #dropdown #wheel span:nth-child(4) {
+    date-wheel #wheel span:nth-child(4) {
       opacity: 1;
     }
 
-    date-wheel #dropdown #wheel #indicator {
+    date-wheel #wheel #indicator {
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);

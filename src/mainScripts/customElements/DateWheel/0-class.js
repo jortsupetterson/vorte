@@ -2,37 +2,24 @@ export const DATE_WHEEL = "date-wheel";
 export class DateWheel extends HTMLElement {
   constructor() {
     super();
-
-    if (sharedOpen) {
-      this.appendChild(dropdown);
-    }
-    this.mode_switch = mode_switch;
-
-    this.appendChild(dropdown);
+    this.appendChild(mode_switch);
+    this.appendChild(wheel_container);
 
     this.mode_switch.onpointerdown = (event) => {
       event.stopPropagation();
       this.mode = this.mode === 2 ? 1 : 2;
     };
 
-    this.mode = sharedMode;
+    this.mode = shared_mode;
   }
 
   get mode() {
-    return sharedMode;
+    return shared_mode;
   }
 
   set mode(newMode) {
-    sharedMode = newMode;
+    shared_mode = newMode;
     this.mode_switch.textContent = newMode === 1 ? this.year : this.month;
-  }
-
-  get open() {
-    return sharedOpen;
-  }
-
-  set open(value) {
-    sharedOpen = !!value;
   }
 
   connectedCallback() {
@@ -44,11 +31,12 @@ export class DateWheel extends HTMLElement {
   }
 }
 
-import state from "./1-state";
-let { sharedMode, sharedOpen, dropdown, mode_switch } = await sharedState;
+import sharedState from "./1-sharedState";
+let { shared_mode, mode_switch, wheel_container, wheel_items } =
+  await sharedState();
 
 import events from "./2-events";
-events(wheel);
+queueMicrotask(() => events(wheel_container, wheel_items));
 
 import styles from "./3-styles";
 styles;

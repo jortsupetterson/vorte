@@ -1,4 +1,12 @@
+let activeOverlayElement = null;
+
 export const functions = {
+  /**
+   * @param {object} msg
+   * @param {string} msg.name Specifies which function to run on the ServiceWorker
+   * @param {{ isDemo?: boolean } | object} [msg.params] Optional params forwarded to the function
+   * @returns {void} Sends a message to the ServiceWorker to invoke an async remote procedure call
+   */
   msgToSw: (msg) =>
     navigator.serviceWorker.controller.postMessage(
       (() => {
@@ -13,18 +21,31 @@ export const functions = {
   },
   toggleDateWheel: async () => {
     let wheel = articleMain.querySelector("date-wheel");
-    wheel
-      ? wheel.remove()
-      : articleMain.appendChild(
-          new DateWheel(
-            (await getAnchorDate()).getFullYear(),
-            (await getAnchorDate()).getMonth()
-          )
-        );
+    if (wheel) {
+      wheel.remove();
+      if (activeOverlayElement) activeOverlayElement = null;
+    } else {
+      let anchor_date = await getAnchorDate();
+      let overlayElement = new DateWheel(
+        anchor_date.getFullYear(),
+        anchor_date.getMonth()
+      );
+      if (activeOverlayElement) activeOverlayElement.remove();
+      articleMain.appendChild(overlayElement);
+      activeOverlayElement = overlayElement;
+    }
   },
   toggleCalendarEventForm: () => {
     let form = articleMain.querySelector("calendar-event-form");
-    form ? form.remove() : articleMain.appendChild(new CalendarEventForm());
+    if (form) {
+      form.remove();
+      if (activeOverlayElement) activeOverlayElement = null;
+    } else {
+      let overlayElement = new CalendarEventForm();
+      if (activeOverlayElement) activeOverlayElement.remove();
+      articleMain.appendChild(overlayElement);
+      activeOverlayElement = overlayElement;
+    }
   },
 };
 

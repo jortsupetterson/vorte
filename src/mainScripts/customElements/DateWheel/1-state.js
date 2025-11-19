@@ -5,7 +5,7 @@ let shared_mode = localStorage.getItem("DateWheel.shared_mode") ?? 2;
 const mode_switch = document.createElement("button");
 const wheel_container = document.createElement("div");
 mode_switch.id = "mode_switch";
-wheel_container.id = "wheel";
+wheel_container.id = "wheel_container";
 wheel_container.tabIndex = 0;
 
 /** @type {HTMLSpanElement[]} */
@@ -23,6 +23,7 @@ export default async () => {
     const item = document.createElement("span");
     monthIndex = monthIndex > 11 ? 0 : monthIndex;
     item.textContent = jsonTable["jsonMonths"][monthIndex][DOC.lang];
+    item.dataset.year = String(anchor_date.getFullYear());
     item.dataset.monthNum = String(monthIndex);
     wheel_items[i] = item;
     wheel_container.appendChild(item);

@@ -24,7 +24,7 @@ export default style(
       padding: 0.2rem 0.4rem;
     }
 
-    date-wheel #wheel {
+    date-wheel #wheel_container {
       height: clamp(60%, 60%, 60%);
       width: 80%;
       position: relative;
@@ -45,7 +45,7 @@ export default style(
         transparent 100%
       );
     }
-    date-wheel #wheel > span {
+    date-wheel #wheel_container > span {
       height: 20%;
       transition: transform 0.3s ease, opacity 0.3s ease;
       position: absolute;
@@ -57,6 +57,7 @@ export default style(
       justify-content: center;
       align-items: center;
       opacity: 0.75;
+      pointer-events: none;
     }
 
     ${(() => {
@@ -74,16 +75,18 @@ export default style(
         const translate = baseTranslate + offset;
         const rotate = (index - 4) * 22.5;
 
-        css += `date-wheel #wheel span:nth-child(${index}){transform: translateY(${translate}%) scale(${scale}) rotateX(${rotate}deg);} `;
+        css += `date-wheel #wheel_container span:nth-child(${index}){transform: translateY(${translate}%) scale(${scale}) rotateX(${rotate}deg);} `;
       }
       return css;
     })()}
 
-    date-wheel #wheel span:nth-child(4) {
+    date-wheel #wheel_container span:nth-child(4) {
       opacity: 1;
+      pointer-events: all;
+      cursor: pointer;
     }
 
-    date-wheel #wheel #indicator {
+    date-wheel #wheel_container #indicator {
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);

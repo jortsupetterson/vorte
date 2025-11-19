@@ -4,9 +4,9 @@ export default style(
     date-wheel {
       position: absolute;
       z-index: 1;
-      bottom: -0.2rem;
+      top: 50%;
       left: 50%;
-      transform: translate(-50%, 100%);
+      transform: translate(-50%, -50%);
       background: var(--overlayColor);
       width: clamp(10rem, 200px, 95vw);
       aspect-ratio: 3/3.5;
@@ -96,3 +96,4 @@ export default style(
   `
 );
 import style from "../../createHTML/style";
+import { DATE_WHEEL } from "./class";

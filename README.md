@@ -18,7 +18,7 @@ At **Vorte**, our mission is to empower Finnish entrepreneurs with **technically
 
 Even as we minimize the need for user interaction, we never compromise on the **interface** itself. It must remain **beautiful**, **responsive**, **emotionally resonant**, and **clear** — a space that breathes and focuses attention on what truly matters.
 
-## IMPORTANT ABSOLUTES
+**IMPORTANT ABSOLUTES**
 
 1. **The `alternativeScripts` directory**
 
@@ -56,7 +56,7 @@ Even as we minimize the need for user interaction, we never compromise on the **
    - Contains the source code for the offline application with a request/response structure similar to a server.
    - Renders the initial view, manages user-generated content and credential caches, and maintains the zero-knowledge layer.
 
-### SCRIPTS
+## SCRIPTS
 
 - Build scripts are generally stored directly in the source directory of the specific runtime.  
   Plugin, optimization, and other utility scripts can be found in the `scripts` directory.
@@ -69,11 +69,11 @@ Even as we minimize the need for user interaction, we never compromise on the **
 
 - Additional aliases for scripts are available. Check `package.json` for details.
 
-#### SHARED
+### SHARED
 
 - The `shared` directory holds JavaScript variables required across the codebase in a config-like manner to avoid searching for distributed variables that critically affect software behavior.
 
-##### CONTRIBUTION
+#### CONTRIBUTION
 
 Join our Discord server to discuss how you can contribute:  
 [https://discord.gg/5HXEHJKK](https://discord.gg/5HXEHJKK)

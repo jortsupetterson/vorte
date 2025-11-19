@@ -1,12 +1,20 @@
 export const DATE_WHEEL = "date-wheel";
 export class DateWheel extends HTMLElement {
-  constructor() {
+  /**
+   * @param {number} year
+   * @param {number} month 0-11
+   */
+  constructor(year, month) {
     super();
     this.appendChild(mode_switch);
     this.appendChild(wheel_container);
 
-    this.mode_switch.onpointerdown = (event) => {
-      event.stopPropagation();
+    this.dataset.year = year;
+    this.dataset.month = month;
+
+    /** @param {PointerEvent} ev */
+    mode_switch.onpointerdown = (ev) => {
+      ev.stopPropagation();
       this.mode = this.mode === 2 ? 1 : 2;
     };
 
@@ -19,19 +27,11 @@ export class DateWheel extends HTMLElement {
 
   set mode(newMode) {
     shared_mode = newMode;
-    this.mode_switch.textContent = newMode === 1 ? this.year : this.month;
-  }
-
-  connectedCallback() {
-    const year = this.dataset.year;
-    const month = this.dataset.month;
-    this.year = year;
-    this.month = month;
-    this.mode_switch.textContent = this.mode === 2 ? this.year : this.month;
+    mode_switch.textContent = newMode === 1 ? "2025" : "6";
   }
 }
 
-import sharedState from "./1-sharedState";
+import sharedState from "./1-state";
 let { shared_mode, mode_switch, wheel_container, wheel_items } =
   await sharedState();
 

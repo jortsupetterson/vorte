@@ -17,3 +17,6 @@ export default (wheel_container, wheel_items) => {
   wheel_container.insertBefore(item, wheel_items[0]);
   wheel_items.unshift(item);
 };
+
+import jsonTable from "../../../../Shared/markup/jsonTable";
+import { DOC } from "../../../../Shared/SAVINGS";

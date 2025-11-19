@@ -15,9 +15,16 @@ export const functions = {
     let form = articleMain.querySelector("calendar-event-form");
     form ? form.remove() : articleMain.appendChild(new CalendarEventForm());
   },
-  toggleDateWheel: () => {
+  toggleDateWheel: async () => {
     let wheel = articleMain.querySelector("date-wheel");
-    wheel ? wheel.remove() : articleMain.appendChild(new DateWheel());
+    wheel
+      ? wheel.remove()
+      : articleMain.appendChild(
+          new DateWheel(
+            (await getAnchorDate()).getFullYear(),
+            (await getAnchorDate()).getMonth()
+          )
+        );
   },
 };
 
@@ -116,4 +123,5 @@ customElements.define("color-input", ColorInput, { extends: "input" });
 import { CalendarEventForm } from "./customElements/CalendarEventForm";
 customElements.define("calendar-event-form", CalendarEventForm);
 import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel/Class.js";
+import getAnchorDate from "../Shared/Utilities/getAnchorDate.js";
 customElements.define(DATE_WHEEL, DateWheel);

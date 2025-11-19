@@ -1,4 +1,4 @@
-//stateKeepers
+/** @type {1|2} */
 let shared_mode = 2;
 
 //elementNodes
@@ -6,11 +6,6 @@ const mode_switch = document.createElement("button");
 const wheel_container = document.createElement("div");
 mode_switch.id = "mode_switch";
 wheel_container.id = "wheel";
-
-//other
-const indicator = document.createElement("span");
-indicator.id = "indicator";
-wheel_container.appendChild(indicator);
 
 /** @type {HTMLSpanElement[]} */
 let wheel_items;
@@ -29,9 +24,14 @@ export default async () => {
     item.textContent = jsonTable["jsonMonths"][monthIndex][DOC.lang];
     item.dataset.monthNum = String(monthIndex);
     wheel_items[i] = item;
-    wheel.appendChild(item);
+    wheel_container.appendChild(item);
     monthIndex++;
   }
+
+  //Must append last for roll logic to work
+  const indicator = document.createElement("span");
+  indicator.id = "indicator";
+  wheel_container.appendChild(indicator);
 
   return { shared_mode, mode_switch, wheel_container, wheel_items };
 };

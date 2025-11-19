@@ -32,3 +32,5 @@ export default (wheel_container, wheel_items) => {
     }
   };
 };
+
+import throttledRoll from "./functions/throttledRoll";

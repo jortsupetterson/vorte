@@ -1,6 +1,28 @@
+/// <reference path="../../Types/types.d.ts" />
+
+/**
+ * !====!
+ * !STOP!
+ * !====!
+ *
+ * Relax and close all methods of the `constructor` object.
+ * Chek the types defined on `param` and `returns` field on JSdoc.
+ * Once you have done that, make sure the view area you want to work on is indeed CSSSelector `article main` in the DOM.
+ * Open the method named after the feature/view where you want to make changes to `article main` or create a new method.
+ * If you dont get it trace function calls backward and forward, as well as check the DOM and see the result.
+ * You can also ask for a walktrough on Vorte discord.
+ */
+
+/**
+ * @param {object} article_main_json JSON with only the neccesary fields formated for the specific viewName of the specified CSSSelector from the BLOB
+ * @param {T.SupportedLanguage} language A language code used to look up content
+ * @param {T.SupportedViewName} viewName Specifies the scope of content that should be readied for render
+ * @returns {T.HTMLText} innerHTML of CSSSelector `article main` for specifed viewName
+ */
+
 export default async (article_main_json, language, viewName) => {
   const constructor = {
-    async home(article_main_json, language) {
+    async home() {
       const { widget_list } = article_main_json;
       let markup = ``;
       for (const item of widget_list) {
@@ -80,7 +102,7 @@ export default async (article_main_json, language, viewName) => {
       return markup;
     },
 
-    async calendar_day(article_main_json, language) {
+    async calendar_day() {
       const { anchor_date, event_list } = article_main_json;
       const nonce = await getNonce();
       const styleRules = [];
@@ -148,7 +170,7 @@ export default async (article_main_json, language, viewName) => {
       `;
     },
 
-    async calendar_week(article_main_json, language) {
+    async calendar_week() {
       const { anchor_date, monday_date, event_list } = article_main_json;
       const range = findWeeksTimeRange(event_list);
       const timelineStartMinutes =
@@ -318,7 +340,7 @@ export default async (article_main_json, language, viewName) => {
       `;
     },
 
-    async calendar_month(article_main_json, language) {
+    async calendar_month() {
       const nonce = await getNonce();
       const styleRules = [];
       const categoryHashes = new Set();
@@ -410,11 +432,16 @@ export default async (article_main_json, language, viewName) => {
           ${markup}
         </div>`;
     },
-    async calendar_config(article_main_json, language) {
-      return html``;
+    async calendar_config() {
+      return html`
+        <option-grid
+          data-options="${inlineStringify([`push- ilmoitus`, `sähköposti`])}"
+        >
+        </option-grid>
+      `;
     },
   }[viewName];
-  const innerHTML = await constructor(article_main_json, language);
+  const innerHTML = await constructor();
   return innerHTML;
 };
 

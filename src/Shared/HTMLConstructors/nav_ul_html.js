@@ -1,17 +1,31 @@
-import svgTable from "../markup/svgTable";
-import inlineStringify from "../Utilities/inlineStringify";
+/// <reference path="../../Types/types.d.ts" />
 
-const isActive = (articleId, itemId) => {
-  if (articleId.includes(itemId)) {
-    return `class="active"`;
-  }
-};
+/**
+ * !====!
+ * !STOP!
+ * !====!
+ *
+ * Relax and close all methods of the `constructor` object.
+ * Chek the types defined on `param` and `returns` field on JSdoc.
+ * Once you have done that, make sure the view area you want to work on is indeed CSSSelector `nav ul` in the DOM.
+ * Open the method named after the feature/view where you want to make changes to `nav ul` or create a new method.
+ * If you dont get it trace function calls backward and forward, as well as check the DOM and see the result.
+ * You can also ask for a walktrough on Vorte discord.
+ */
+
+/**
+ * @param {object} nav_ul_json JSON with only the neccesary fields formated for the specific viewName of the specified CSSSelector from the BLOB.
+ * @param {T.SupportedLanguage} language A language code used to look up content.
+ * @param {T.SupportedViewName} viewName Specifies the scope of content that should be readied for render.
+ * @param {boolean} isDemo A boolean based on wheter window.location.search has `?demo` flag or not.
+ * @returns {T.HTMLText} innerHTML of CSSSelector `nav ul` for specifed viewName.
+ */
 
 export default async (nav_ul_json, language, viewName, isDemo) => {
   const cookie = await cookieStore.get("articleId");
   const articleId = cookie?.value ?? "home";
   const constructor = {
-    home({ nav_ul_json, language, isDemo }) {
+    home() {
       const { my_vorte_apps, vortepreneur_organizations } = nav_ul_json;
       return html`
         <li>
@@ -192,10 +206,10 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
         </ul>
       `;
     },
-    settings({ nav_ul_json, language }) {
+    settings() {
       let mark;
     },
-    calendar({ nav_ul_json, language }) {
+    calendar() {
       const { open_on_start } = nav_ul_json;
       return html`
         <li>
@@ -279,7 +293,17 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
       `;
     },
   }[viewName];
-  const innerHTML = constructor({ nav_ul_json, language, isDemo });
+
+  /** @type {T.HTMLText} */
+  const innerHTML = constructor();
   return innerHTML;
 };
 import swr from "../Utilities/swr";
+import svgTable from "../markup/svgTable";
+import inlineStringify from "../Utilities/inlineStringify";
+
+const isActive = (articleId, itemId) => {
+  if (articleId.includes(itemId)) {
+    return `class="active"`;
+  }
+};

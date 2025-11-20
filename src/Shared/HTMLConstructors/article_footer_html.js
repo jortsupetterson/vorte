@@ -1,5 +1,29 @@
-export default async (article_footer_json, lanugage, viewName, isDemo) => {
+/// <reference path="../../Types/types.d.ts" />
+
+/**
+ * !====!
+ * !STOP!
+ * !====!
+ *
+ * Relax and close all methods of the `constructor` object.
+ * Chek the types defined on `param` and `returns` field on JSdoc.
+ * Once you have done that, make sure the view area you want to work on is indeed CSSSelector `article footer` in the DOM.
+ * Open the method named after the feature/view where you want to make changes to `article footer` or create a new method.
+ * If you dont get it trace function calls backward and forward, as well as check the DOM and see the result.
+ * You can also ask for a walktrough on Vorte discord.
+ */
+
+/**
+ * @param {object} article_footer_json JSON with only the neccesary fields formated for the specific viewName of the specified CSSSelector from the BLOB
+ * @param {T.SupportedLanguage} language A language code used to look up content
+ * @param {T.SupportedViewName} viewName Specifies the scope of content that should be readied for render
+ * @param {boolean} isDemo A boolean based on wheter window.location.search has `?demo` flag or not
+ * @returns {T.HTMLText} innerHTML of CSSSelector `article footer` for specifed viewName
+ */
+
+export default async (article_footer_json, language, viewName, isDemo) => {
   const stub = viewName.split("_");
+
   const constructor = {
     async home() {
       return html` <button data-fn="">mukauta näkymää</button> `;
@@ -35,17 +59,12 @@ export default async (article_footer_json, lanugage, viewName, isDemo) => {
       `;
     },
   }[stub[0]];
-  const innerHTML = await constructor({
-    article_footer_json,
-    lanugage,
-    isDemo,
-    viewName,
-  });
+
+  /** @type {T.HTMLText} */
+  const innerHTML = await constructor();
   return innerHTML;
 };
 
 import isThisDate from "../Utilities/Time/isThisDate";
-import getAnchorDate from "../Utilities/getAnchorDate";
 import inlineStringify from "../Utilities/inlineStringify";
-import svgTable from "../markup/svgTable";
 import swr from "../Utilities/swr";

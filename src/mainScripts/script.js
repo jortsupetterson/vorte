@@ -142,13 +142,24 @@ else cacheElements();
 import { NOWplusYEAR } from "../Shared/CONFIG";
 import onSafeClick from "../Shared/Utilities/onSafeClick.js";
 import getAnchorDate from "../Shared/Utilities/getAnchorDate.js";
+import isThisDate from "../Shared/Utilities/Time/isThisDate.js";
 import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
 renderRecievedResource;
 
 import { ColorInput } from "./customElements/ColorInput";
 customElements.define("color-input", ColorInput, { extends: "input" });
+
 import { CalendarEventForm } from "./customElements/CalendarEventForm";
 customElements.define("calendar-event-form", CalendarEventForm);
+
 import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel/Class.js";
-import isThisDate from "../Shared/Utilities/Time/isThisDate.js";
 customElements.define(DATE_WHEEL, DateWheel);
+
+import {
+  OPTION_GRID,
+  OPTION_ITEM,
+  OptionGrid,
+  OptionItem,
+} from "./customElements/OptionGrid/Class.js";
+customElements.define(OPTION_GRID, OptionGrid);
+customElements.define(OPTION_ITEM, OptionItem);

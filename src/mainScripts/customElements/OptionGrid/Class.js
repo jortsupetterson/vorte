@@ -43,13 +43,28 @@ export class OptionGrid extends HTMLElement {
 style(
   OPTION_GRID,
   css`
+    option-grid {
+      display: flex;
+      justify-content: space-evenly;
+      align-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+    }
+
     option-item {
       pointer-events: all;
       background: transparent;
       cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
     }
-    option-imem.active {
+    option-item.active {
       cursor: default;
+      background: var(--accentGhostColor);
     }
   `
 );
+
+import style from "../../createHTML/style";

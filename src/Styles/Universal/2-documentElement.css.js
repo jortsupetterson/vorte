@@ -10,7 +10,6 @@ export default css`
     height: clamp(100vh, 100vh, 100vh);
     width: clamp(100vw, 100vw, 100vw);
   }
-
   * {
     pointer-events: none;
     user-select: none;
@@ -28,14 +27,18 @@ export default css`
     height: max-content;
     padding: 0.5rem;
   }
-  button {
+  button,
+  [role="button"] {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: 0;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.25rem;
   }
-  button svg {
+  button svg,
+  [role="button"] svg {
     fill: var(--contentColor);
   }
   .padding {

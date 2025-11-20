@@ -28,6 +28,6 @@ export default css`
   article footer button:disabled {
     color: var(--special3);
     border-color: var(--special3);
-    cursor: not-allowed;
+    pointer-events: none;
   }
 `;

@@ -1,3 +1,7 @@
+/**
+ *  * @param {boolean} isDemo A boolean based on wheter window.location.search has `?demo` flag or not
+ */
+
 export default async ({ isDemo, viewName, customParams }) => {
   const query = viewName.split("_");
   const constructor = {

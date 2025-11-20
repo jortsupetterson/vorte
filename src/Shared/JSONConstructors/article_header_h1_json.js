@@ -18,8 +18,11 @@ export default async ({ isDemo, viewName }) => {
     async calendar_month() {
       return {};
     },
+    async calendar_config() {
+      return {};
+    },
   }[viewName];
   const JSON = await constructor(isDemo);
   return JSON;
 };
-import fetchUserObject from "../Utilities/fetchUserObject";
+import fetchUserObject from "../Utilities/Caches/fetchUserObject";

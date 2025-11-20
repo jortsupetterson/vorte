@@ -14,7 +14,10 @@ export default css`
   * {
     pointer-events: none;
     user-select: none;
+    cursor: default;
     touch-action: manipulation;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
   }
   *:focus {
     outline: none;

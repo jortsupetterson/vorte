@@ -10,19 +10,20 @@ export default async ({ isDemo, viewName }) => {
         vortepreneur_organizations,
       };
     },
+    async tasks(isDemo) {},
+    async calendar(isDemo) {
+      const { open_on_start } = await fetchCalendarObject(isDemo);
+      return { open_on_start };
+    },
     async settings() {
       return {
         tabList: ["user", "styles"],
       };
     },
-    async calendar() {
-      const { open_on_start } = await fetchCalendarObject(isDemo);
-      return { open_on_start };
-    },
   }[stub];
   const JSON = await constructor(isDemo);
   return JSON;
 };
-import fetchCalendarObject from "../Utilities/fetchCalendarObject";
-import fetchUserObject from "../Utilities/fetchUserObject";
+import fetchCalendarObject from "../Utilities/Caches/fetchCalendarObject";
+import fetchUserObject from "../Utilities/Caches/fetchUserObject";
 import get_1 from "../Utilities/get_-1";

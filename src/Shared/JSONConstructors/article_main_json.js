@@ -29,7 +29,8 @@ export default async ({ isDemo, viewName, customParams }) => {
       return { widget_list: renderableList };
     },
     async calendar({ isDemo, customParams }) {
-      const anchor_date = customParams?.anchor_date
+      const dateWasGiven = !!customParams?.anchor_date;
+      const anchor_date = dateWasGiven
         ? new Date(customParams.anchor_date)
         : await shiftDate(
             customParams ?? {
@@ -78,17 +79,28 @@ export default async ({ isDemo, viewName, customParams }) => {
             event_list,
           };
         },
+        config() {
+          return {};
+        },
       }[query[1]];
 
+      if (dateWasGiven) {
+        cookieStore.set({
+          name: "anchorDate",
+          value: customParams.anchor_date,
+          expires: NOWplusYEAR,
+        });
+      }
       return specific();
     },
   }[query[0]];
   const JSON = await constructor({ isDemo, customParams });
   return JSON;
 };
-import fetchCalendarObject from "../Utilities/fetchCalendarObject";
-import fetchUserObject from "../Utilities/fetchUserObject";
+import fetchCalendarObject from "../Utilities/Caches/fetchCalendarObject";
+import fetchUserObject from "../Utilities/Caches/fetchUserObject";
 import shiftDate from "../Utilities/Time/shiftDate";
 import calendarEventSearch from "../Utilities/Time/calendarEventSearch";
 import getThisMonday from "../Utilities/Time/getThisMonday";
 import { EMPTY_LIST } from "../SAVINGS.js";
+import { NOWplusYEAR } from "../CONFIG.js";

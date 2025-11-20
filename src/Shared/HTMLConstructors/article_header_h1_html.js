@@ -15,6 +15,9 @@ export default async (article_header_h1_json, language, viewName) => {
         language
       ];
     },
+    calendar_config(article_header_h1_json, language) {
+      return { fi: "Asetukset", sv: "Instalingär", en: "Settings" }[language];
+    },
   }[viewName];
   const innerHTML = constructor(article_header_h1_json, language);
   return innerHTML;

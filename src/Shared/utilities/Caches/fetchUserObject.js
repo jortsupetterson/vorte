@@ -5,6 +5,6 @@ export default async (isDemo) => {
   const user = await zipper.unzip(userBytes);
   return user;
 };
-import negotiateCache from "./negotiateCache";
-import zipper from "../WebCrypto/zipper";
-import { DEMO_USER } from "../CONFIG";
+import negotiateCache from "../negotiateCache";
+import zipper from "../../WebCrypto/zipper";
+import { DEMO_USER } from "../../CONFIG";

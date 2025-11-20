@@ -49,7 +49,16 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                     tasks: html`<li
                       id="tasks"
                       ${isActive(articleId, `tasks`)}
-                      data-fn="${inlineStringify({})}"
+                      data-fn="${inlineStringify({
+                        name: `msgToSw`,
+                        params: {
+                          name: `sendResourceForRender`,
+                          params: {
+                            viewName: `tasks`,
+                            components: [`nav ul`],
+                          },
+                        },
+                      })}"
                     >
                       ${svgTable["svgList"]}${{
                         fi: "Tehtävät",
@@ -213,20 +222,11 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
               <li
                 id="calendar_day"
                 ${isActive(articleId, `calendar_day`)}
-                data-fn="${inlineStringify({
-                  name: `msgToSw`,
-                  params: {
-                    name: `sendResourceForRender`,
-                    params: {
-                      viewName: `calendar_day`,
-                      components: [
-                        `article main`,
-                        `article footer`,
-                        `article header h1`,
-                      ],
-                    },
-                  },
-                })}"
+                data-fn="${swr(`calendar_day`, [
+                  `article main`,
+                  `article footer`,
+                  `article header h1`,
+                ])}"
               >
                 ${svgTable["svgCalendarDay"]}
                 ${{ fi: "Päivänäkymä", sv: "Dagsvy", en: "Day view" }[language]}
@@ -234,20 +234,11 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
               <li
                 id="calendar_week"
                 ${isActive(articleId, `calendar_week`)}
-                data-fn="${inlineStringify({
-                  name: `msgToSw`,
-                  params: {
-                    name: `sendResourceForRender`,
-                    params: {
-                      viewName: `calendar_week`,
-                      components: [
-                        `article main`,
-                        `article footer`,
-                        `article header h1`,
-                      ],
-                    },
-                  },
-                })}"
+                data-fn="${swr(`calendar_week`, [
+                  `article main`,
+                  `article footer`,
+                  `article header h1`,
+                ])}"
               >
                 ${svgTable["svgCalendarWeek"]}
                 ${{ fi: "Viikkonäkymä", sv: "Veckovy", en: "Week view" }[
@@ -257,27 +248,26 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
               <li
                 id="calendar_month"
                 ${isActive(articleId, `calendar_month`)}
-                data-fn="${inlineStringify({
-                  name: `msgToSw`,
-                  params: {
-                    name: `sendResourceForRender`,
-                    params: {
-                      viewName: `calendar_month`,
-                      components: [
-                        `article main`,
-                        `article footer`,
-                        `article header h1`,
-                      ],
-                    },
-                  },
-                })}"
+                data-fn="${swr(`calendar_month`, [
+                  `article main`,
+                  `article footer`,
+                  `article header h1`,
+                ])}"
               >
                 ${svgTable["svgCalendar"]}
                 ${{ fi: "Kuukausinäkymä", sv: "Månadsvy", en: "Month view" }[
                   language
                 ]}
               </li>
-              <li id="calendar_settings" data-fn="">
+              <li
+                id="calendar_config"
+                data-fn="${swr(`calendar_config`, [
+                  `article main`,
+                  `article footer`,
+                  `article header h1`,
+                ])}
+              "
+              >
                 ${svgTable["svgGear"]}
                 ${{ fi: "Asetukset", sv: "Instalingär", en: "Settings" }[
                   language
@@ -292,3 +282,4 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
   const innerHTML = constructor({ nav_ul_json, language, isDemo });
   return innerHTML;
 };
+import swr from "../Utilities/swr";

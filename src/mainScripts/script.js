@@ -111,6 +111,18 @@ document.onkeydown = (event) => {
   }
 };
 
+cookieStore.onchange = async (ev) => {
+  if (articleEl.id.includes("calendar")) {
+    const btn = document.getElementById("backToThisDay"),
+      isToday = await isThisDate();
+    if (btn && isToday) {
+      btn.disabled = true;
+    } else if (btn && !isToday) {
+      btn.disabled = false;
+    }
+  }
+};
+
 const mQ = window.matchMedia("(max-width: 548px)");
 const isDemo = new URLSearchParams(window.location.search).has("demo");
 
@@ -138,4 +150,5 @@ customElements.define("color-input", ColorInput, { extends: "input" });
 import { CalendarEventForm } from "./customElements/CalendarEventForm";
 customElements.define("calendar-event-form", CalendarEventForm);
 import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel/Class.js";
+import isThisDate from "../Shared/Utilities/Time/isThisDate.js";
 customElements.define(DATE_WHEEL, DateWheel);

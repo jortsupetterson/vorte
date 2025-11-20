@@ -19,6 +19,7 @@ export default {
   svgHouse,
   svgTeleport,
   svgLayout,
+  svgResetConfig,
 };
 import svgArrowLeft from "./SVG/svgArrowLeft";
 import svgArrowRight from "./SVG/svgArrowRight";
@@ -36,6 +37,7 @@ import svgOrganization from "./SVG/svgOrganization";
 import svgP2P from "./SVG/svgP2P";
 import svgPerson from "./SVG/svgPerson";
 import svgPlus from "./SVG/svgPlus";
+import svgResetConfig from "./SVG/svgResetConfig";
 import svgRoad from "./SVG/svgRoad";
 import svgSubscription from "./SVG/svgSubscription";
 import svgTeleport from "./SVG/svgTeleport";

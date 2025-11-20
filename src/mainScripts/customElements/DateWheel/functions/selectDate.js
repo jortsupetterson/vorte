@@ -16,12 +16,6 @@ export default async () => {
       },
     },
   });
-  await cookieStore.set({
-    name: "anchorDate",
-    value: anchor_date,
-    expires: NOWplusYEAR,
-  });
 };
 import { functions } from "../../../script";
-import { NOWplusYEAR } from "../../../../Shared/CONFIG";
 import { wheel_state } from "../1-state";

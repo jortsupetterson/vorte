@@ -1,22 +1,40 @@
-import get_1 from "../Utilities/get_-1";
-import inlineStringify from "../Utilities/inlineStringify";
-
 export default async (article_footer_json, lanugage, viewName, isDemo) => {
-  const stub = get_1(viewName);
+  const stub = viewName.split("_");
   const constructor = {
     async home() {
       return html` <button data-fn="">mukauta näkymää</button> `;
     },
     async calendar() {
+      const isToday = await isThisDate();
+      if (stub[1] === "config") {
+        return html`
+          <button
+            data-fn="${inlineStringify({ name: `toggleCalendarEventForm` })}"
+          >
+            tehdasasetukset
+          </button>
+        `;
+      }
+
       return html`
+        <button
+          id="backToThisDay"
+          ${isToday ? `disabled` : ``}
+          data-fn="${swr(viewName, [`article main`], {
+            anchor_date: new Date().toISOString().slice(0, 10),
+          })}"
+        >
+          nykyhetkeen
+        </button>
+
         <button
           data-fn="${inlineStringify({ name: `toggleCalendarEventForm` })}"
         >
-          lisää tapahtuma
+          luo tapahtuma
         </button>
       `;
     },
-  }[stub];
+  }[stub[0]];
   const innerHTML = await constructor({
     article_footer_json,
     lanugage,
@@ -25,3 +43,9 @@ export default async (article_footer_json, lanugage, viewName, isDemo) => {
   });
   return innerHTML;
 };
+
+import isThisDate from "../Utilities/Time/isThisDate";
+import getAnchorDate from "../Utilities/getAnchorDate";
+import inlineStringify from "../Utilities/inlineStringify";
+import svgTable from "../markup/svgTable";
+import swr from "../Utilities/swr";

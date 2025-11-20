@@ -410,6 +410,9 @@ export default async (article_main_json, language, viewName) => {
           ${markup}
         </div>`;
     },
+    async calendar_config(article_main_json, language) {
+      return html``;
+    },
   }[viewName];
   const innerHTML = await constructor(article_main_json, language);
   return innerHTML;

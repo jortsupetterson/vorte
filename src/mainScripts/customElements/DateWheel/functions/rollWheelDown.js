@@ -17,14 +17,14 @@ export default (wheel_mode, wheel_container, wheel_items) => {
   if (wheel_mode === "month") {
     const nextMonthNum = (month + 1) % 12;
     const nextDate = new Date(year, nextMonthNum, date);
-    item.dataset.anchor_date = nextDate.toISOString();
+    item.dataset.anchor_date = nextDate.toISOString().slice(0, 10);
     item.textContent = jsonTable["jsonMonths"][nextMonthNum][DOC.lang];
   }
 
   if (wheel_mode === "year") {
     const nextYearNum = year + 1;
     const nextDate = new Date(nextYearNum, month, date);
-    item.dataset.anchor_date = nextDate.toISOString();
+    item.dataset.anchor_date = nextDate.toISOString().slice(0, 10);
     item.textContent = String(nextYearNum);
   }
 

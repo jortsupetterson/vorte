@@ -41,7 +41,7 @@ export default async (returnVoid = true) => {
       item.textContent = jsonTable["jsonMonths"][monthIndex][DOC.lang];
 
       const itemDate = new Date(year, monthIndex, date);
-      item.dataset.anchor_date = itemDate.toISOString();
+      item.dataset.anchor_date = itemDate.toISOString().slice(0, 10);
 
       monthIndex++;
     }
@@ -55,7 +55,7 @@ export default async (returnVoid = true) => {
       item.textContent = String(yearIndex);
 
       const itemDate = new Date(yearIndex, month, date);
-      item.dataset.anchor_date = itemDate.toISOString();
+      item.dataset.anchor_date = itemDate.toISOString().slice(0, 10);
 
       yearIndex++;
     }

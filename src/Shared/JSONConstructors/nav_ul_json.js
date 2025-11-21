@@ -24,6 +24,6 @@ export default async ({ isDemo, viewName }) => {
   const JSON = await constructor(isDemo);
   return JSON;
 };
-import fetchCalendarObject from "../Utilities/Caches/fetchCalendarObject";
-import fetchUserObject from "../Utilities/Caches/fetchUserObject";
+import fetchCalendarObject from "../Utilities/Storage/fetchCalendarObject";
+import fetchUserObject from "../Utilities/Storage/fetchUserObject";
 import get_1 from "../Utilities/get_-1";

@@ -21,5 +21,5 @@ export default async (name, cssText) => {
   });
 };
 
-import getNonce from "../../Shared/Utilities/getNonce";
+import getNonce from "../../Shared/Utilities/Getters/getNonce";
 import { __policy } from "../__policy";

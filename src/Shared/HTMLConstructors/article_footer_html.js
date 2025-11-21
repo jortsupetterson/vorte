@@ -1,4 +1,4 @@
-/// <reference path="../../Types/types.d.ts" />
+/// <reference path="../../Types/Common.d.ts" />
 
 /**
  * !====!
@@ -17,11 +17,10 @@
  * @param {object} article_footer_json JSON with only the neccesary fields formated for the specific viewName of the specified CSSSelector from the BLOB
  * @param {T.SupportedLanguage} language A language code used to look up content
  * @param {T.SupportedViewName} viewName Specifies the scope of content that should be readied for render
- * @param {boolean} isDemo A boolean based on wheter window.location.search has `?demo` flag or not
  * @returns {T.HTMLText} innerHTML of CSSSelector `article footer` for specifed viewName
  */
 
-export default async (article_footer_json, language, viewName, isDemo) => {
+export default async (article_footer_json, language, viewName) => {
   const stub = viewName.split("_");
 
   const constructor = {

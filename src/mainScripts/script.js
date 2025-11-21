@@ -141,7 +141,7 @@ else cacheElements();
 
 import { NOWplusYEAR } from "../Shared/CONFIG";
 import onSafeClick from "../Shared/Utilities/onSafeClick.js";
-import getAnchorDate from "../Shared/Utilities/getAnchorDate.js";
+import getAnchorDate from "../Shared/Utilities/Getters/getAnchorDate.js";
 import isThisDate from "../Shared/Utilities/Time/isThisDate.js";
 import renderRecievedResource from "./eventHandlers/serviceWorker/renderRecievedResource";
 renderRecievedResource;

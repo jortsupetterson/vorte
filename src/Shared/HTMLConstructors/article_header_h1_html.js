@@ -1,4 +1,4 @@
-/// <reference path="../../Types/types.d.ts" />
+/// <reference path="../../Types/Common.d.ts" />
 
 /**
  * !====!

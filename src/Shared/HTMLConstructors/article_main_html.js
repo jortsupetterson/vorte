@@ -1,4 +1,4 @@
-/// <reference path="../../Types/types.d.ts" />
+/// <reference path="../../Types/Common.d.ts" />
 
 /**
  * !====!
@@ -451,7 +451,7 @@ import getMonthTable from "../Utilities/Time/getMonthTable";
 import structDatePicker from "../markup/HTML/structDatePicker";
 import getWeekNumber from "../Utilities/Time/weekNumberFromDate";
 import getThisMonday from "../Utilities/Time/getThisMonday";
-import getNonce from "../Utilities/getNonce";
+import getNonce from "../Utilities/Getters/getNonce";
 import calendarEventSearch from "../Utilities/Time/calendarEventSearch";
 import getContentFingerptint from "../Utilities/Codec/getContentFingerptint";
 import { DEFAULT_PIXEL_HEIGHT, DEFAULT_START } from "../CONFIG";

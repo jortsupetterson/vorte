@@ -1,4 +1,4 @@
-/// <reference path="../../Types/types.d.ts" />
+/// <reference path="../../Types/Common.d.ts" />
 
 /**
  * !====!
@@ -38,7 +38,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                   markup += {
                     home: html`<li
                       id="home"
-                      ${isActive(articleId, `home`)}
+                      ${isActive(articleId, `home`) ?? ``}
                       data-fn="${inlineStringify({
                         name: `msgToSw`,
                         params: {
@@ -62,7 +62,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                     </li>`,
                     tasks: html`<li
                       id="tasks"
-                      ${isActive(articleId, `tasks`)}
+                      ${isActive(articleId, `tasks`) ?? ``}
                       data-fn="${inlineStringify({
                         name: `msgToSw`,
                         params: {
@@ -83,7 +83,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
 
                     calendar: html` <li
                       id="calendar"
-                      ${isActive(articleId, `calendar`)}
+                      ${isActive(articleId, `calendar`) ?? ``}
                       data-fn="${inlineStringify({
                         name: `msgToSw`,
                         params: {
@@ -104,6 +104,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
 
                     networking: html` <li
                       id="networking"
+                      ${isActive(articleId, `networking`) ?? ``}
                       data-fn="${inlineStringify({})}"
                     >
                       ${svgTable["svgNetwork"]}${{
@@ -113,7 +114,11 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                       }[language]}
                     </li>`,
 
-                    rte: html` <li id="rte" data-fn="${inlineStringify({})}">
+                    rte: html` <li
+                      id="rte"
+                      ${isActive(articleId, `rte`) ?? ``}
+                      data-fn="${inlineStringify({})}"
+                    >
                       ${svgTable["svgRoad"]}${{
                         fi: "Polku yrittäjäksi",
                         sv: "Vägen till entreprenörskap",
@@ -163,7 +168,20 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                   en: "Public profile",
                 }[language]}
               </li>
-              <li data-fn="${inlineStringify({})}">
+              <li
+                id="settings"
+                ${isActive(articleId, `settings`) ?? ``}
+                data-fn="${inlineStringify({
+                  name: `msgToSw`,
+                  params: {
+                    name: `sendResourceForRender`,
+                    params: {
+                      viewName: `settings`,
+                      components: [`nav ul`],
+                    },
+                  },
+                })}"
+              >
                 ${svgTable["svgGear"]}
                 ${{ fi: "Asetukset", sv: "Inställningar", en: "Settings" }[
                   language
@@ -205,9 +223,6 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
           <li data-fn=""></li>
         </ul>
       `;
-    },
-    settings() {
-      let mark;
     },
     calendar() {
       const { open_on_start } = nav_ul_json;

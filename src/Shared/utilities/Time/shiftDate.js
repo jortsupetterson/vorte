@@ -12,4 +12,4 @@ export default async ({ years, months, weeks, days }) => {
   return d;
 };
 import { NOWplusYEAR } from "../../CONFIG";
-import getAnchorDate from "../getAnchorDate";
+import getAnchorDate from "../Getters/getAnchorDate";

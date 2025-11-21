@@ -1,4 +1,4 @@
-import getAnchorDate from "../getAnchorDate";
+import getAnchorDate from "../Getters/getAnchorDate";
 
 export default async () => {
   return (

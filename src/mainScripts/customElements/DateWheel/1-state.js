@@ -74,7 +74,7 @@ export default async (returnVoid = true) => {
 };
 
 import jsonTable from "../../../Shared/markup/jsonTable";
-import getAnchorDate from "../../../Shared/Utilities/getAnchorDate";
+import getAnchorDate from "../../../Shared/Utilities/Getters/getAnchorDate";
 import { DOC } from "../../../Shared/SAVINGS";
 import selectDate from "./functions/selectDate";
 import onSafeClick from "../../../Shared/Utilities/onSafeClick";

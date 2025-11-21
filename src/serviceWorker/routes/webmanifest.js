@@ -1,6 +1,6 @@
 import content from "../../appLoader/seoComponents/content";
-import getAccentColor from "../../Shared/Utilities/getAccentColor";
-import getLanguage from "../../Shared/Utilities/getLanguage";
+import getAccentColor from "../../Shared/Utilities/Getters/getAccentColor";
+import getLanguage from "../../Shared/Utilities/Getters/getLanguage";
 const buildWebmanifestResponse = async (ctx) => {
   const [accentColor, language] = await Promise.all([
     getAccentColor(),

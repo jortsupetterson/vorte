@@ -15,9 +15,9 @@
 
 /**
  * @param {object} article_main_json JSON with only the neccesary fields formated for the specific viewName of the specified CSSSelector from the BLOB
- * @param {T.SupportedLanguage} language A language code used to look up content
- * @param {T.SupportedViewName} viewName Specifies the scope of content that should be readied for render
- * @returns {T.HTMLText} innerHTML of CSSSelector `article main` for specifed viewName
+ * @param {Common.Language} language A language code used to look up content
+ * @param {Common.ViewName} viewName Specifies the scope of content that should be readied for render
+ * @returns {Common.HTMLText} innerHTML of CSSSelector `article main` for specifed viewName
  */
 
 export default async (article_main_json, language, viewName) => {
@@ -103,7 +103,7 @@ export default async (article_main_json, language, viewName) => {
     },
 
     async calendar_day() {
-      const { anchor_date, event_list } = article_main_json;
+      const { anchor_date, event_list, category_list } = article_main_json;
       const nonce = await getNonce();
       const styleRules = [];
       const categoryHashes = new Set();
@@ -115,12 +115,18 @@ export default async (article_main_json, language, viewName) => {
           starts_at,
           duration_minutes,
         } of event_list) {
-          const catHash = `cat-${getContentFingerptint(category)}`;
-          if (!categoryHashes.has(catHash)) {
-            categoryHashes.add(catHash);
+          const categoryHash = `cat-${getContentFingerptint(category)}`,
+            categoryObjFromConfig = category_list.find(
+              (c) => c.name === category
+            ),
+            categoryColor =
+              categoryObjFromConfig?.hex_color ?? "var(--contentColor)";
+
+          if (!categoryHashes.has(categoryHash)) {
+            categoryHashes.add(categoryHash);
             styleRules.push(`
-              .${catHash} {
-                background: rgb(from var(--contentColor) r g b / 0.13);
+              .${categoryHash} {
+                background: rgb(from ${categoryColor} r g b / 0.13);
               }
               `);
           }
@@ -134,7 +140,7 @@ export default async (article_main_json, language, viewName) => {
           const eventEndHours = (eventTotalMinutes - eventEndMinutes) / 60;
 
           htm += html`
-            <div class="${catHash}">
+            <div class="${categoryHash}">
               <span>
                 <span>
                   ${eventStartHours}.${eventStartMinutes < 10
@@ -171,7 +177,8 @@ export default async (article_main_json, language, viewName) => {
     },
 
     async calendar_week() {
-      const { anchor_date, monday_date, event_list } = article_main_json;
+      const { anchor_date, monday_date, event_list, category_list } =
+        article_main_json;
       const range = findWeeksTimeRange(event_list);
       const timelineStartMinutes =
           range.min > 6 * 60 ? 6 * 60 : Math.floor(range.min / 180) * 180,
@@ -179,11 +186,11 @@ export default async (article_main_json, language, viewName) => {
           range.max < 18 * 60 ? 18 * 60 : Math.ceil(range.max / 180) * 180;
       const displayHeight = timelineEndMinutes - timelineStartMinutes;
 
-      const nonce = await getNonce();
-      const monday = monday_date.getDate();
-      const month = monday_date.getMonth();
-      const year = monday_date.getFullYear();
-      const styleRules = [];
+      const nonce = await getNonce(),
+        monday = monday_date.getDate(),
+        month = monday_date.getMonth(),
+        year = monday_date.getFullYear(),
+        styleRules = [];
 
       const grid = (() => {
         let markup = ``;
@@ -219,11 +226,11 @@ export default async (article_main_json, language, viewName) => {
                 const thisDaysEvents = [];
 
                 for (const event of rawEvents) {
-                  const startDate = new Date(event.starts_at);
-                  const startHours = startDate.getHours();
-                  const startMinutes = startDate.getMinutes();
-                  const startTotal = startHours * 60 + startMinutes;
-                  const endTotalRaw = startTotal + event.duration_minutes;
+                  const startDate = new Date(event.starts_at),
+                    startHours = startDate.getHours(),
+                    startMinutes = startDate.getMinutes(),
+                    startTotal = startHours * 60 + startMinutes,
+                    endTotalRaw = startTotal + event.duration_minutes;
 
                   if (endTotalRaw <= 24 * 60) {
                     thisDaysEvents.push(event);
@@ -260,6 +267,12 @@ export default async (article_main_json, language, viewName) => {
                   const { starts_at, duration_minutes, category } = event;
                   const id = `ev-${getContentFingerptint(event)}`;
 
+                  const configCategoryObj = category_list.find(
+                      (cat) => cat.name === category
+                    ),
+                    categoryColor =
+                      configCategoryObj?.hex_color ?? "var(--contentColor)";
+
                   const eventStartTime = new Date(starts_at);
                   const eventStartHours = eventStartTime.getHours();
                   const eventStartMinutes = eventStartTime.getMinutes();
@@ -287,7 +300,7 @@ export default async (article_main_json, language, viewName) => {
               div#${id} {
                 top: calc(${eventStartPosition} * ${DEFAULT_PIXEL_HEIGHT}px);
                 height: calc(${duration_minutes} * ${DEFAULT_PIXEL_HEIGHT}px);
-                background: rgb(from var(--contentColor) r g b / 0.13);
+                background: rgb(from ${categoryColor} r g b / 0.13);
               }
             `);
 
@@ -344,7 +357,7 @@ export default async (article_main_json, language, viewName) => {
       const nonce = await getNonce();
       const styleRules = [];
       const categoryHashes = new Set();
-      const { anchor_date, event_list } = article_main_json;
+      const { anchor_date, event_list, categories } = article_main_json;
       const markup = (() => {
         const table = getMonthTable(anchor_date, language); // 7x8: [ [null,abbr...], [week,{d,type}×7]×6 ]
         let out = "";
@@ -391,11 +404,16 @@ export default async (article_main_json, language, viewName) => {
                   events.forEach(({ category }, index) => {
                     if (index < 2) {
                       const catHash = `cat-${getContentFingerptint(category)}`;
+                      const catConfigObj = categories.find(
+                        (cat) => cat.name === category
+                      );
+                      const catColor =
+                        catConfigObj?.hex_color ?? "var(--contentColor)";
                       if (!categoryHashes.has(catHash)) {
                         categoryHashes.add(catHash);
                         styleRules.push(`
                         span.${catHash} {
-                            background: rgb(from var(--contentColor) r g b / 0.13);
+                            background: rgb(from ${catColor} r g b / 0.13);
                         }
                         `);
                       }
@@ -433,11 +451,159 @@ export default async (article_main_json, language, viewName) => {
         </div>`;
     },
     async calendar_config() {
+      const nonce = getNonce();
+
+      /** @type {Calendar["config"]} */
+      const config = article_main_json;
+
+      const styleRules = [];
+      let category_list_html = ``;
+
+      for (const category of config.categories) {
+        const categoryHash = `cat-${getContentFingerptint(category)}`;
+        styleRules.push(`
+          .${categoryHash} {
+            background: rgb(from ${category.hex_color} r g b / 0.13);
+          }
+        `);
+        category_list_html += html`
+          <li class="${categoryHash}">
+            ${category.name}
+            <div class="controls">
+              <button data-fn="">
+                ${{
+                  fi: "muokkaa",
+                  sv: "redigera",
+                  en: "edit",
+                }[language]}
+              </button>
+              <button data-fn="">
+                ${{
+                  fi: "poista",
+                  sv: "ta bort",
+                  en: "delete",
+                }[language]}
+              </button>
+            </div>
+          </li>
+        `;
+      }
+
       return html`
-        <option-grid
-          data-options="${inlineStringify([`push- ilmoitus`, `sähköposti`])}"
-        >
-        </option-grid>
+        <style nonce="${await nonce}">
+          ${styleRules.join("")}
+        </style>
+        <section id="calendar_category_list">
+          <p>
+            ${{ fi: "Tapahtumien kategorisointi", sv: "", en: "" }[language]}
+          </p>
+          <ul>
+            ${category_list_html}
+          </ul>
+          <button data-fn="">
+            ${{ fi: "+ luo uusi kategoria", sv: "", en: "" }[language]}
+          </button>
+        </section>
+
+        <section id="calendar_view_configuration">
+          <div>
+            <p>
+              ${{
+                fi: "Viikon aloituspäivä",
+                sv: "Veckans startdag",
+                en: "Week start day",
+              }[language]}
+            </p>
+
+            <option-grid
+              data-mode="single"
+              data-options="${inlineStringify([
+                {
+                  label: {
+                    fi: `maanantai`,
+                    sv: `måndag`,
+                    en: `monday`,
+                  }[language],
+                  selected: config.week_starts_on.monday,
+                },
+                {
+                  label: {
+                    fi: `sunnuntai`,
+                    sv: `söndag`,
+                    en: `sunday`,
+                  }[language],
+                  selected: config.week_starts_on.sunday,
+                },
+              ])}"
+            >
+            </option-grid>
+          </div>
+
+          <div>
+            <p>
+              ${{
+                fi: "Näytetään viikkonäkymässä",
+                sv: "Visa i veckovy",
+                en: "Shown in week view",
+              }[language]}
+            </p>
+
+            <option-grid
+              data-mode="multiple"
+              data-options="${inlineStringify([
+                {
+                  label: {
+                    fi: `lauantai`,
+                    sv: `lördag`,
+                    en: `saturday`,
+                  }[language],
+                  selected: config.displayed_on_week_view.saturday,
+                },
+                {
+                  label: {
+                    fi: `sunnuntai`,
+                    sv: `söndag`,
+                    en: `sunday`,
+                  }[language],
+                  selected: config.displayed_on_week_view.sunday,
+                },
+              ])}"
+            >
+            </option-grid>
+          </div>
+        </section>
+
+        <section id="calendar_notification_config">
+          <p>
+            ${{
+              fi: "Vastaanota muistutukset tapahtumista",
+              sv: "Ta emot påminnelser om händelser",
+              en: "Receive reminders about events",
+            }[language]}
+          </p>
+          <option-grid
+            data-mode="multiple"
+            data-options="${inlineStringify([
+              {
+                label: {
+                  fi: `push-ilmoitukset`,
+                  sv: `push-meddelanden`,
+                  en: `push notifications`,
+                }[language],
+                selected: config.notifications.push,
+              },
+              {
+                label: {
+                  fi: `sähköposti`,
+                  sv: `e-post`,
+                  en: `email`,
+                }[language],
+                selected: config.notifications.email,
+              },
+            ])}"
+          >
+          </option-grid>
+        </section>
       `;
     },
   }[viewName];

@@ -1,5 +1,8 @@
 /**
- *  * @param {boolean} isDemo A boolean based on wheter window.location.search has `?demo` flag or not
+ * @param {object}
+ * @property {boolean} isDemo A boolean based on wheter window.location.search has `?demo` flag or not
+ * @property {Common.ViewName} viewName
+ * @property {object} [customParams]
  */
 
 export default async ({ isDemo, viewName, customParams }) => {
@@ -33,26 +36,28 @@ export default async ({ isDemo, viewName, customParams }) => {
       return { widget_list: renderableList };
     },
     async calendar({ isDemo, customParams }) {
-      const dateWasGiven = !!customParams?.anchor_date;
-      const anchor_date = dateWasGiven
-        ? new Date(customParams.anchor_date)
-        : await shiftDate(
-            customParams ?? {
-              years: 0,
-              months: 0,
-              weeks: 0,
-              days: 0,
-            }
-          );
-      const calendar = await fetchCalendarObject(isDemo);
+      const dateWasGiven = !!customParams?.anchor_date,
+        anchor_date = dateWasGiven
+          ? new Date(customParams.anchor_date)
+          : await shiftDate(
+              customParams ?? {
+                years: 0,
+                months: 0,
+                weeks: 0,
+                days: 0,
+              }
+            ),
+        calendar = await fetchCalendarObject(isDemo);
 
       const specific = {
         day() {
           const event_list =
-            calendar[anchor_date.toISOString().slice(0, 10)] ?? EMPTY_LIST;
+            calendar.events[anchor_date.toISOString().slice(0, 10)] ??
+            EMPTY_LIST;
           return {
             anchor_date,
             event_list,
+            category_list: calendar.config.categories,
           };
         },
         week() {
@@ -60,7 +65,7 @@ export default async ({ isDemo, viewName, customParams }) => {
           const sunday_date = new Date(monday_date);
           sunday_date.setUTCDate(sunday_date.getUTCDate() + 6);
           const event_list = calendarEventSearch(
-            calendar,
+            calendar.events,
             new Date(monday_date),
             sunday_date
           );
@@ -68,6 +73,7 @@ export default async ({ isDemo, viewName, customParams }) => {
             anchor_date,
             monday_date,
             event_list,
+            category_list: calendar.config.categories,
           };
         },
         month() {
@@ -77,14 +83,19 @@ export default async ({ isDemo, viewName, customParams }) => {
           const firstDay = new Date(year, month, 1);
           const lastDay = new Date(year, month + 1, 0);
 
-          const event_list = calendarEventSearch(calendar, firstDay, lastDay);
+          const event_list = calendarEventSearch(
+            calendar.events,
+            firstDay,
+            lastDay
+          );
           return {
             anchor_date,
             event_list,
+            categories: calendar.config.categories,
           };
         },
         config() {
-          return {};
+          return calendar.config;
         },
       }[query[1]];
 

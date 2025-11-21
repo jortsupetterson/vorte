@@ -1,4 +1,32 @@
-/// <reference path="../../Types/Calendar.d.ts"/>
+/// <reference path="../../Types/Calendar.d.ts" />
+export const DEFAULT_START = 4;
+export const DEFAULT_END = 19;
+export const DEFAULT_PIXEL_HEIGHT = 1;
+
+// Peruspäivämäärät UTC:na
+const now = new Date();
+const year = now.getFullYear();
+const month = now.getMonth();
+const day = now.getDate();
+
+const todayUtc = new Date(Date.UTC(year, month, day));
+const tomorrowUtc = new Date(todayUtc);
+tomorrowUtc.setUTCDate(tomorrowUtc.getUTCDate() + 1);
+const inTwoDaysUtc = new Date(todayUtc);
+inTwoDaysUtc.setUTCDate(inTwoDaysUtc.getUTCDate() + 2);
+
+const tY = todayUtc.getUTCFullYear();
+const tM = todayUtc.getUTCMonth();
+const tD = todayUtc.getUTCDate();
+
+const nY = tomorrowUtc.getUTCFullYear();
+const nM = tomorrowUtc.getUTCMonth();
+const nD = tomorrowUtc.getUTCDate();
+
+const aY = inTwoDaysUtc.getUTCFullYear();
+const aM = inTwoDaysUtc.getUTCMonth();
+const aD = inTwoDaysUtc.getUTCDate();
+
 /** @type {Calendar} */
 export const DEMO_CALENDAR = {
   config: {
@@ -11,12 +39,27 @@ export const DEMO_CALENDAR = {
         name: "Tiimipalaveri",
         hex_color: "#199473",
       },
+      {
+        name: "Sprintin katselmointi",
+        hex_color: "#D97706",
+      },
+      {
+        name: "Fokusblokki",
+        hex_color: "#4B5563",
+      },
+      {
+        name: "Onboarding",
+        hex_color: "#2563EB",
+      },
     ],
     notifications: {
       push: true,
       email: false,
     },
-    week_starts_on: "monday",
+    week_starts_on: {
+      monday: true,
+      sunday: false,
+    },
     displayed_on_week_view: {
       saturday: true,
       sunday: true,
@@ -26,7 +69,9 @@ export const DEMO_CALENDAR = {
     [todayUtc.toISOString().slice(0, 10)]: [
       {
         host: DEMO_USER.id,
-        invitees: DEMO_CONTACTS.filter((c) => c.relation === "teammate"),
+        invitees: DEMO_CONTACTS.filter(
+          (contact) => contact.relation === "teammate"
+        ),
         category: "Tiimipalaveri",
         info: "Muista miettiä agenda valmiiksi!",
         starts_at: new Date(Date.UTC(tY, tM, tD, 4, 0)).toISOString(),
@@ -34,7 +79,9 @@ export const DEMO_CALENDAR = {
       },
       {
         host: DEMO_USER.id,
-        invitees: DEMO_CONTACTS.filter((c) => c.relation === "customer"),
+        invitees: DEMO_CONTACTS.filter(
+          (contact) => contact.relation === "customer"
+        ),
         category: "Asiakastapaaminen",
         info: "0401234567 ennakkotietona...",
         starts_at: new Date(Date.UTC(tY, tM, tD, 10, 0)).toISOString(),
@@ -45,7 +92,9 @@ export const DEMO_CALENDAR = {
     [tomorrowUtc.toISOString().slice(0, 10)]: [
       {
         host: DEMO_USER.id,
-        invitees: DEMO_CONTACTS.filter((c) => c.relation === "teammate"),
+        invitees: DEMO_CONTACTS.filter(
+          (contact) => contact.relation === "teammate"
+        ),
         category: "Sprintin katselmointi",
         info: "Käy läpi viikon tärkeimmät tehtävät.",
         starts_at: new Date(Date.UTC(nY, nM, nD, 8, 30)).toISOString(),
@@ -53,7 +102,9 @@ export const DEMO_CALENDAR = {
       },
       {
         host: DEMO_USER.id,
-        invitees: DEMO_CONTACTS.filter((c) => c.relation === "partner"),
+        invitees: DEMO_CONTACTS.filter(
+          (contact) => contact.relation === "partner"
+        ),
         category: "Kumppanitapaaminen",
         info: "Kumppanin alustademo ja integraatioideat.",
         starts_at: new Date(Date.UTC(nY, nM, nD, 13, 15)).toISOString(),
@@ -64,7 +115,9 @@ export const DEMO_CALENDAR = {
     [inTwoDaysUtc.toISOString().slice(0, 10)]: [
       {
         host: DEMO_USER.id,
-        invitees: DEMO_CONTACTS.filter((c) => c.relation === "teammate"),
+        invitees: DEMO_CONTACTS.filter(
+          (contact) => contact.relation === "teammate"
+        ),
         category: "Fokusblokki",
         info: "Hiljainen työaika: tuotteistuksen kehitys.",
         starts_at: new Date(Date.UTC(aY, aM, aD, 5, 0)).toISOString(),
@@ -72,7 +125,9 @@ export const DEMO_CALENDAR = {
       },
       {
         host: DEMO_USER.id,
-        invitees: DEMO_CONTACTS.filter((c) => c.relation === "customer"),
+        invitees: DEMO_CONTACTS.filter(
+          (contact) => contact.relation === "customer"
+        ),
         category: "Onboarding",
         info: "Uuden asiakkaan käyttöönotto ja koulutus.",
         starts_at: new Date(Date.UTC(aY, aM, aD, 15, 0)).toISOString(),
@@ -82,36 +137,10 @@ export const DEMO_CALENDAR = {
   },
 };
 
-export const DEFAULT_START = 4;
-export const DEFAUlT_END = 19;
-export const DEFAULT_PIXEL_HEIGHT = 1;
-
-const now = new Date();
-const year = now.getFullYear(),
-  month = now.getMonth(),
-  day = now.getDate();
-
-const todayUtc = new Date(Date.UTC(year, month, day));
-const tomorrowUtc = new Date(todayUtc);
-tomorrowUtc.setUTCDate(tomorrowUtc.getUTCDate() + 1);
-const inTwoDaysUtc = new Date(todayUtc);
-inTwoDaysUtc.setUTCDate(inTwoDaysUtc.getUTCDate() + 2);
-
-const tY = todayUtc.getUTCFullYear(),
-  tM = todayUtc.getUTCMonth(),
-  tD = todayUtc.getUTCDate();
-
-const nY = tomorrowUtc.getUTCFullYear(),
-  nM = tomorrowUtc.getUTCMonth(),
-  nD = tomorrowUtc.getUTCDate();
-
-const aY = inTwoDaysUtc.getUTCFullYear(),
-  aM = inTwoDaysUtc.getUTCMonth(),
-  aD = inTwoDaysUtc.getUTCDate();
-
+// Luodaan viikon runko (ma–pe) ja varmistetaan, että jokaiselle päivälle on taulukko
 const mondayOfWeek = getThisMonday(todayUtc);
-
 const weekdayIsoList = [];
+
 for (let weekdayOffset = 0; weekdayOffset < 5; weekdayOffset++) {
   const weekdayDate = new Date(mondayOfWeek);
   weekdayDate.setUTCDate(mondayOfWeek.getUTCDate() + weekdayOffset);
@@ -119,7 +148,9 @@ for (let weekdayOffset = 0; weekdayOffset < 5; weekdayOffset++) {
 }
 
 for (const isoDate of weekdayIsoList) {
-  if (!DEMO_CALENDAR[isoDate]) DEMO_CALENDAR[isoDate] = [];
+  if (!DEMO_CALENDAR.events[isoDate]) {
+    DEMO_CALENDAR.events[isoDate] = [];
+  }
 }
 
 const randomCategories = [
@@ -139,6 +170,12 @@ const randomInfos = [
 ];
 
 const randomRelations = ["teammate", "customer"];
+
+/**
+ * @param {Array<Calendar["events"][string][number]>} eventsForDay
+ * @param {number} startMs
+ * @param {number} endMs
+ */
 const hasOverlap = (eventsForDay, startMs, endMs) => {
   for (let eventIndex = 0; eventIndex < eventsForDay.length; eventIndex++) {
     const existing = eventsForDay[eventIndex];
@@ -150,6 +187,7 @@ const hasOverlap = (eventsForDay, startMs, endMs) => {
   return false;
 };
 
+// Generoidaan satunnaisia demo-tapahtumia ilman päällekkäisyyksiä
 for (let index = 0; index < 10; index++) {
   const isoDate =
     weekdayIsoList[Math.floor(Math.random() * weekdayIsoList.length)];
@@ -160,13 +198,13 @@ for (let index = 0; index < 10; index++) {
 
   const durationMinutes = (Math.floor(Math.random() * 6) + 1) * 15;
 
-  const startBase = new Date(isoDate + "T00:00:00Z");
+  const startBase = new Date(`${isoDate}T00:00:00Z`);
   startBase.setUTCHours(randomHour, randomMinutes, 0, 0);
 
   const startMs = startBase.getTime();
   const endMs = startMs + durationMinutes * 60_000;
 
-  const eventsForDay = DEMO_CALENDAR[isoDate];
+  const eventsForDay = DEMO_CALENDAR.events[isoDate];
 
   if (hasOverlap(eventsForDay, startMs, endMs)) continue;
 
@@ -186,3 +224,7 @@ for (let index = 0; index < 10; index++) {
     duration_minutes: durationMinutes,
   });
 }
+
+import { DEMO_USER } from "./DEMO_USER.js";
+import { DEMO_CONTACTS } from "./DEMO_CONTACTS.js";
+import getThisMonday from "../../Shared/Utilities/Time/getThisMonday.js";

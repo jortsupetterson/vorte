@@ -189,20 +189,20 @@ const authenticationLayout = async (mascotName) => html` <form></form> `;
 
 export default buildDocumentResponse;
 
-import negotiateAuthenticationStatus from "../../Shared/Utilities/negotiateAuthenticationStatus";
-import negotiateDemoStatus from "../../Shared/Utilities/negotiateDemoStatus";
+import negotiateAuthenticationStatus from "../../Shared/Utilities/Negotiations/negotiateAuthenticationStatus";
+import negotiateDemoStatus from "../../Shared/Utilities/Negotiations/negotiateDemoStatus";
 
-import getLanguage from "../../Shared/Utilities/getLanguage";
-import getNonce from "../../Shared/Utilities/getNonce";
-import getAccentColor from "../../Shared/Utilities/getAccentColor";
-import getBackgroundColor from "../../Shared/Utilities/getBackgroundColor";
-import getContentColor from "../../Shared/Utilities/getContentColor";
-import getContrastAmount from "../../Shared/Utilities/getContrastAmount";
+import getLanguage from "../../Shared/Utilities/Getters/getLanguage";
+import getNonce from "../../Shared/Utilities/Getters/getNonce";
+import getAccentColor from "../../Shared/Utilities/Getters/getAccentColor";
+import getBackgroundColor from "../../Shared/Utilities/Getters/getBackgroundColor";
+import getContentColor from "../../Shared/Utilities/Getters/getContentColor";
+import getContrastAmount from "../../Shared/Utilities/Getters/getContrastAmount";
 
-import getMascotName from "../../Shared/Utilities/getMacotName";
-import getNavId from "../../Shared/Utilities/getNavId";
-import getNavStatus from "../../Shared/Utilities/getNavStatus";
-import getArticleId from "../../Shared/Utilities/getArticleId";
+import getMascotName from "../../Shared/Utilities/Getters/getMacotName";
+import getNavId from "../../Shared/Utilities/Getters/getNavId";
+import getNavStatus from "../../Shared/Utilities/Getters/getNavStatus";
+import getArticleId from "../../Shared/Utilities/Getters/getArticleId";
 
 import inlineStringify from "../../Shared/Utilities/inlineStringify";
 import svgTable from "../../Shared/markup/svgTable";

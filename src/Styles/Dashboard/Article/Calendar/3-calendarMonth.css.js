@@ -1,102 +1,104 @@
 export default css`
-  article#calendar_month #calendarDisplay {
-    display: flex;
-    justify-content: flex-end;
-    aspect-ratio: 4/3;
-  }
-
-  @media (orientation: portrait) {
-    article#calendar_month #calendarDisplay {
-      aspect-ratio: 3/4;
+  @scope (article#calendar_month) {
+    #calendarDisplay {
+      display: flex;
+      justify-content: flex-end;
+      aspect-ratio: 4/3;
     }
-  }
 
-  article#calendar_month .row {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: flex-end;
-    width: clamp(100%, 100%, 100%);
-    height: calc(95% / 6);
-    gap: 0;
-    margin-bottom: calc(5% / 6);
-  }
+    @media (orientation: portrait) {
+      #calendarDisplay {
+        aspect-ratio: 3/4;
+      }
+    }
 
-  article#calendar_month .row:first-of-type {
-    height: auto;
-    min-height: none;
-  }
+    .row {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: flex-end;
+      width: clamp(100%, 100%, 100%);
+      height: calc(95% / 6);
+      gap: 0;
+      margin-bottom: calc(5% / 6);
+    }
 
-  article#calendar_month .cell {
-    border: solid 0.01rem transparent;
-  }
-  article#calendar_month .cell.head:first-of-type,
-  article#calendar_month .cell.week {
-    min-height: max-content;
-    min-width: max-content;
-    max-width: max-content;
-    max-height: max-content;
-    line-height: 1;
-    padding: 0.2rem;
-    border-radius: 0.2rem;
-    font-size: small;
-    margin-right: 1%;
-    font-weight: 100;
-  }
+    .row:first-of-type {
+      height: auto;
+      min-height: none;
+    }
 
-  article#calendar_month .cell.week:hover {
-    background: var(--contentGhostColor);
-  }
-  article#calendar_month .cell.head,
-  article#calendar_month .cell.prev,
-  article#calendar_month .cell.curr,
-  article#calendar_month .cell.next {
-    width: calc(90% / 7);
-    height: 100%;
-    margin-left: calc(5% / 7);
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    background: var(--accentGhostColor);
-    line-height: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 0.2rem;
-    font-size: small;
-  }
+    .cell {
+      border: solid 0.01rem transparent;
+    }
+    .cell.head:first-of-type,
+    .cell.week {
+      min-height: max-content;
+      min-width: max-content;
+      max-width: max-content;
+      max-height: max-content;
+      line-height: 1;
+      padding: 0.2rem;
+      border-radius: 0.2rem;
+      font-size: small;
+      margin-right: 1%;
+      font-weight: 100;
+    }
 
-  article#calendar_month .cell.head {
-    background: transparent;
-    font-weight: 100;
-  }
+    .cell.week:hover {
+      background: var(--contentGhostColor);
+    }
+    .cell.head,
+    .cell.prev,
+    .cell.curr,
+    .cell.next {
+      width: calc(90% / 7);
+      height: 100%;
+      margin-left: calc(5% / 7);
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background: var(--accentGhostColor);
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 0.2rem;
+      font-size: small;
+    }
 
-  article#calendar_month .cell.head:first-of-type {
-    opacity: 0;
-  }
+    .cell.head {
+      background: transparent;
+      font-weight: 100;
+    }
 
-  article#calendar_month .cell.next,
-  article#calendar_month .cell.prev {
-    background: var(--contentGhostColor);
-  }
+    .cell.head:first-of-type {
+      opacity: 0;
+    }
 
-  article#calendar_month .cell.curr {
-    overflow: hidden;
-  }
+    .cell.next,
+    .cell.prev {
+      background: var(--contentGhostColor);
+    }
 
-  article#calendar_month .cell.curr:hover {
-    border-color: var(--contentColor);
-  }
+    .cell.curr {
+      overflow: hidden;
+    }
 
-  article#calendar_month .cell.curr span {
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: x-small;
-    line-height: normal;
-    font-weight: 100;
-    padding: 0.2rem;
-    border-radius: 0.2rem;
+    .cell.curr:hover {
+      border-color: var(--contentColor);
+    }
+
+    .cell.curr span {
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: x-small;
+      line-height: normal;
+      font-weight: 100;
+      padding: 0.2rem;
+      border-radius: 0.2rem;
+    }
   }
 `;

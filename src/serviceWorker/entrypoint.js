@@ -38,7 +38,7 @@ self.addEventListener("message", ({ data }) => {
 
 import handleMessage from "./api/handleMessage";
 import checkForUpdate from "../Shared/Utilities/checkForUpdate";
-import negotiateCache from "../Shared/Utilities/negotiateCache";
+import negotiateCache from "../Shared/Utilities/Negotiations/negotiateCache";
 import buildDocumentResponse from "./routes/document";
 import buildIconResponse from "./routes/icons";
 import buildWebmanifestResponse from "./routes/webmanifest";

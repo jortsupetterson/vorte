@@ -8,7 +8,10 @@ declare type Calendar = {
       push: boolean;
       email: boolean;
     };
-    week_starts_on: "monday" | "sunday";
+    week_starts_on: {
+      monday: boolean;
+      sunday: boolean;
+    };
     displayed_on_week_view: {
       saturday: boolean;
       sunday: boolean;

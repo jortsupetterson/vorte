@@ -1,5 +1,5 @@
 /**
- * @returns {Supported.Language}
+ * @returns {Common.Language}
  */
 
 export default async () => {

@@ -290,6 +290,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
               </li>
               <li
                 id="calendar_config"
+                ${isActive(articleId, `calendar_config`)}
                 data-fn="${swr(`calendar_config`, [
                   `article main`,
                   `article footer`,

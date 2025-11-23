@@ -1,6 +1,5 @@
-/// <reference path="../../../Types/Content.d.ts" />
 /**
- * @returns {}
+ * @returns {Common.HEX_COLOR}
  */
 export default async () => {
   const cookie = await cookieStore.get("contentColor");

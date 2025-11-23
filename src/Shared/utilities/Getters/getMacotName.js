@@ -1,5 +1,5 @@
 /**
- * @returns {Supported.MascotName}
+ * @returns {Common.MascotName}
  */
 
 export default async () => {

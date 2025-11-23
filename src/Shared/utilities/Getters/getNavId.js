@@ -1,5 +1,5 @@
 /**
- * @returns {Supported.ViewName}
+ * @returns {Common.ViewName}
  */
 export default async () => {
   const cookie = await cookieStore.get("navId");

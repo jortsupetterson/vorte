@@ -175,7 +175,6 @@ export default async (article_main_json, language, viewName) => {
         </div>
       `;
     },
-
     async calendar_week() {
       const { anchor_date, monday_date, event_list, category_list } =
         article_main_json;
@@ -352,7 +351,6 @@ export default async (article_main_json, language, viewName) => {
         <div class="padding"></div>
       `;
     },
-
     async calendar_month() {
       const nonce = await getNonce();
       const styleRules = [];
@@ -493,6 +491,7 @@ export default async (article_main_json, language, viewName) => {
         <style nonce="${await nonce}">
           ${styleRules.join("")}
         </style>
+
         <section id="calendar_category_list">
           <p>
             ${{ fi: "Tapahtumien kategorisointi", sv: "", en: "" }[language]}
@@ -500,12 +499,12 @@ export default async (article_main_json, language, viewName) => {
           <ul>
             ${category_list_html}
           </ul>
-          <button data-fn="">
+          <button id="newCategory" data-fn="">
             ${{ fi: "+ luo uusi kategoria", sv: "", en: "" }[language]}
           </button>
         </section>
 
-        <section id="calendar_view_configuration">
+        <section id="calendar_configuration">
           <div>
             <p>
               ${{
@@ -571,38 +570,38 @@ export default async (article_main_json, language, viewName) => {
             >
             </option-grid>
           </div>
-        </section>
 
-        <section id="calendar_notification_config">
-          <p>
-            ${{
-              fi: "Vastaanota muistutukset tapahtumista",
-              sv: "Ta emot påminnelser om händelser",
-              en: "Receive reminders about events",
-            }[language]}
-          </p>
-          <option-grid
-            data-mode="multiple"
-            data-options="${inlineStringify([
-              {
-                label: {
-                  fi: `push-ilmoitukset`,
-                  sv: `push-meddelanden`,
-                  en: `push notifications`,
-                }[language],
-                selected: config.notifications.push,
-              },
-              {
-                label: {
-                  fi: `sähköposti`,
-                  sv: `e-post`,
-                  en: `email`,
-                }[language],
-                selected: config.notifications.email,
-              },
-            ])}"
-          >
-          </option-grid>
+          <div>
+            <p>
+              ${{
+                fi: "Vastaanota muistutukset tapahtumista",
+                sv: "Ta emot påminnelser om händelser",
+                en: "Receive reminders about events",
+              }[language]}
+            </p>
+            <option-grid
+              data-mode="multiple"
+              data-options="${inlineStringify([
+                {
+                  label: {
+                    fi: `push-ilmoitukset`,
+                    sv: `push-meddelanden`,
+                    en: `push notifications`,
+                  }[language],
+                  selected: config.notifications.push,
+                },
+                {
+                  label: {
+                    fi: `sähköposti`,
+                    sv: `e-post`,
+                    en: `email`,
+                  }[language],
+                  selected: config.notifications.email,
+                },
+              ])}"
+            >
+            </option-grid>
+          </div>
         </section>
       `;
     },
@@ -616,10 +615,8 @@ import inlineStringify from "../Utilities/inlineStringify";
 import getMonthTable from "../Utilities/Time/getMonthTable";
 import structDatePicker from "../markup/HTML/structDatePicker";
 import getWeekNumber from "../Utilities/Time/weekNumberFromDate";
-import getThisMonday from "../Utilities/Time/getThisMonday";
 import getNonce from "../Utilities/Getters/getNonce";
-import calendarEventSearch from "../Utilities/Time/calendarEventSearch";
 import getContentFingerptint from "../Utilities/Codec/getContentFingerptint";
-import { DEFAULT_PIXEL_HEIGHT, DEFAULT_START } from "../CONFIG";
 import structHourTimeline from "../markup/HTML/structHourTimeline";
 import findWeeksTimeRange from "../Utilities/Time/findWeeksTimeRange";
+import { DEFAULT_PIXEL_HEIGHT } from "../DEMO_OBJECTS/DEMO_CALENDAR";

@@ -19,7 +19,6 @@ const HTML = html`
       en: "Create an event",
     }[DOC.lang]}
   </h3>
-  <div id="invitees"></div>
 
   <div id="controls">
     <button

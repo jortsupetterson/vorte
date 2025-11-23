@@ -30,7 +30,6 @@ export default {
       cursor = cursor[path[i]];
     }
     cursor[path[path.length - 1]] = value;
-    console.log(calendar);
     if (isDemo) return;
 
     this.last_updated = Date.now();

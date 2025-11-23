@@ -1,1 +1,3 @@
-export class InviteesInput extends HTMLElement {}
+export class InviteesInput extends HTMLElement {
+  connectedCallback() {}
+}

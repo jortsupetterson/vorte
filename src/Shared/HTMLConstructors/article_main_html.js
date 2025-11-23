@@ -162,10 +162,8 @@ export default async (article_main_json, language, viewName) => {
         ${structDatePicker(
           "days",
           "calendar_day",
-          html` <button id="toggler" is="date-wheel">
-            ${jsonTable["jsonWeekdays"][anchor_date.getDay()][language]}
-            ${anchor_date.toLocaleDateString("fi-FI")}
-          </button>`
+          `${jsonTable["jsonWeekdays"][anchor_date.getDay()][language]}
+          ${anchor_date.toLocaleDateString("fi-FI")}`
         )}
         <div id="calendarDisplay">
           <style nonce="${nonce}">
@@ -332,11 +330,11 @@ export default async (article_main_json, language, viewName) => {
         ${structDatePicker(
           "weeks",
           "calendar_week",
-          html`<button id="toggler" is="date-wheel">
+          `
             ${{ fi: "viikko", sv: "vecka", en: "week" }[language]}
             ${getWeekNumber(anchor_date)}
             ${jsonTable["jsonMonths"][anchor_date.getMonth()][language]}
-          </button>`
+          `
         )}
         <div id="calendarDisplay">
           <style nonce="${nonce}">
@@ -434,12 +432,7 @@ export default async (article_main_json, language, viewName) => {
       return html` ${structDatePicker(
           "months",
           "calendar_month",
-          html` <button
-            id="toggler"
-            data-fn="${inlineStringify({ name: `toggleDateWheel` })}"
-          >
-            ${jsonTable["jsonMonths"][month][language]} ${year}
-          </button>`
+          `${jsonTable["jsonMonths"][month][language]} ${year}`
         )}
         <div id="calendarDisplay">
           <style nonce="${nonce}">
@@ -515,9 +508,11 @@ export default async (article_main_json, language, viewName) => {
             </p>
 
             <option-grid
+              id="week_starts_on"
               data-mode="single"
               data-options="${inlineStringify([
                 {
+                  id: `monday`,
                   label: {
                     fi: `maanantai`,
                     sv: `måndag`,
@@ -526,6 +521,7 @@ export default async (article_main_json, language, viewName) => {
                   selected: config.week_starts_on.monday,
                 },
                 {
+                  id: `sunday`,
                   label: {
                     fi: `sunnuntai`,
                     sv: `söndag`,
@@ -548,9 +544,11 @@ export default async (article_main_json, language, viewName) => {
             </p>
 
             <option-grid
+              id="displayed_on_week_view"
               data-mode="multiple"
               data-options="${inlineStringify([
                 {
+                  id: `saturday`,
                   label: {
                     fi: `lauantai`,
                     sv: `lördag`,
@@ -559,6 +557,7 @@ export default async (article_main_json, language, viewName) => {
                   selected: config.displayed_on_week_view.saturday,
                 },
                 {
+                  id: `sunday`,
                   label: {
                     fi: `sunnuntai`,
                     sv: `söndag`,
@@ -580,9 +579,11 @@ export default async (article_main_json, language, viewName) => {
               }[language]}
             </p>
             <option-grid
+              id="notifications"
               data-mode="multiple"
               data-options="${inlineStringify([
                 {
+                  id: `push`,
                   label: {
                     fi: `push-ilmoitukset`,
                     sv: `push-meddelanden`,
@@ -591,6 +592,7 @@ export default async (article_main_json, language, viewName) => {
                   selected: config.notifications.push,
                 },
                 {
+                  id: `email`,
                   label: {
                     fi: `sähköposti`,
                     sv: `e-post`,

@@ -24,11 +24,16 @@ export default {
     return calendar;
   },
 
-  async update({ key, value, isDemo }) {
-    calendar[key] = value;
-    this.last_updated = Date.now();
-
+  async update({ path, value, isDemo }) {
+    let cursor = calendar;
+    for (let i = 0; i < path.length - 1; i++) {
+      cursor = cursor[path[i]];
+    }
+    cursor[path[path.length - 1]] = value;
+    console.log(calendar);
     if (isDemo) return;
+
+    this.last_updated = Date.now();
 
     if (syncTimerId !== null) clearTimeout(syncTimerId);
     if (!pendingSync) {

@@ -1,5 +1,6 @@
 export default css`
   article {
+    position: relative;
     background: var(--articleBackgroundColor);
     width: var(--articleWidth);
     flex: 1 1 auto;
@@ -18,6 +19,7 @@ export default css`
   ${ArticleHeaderCss}
   ${ArticleMainCss}
   ${ArticleFooterCss}
+  ${ArticleDialogCss}
 
   ${homeArticleCss}
   ${CalendarArticleCss}
@@ -25,5 +27,7 @@ export default css`
 import ArticleHeaderCss from "./1-articleHeader.css";
 import ArticleMainCss from "./2-articleMain.css";
 import ArticleFooterCss from "./3-articleFooter.css";
+import ArticleDialogCss from "./4-articleDialog.css";
+
 import homeArticleCss from "./homeArticle.css";
 import CalendarArticleCss from "./Calendar/0-calendarArticle.css";

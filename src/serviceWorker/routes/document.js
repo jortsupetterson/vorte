@@ -183,6 +183,7 @@ const dashboardLayout = async (
         articleId
       )}
     </footer>
+    <dialog></dialog>
   </article>
 `;
 /////////////////////////////////////////////////////////////////////////////////////

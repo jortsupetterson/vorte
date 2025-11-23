@@ -2,16 +2,8 @@ export default style(
   DATE_WHEEL,
   css`
     date-wheel {
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--overlayColor);
       width: clamp(10rem, 200px, 95vw);
       aspect-ratio: 3/3.5;
-      border-radius: 0.2rem;
-      padding: 0.4rem;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;

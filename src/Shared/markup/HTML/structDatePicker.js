@@ -1,6 +1,6 @@
 import svgTable from "../svgTable";
 import inlineStringify from "../../Utilities/inlineStringify";
-export default (unit, viewName, toggler) => {
+export default (unit, viewName, textContent) => {
   const prevParams = { [unit]: -1 };
   const nextParams = { [unit]: 1 };
   return html`
@@ -21,7 +21,17 @@ export default (unit, viewName, toggler) => {
       >
         ${svgTable["svgArrowLeft"]}
       </button>
-      ${toggler}
+      <button
+        id="toggler"
+        data-fn="${inlineStringify({
+          name: `toggleDialog`,
+          params: {
+            tag: `date-wheel`,
+          },
+        })}"
+      >
+        ${textContent}
+      </button>
       <button
         id="next"
         data-fn="${inlineStringify({

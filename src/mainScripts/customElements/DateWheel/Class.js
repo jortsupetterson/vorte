@@ -1,15 +1,8 @@
 export const DATE_WHEEL = "date-wheel";
 export class DateWheel extends HTMLElement {
-  /**
-   * @param {number} year
-   * @param {number} month 0-11
-   */
-  constructor(year, month) {
-    super();
+  connectedCallback() {
     this.appendChild(mode_switch);
     this.appendChild(wheel_container);
-    this.dataset.year = year;
-    this.dataset.month = month;
   }
 }
 

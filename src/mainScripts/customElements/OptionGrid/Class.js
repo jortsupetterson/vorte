@@ -8,7 +8,17 @@ export class OptionItem extends HTMLElement {
     }
 
     onSafeClick(this, () => {
-      this.selected = !this.selected;
+      const value = !this.selected;
+      functions.msgToSw({
+        type: "storage",
+        params: {
+          namespace: "CalendarObject",
+          operation: "update",
+          path: ["config", this.parentElement.id, this.id],
+          value,
+        },
+      });
+      this.selected = value;
     });
   }
 
@@ -17,6 +27,15 @@ export class OptionItem extends HTMLElement {
       for (const instance of this.parentElement.children) {
         if (instance !== this && instance.classList.contains("selected")) {
           instance.classList.remove("selected");
+          functions.msgToSw({
+            type: "storage",
+            params: {
+              namespace: "CalendarObject",
+              operation: "update",
+              path: ["config", instance.parentElement.id, instance.id],
+              value: false,
+            },
+          });
         }
       }
     }
@@ -39,6 +58,7 @@ export class OptionGrid extends HTMLElement {
     for (const option of options) {
       /** @type {OptionItem} */
       const item = document.createElement(OPTION_ITEM);
+      item.id = option.id;
       item.textContent = option.label;
 
       if (option.selected) {
@@ -82,7 +102,7 @@ style(
 
     @scope (option-grid[data-mode="single"]) {
       option-item.selected {
-        cursor: default;
+        pointer-events: none;
       }
     }
   `
@@ -90,3 +110,4 @@ style(
 
 import onSafeClick from "../../../Shared/Utilities/onSafeClick";
 import style from "../../createHTML/style";
+import { functions } from "../../script";

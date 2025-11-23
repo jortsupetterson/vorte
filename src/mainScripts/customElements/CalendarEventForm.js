@@ -1,8 +1,7 @@
 const SLUG = "calendar-event-form";
 
 export class CalendarEventForm extends HTMLElement {
-  constructor() {
-    super();
+  connectedCallback() {
     this.innerHTML = __policy ? __policy.createHTML(HTML) : HTML;
   }
 }
@@ -25,15 +24,8 @@ const HTML = html`
 style(
   SLUG,
   css`
-    ${SLUG} {
-      background: var(--overlayColor);
-      border-radius: 1rem;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    calendar-event-form {
       pointer-events: all;
-      padding: 1rem;
     }
   `
 );

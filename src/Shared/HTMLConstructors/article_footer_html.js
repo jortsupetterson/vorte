@@ -45,7 +45,12 @@ export default async (article_footer_json, language, viewName) => {
         </button>
 
         <button
-          data-fn="${inlineStringify({ name: `toggleCalendarEventForm` })}"
+          data-fn="${inlineStringify({
+            name: `toggleDialog`,
+            params: {
+              tag: `calendar-event-form`,
+            },
+          })}"
         >
           luo tapahtuma
         </button>

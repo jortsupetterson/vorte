@@ -9,9 +9,9 @@
 /**
  * @param {rpc}
  */
-export default ({ namespace, operation, key, value, isDemo }) => {
+export default ({ namespace, operation, path, value, isDemo }) => {
   const stub = storage[namespace][operation];
-  stub({ key, value, isDemo });
+  stub({ path, value, isDemo });
 };
 
 const storage = Object.freeze({

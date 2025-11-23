@@ -7,7 +7,7 @@ export default async () => {
     .toISOString()
     .slice(0, 10);
   functions.msgToSw({
-    name: "sendResourceForRender",
+    type: "render",
     params: {
       viewName: "calendar_month",
       components: ["article main"],

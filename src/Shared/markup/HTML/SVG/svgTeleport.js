@@ -1,0 +1,13 @@
+export default html`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+    <g transform="translate(0.0000 0.0000) scale(1.000000)">
+      <g transform="translate(0.0000 0.0000) scale(1.000000)">
+        <g transform="translate(0.0000 0.0000) scale(1.000000)">
+          <path
+            d="m24,16.519l-2.333,1.167-1.167,2.333-1.167-2.333-2.333-1.167,2.333-1.167,1.167-2.333,1.167,2.333,2.333,1.167ZM4.5,2.5l-1-2-1,2-2,1,2,1,1,2,1-2,2-1-2-1Zm15.5,19.52H4v2h16v-2Zm-3-10H7v2h10v-2Zm1-5H6v2h12v-2Zm-3-5h-6v2h6v-2Z"
+          />
+        </g>
+      </g>
+    </g>
+  </svg>
+`;

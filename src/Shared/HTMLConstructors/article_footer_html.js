@@ -30,13 +30,7 @@ export default async (article_footer_json, language, viewName) => {
     async calendar() {
       const isToday = await isThisDate();
       if (stub[1] === "config") {
-        return html`
-          <button
-            data-fn="${inlineStringify({ name: `toggleCalendarEventForm` })}"
-          >
-            tehdasasetukset
-          </button>
-        `;
+        return ``;
       }
 
       return html`

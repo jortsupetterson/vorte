@@ -9,7 +9,7 @@ export default async ({ isDemo, viewName, customParams }) => {
   const query = viewName.split("_");
   const constructor = {
     async home({ isDemo }) {
-      const { widget_list, firstname } = await fetchUserObject(isDemo);
+      const { widget_list, firstname } = await UserObject.read({ isDemo });
 
       const truthsource = new Set(widget_list);
       const renderableList = [];
@@ -47,7 +47,7 @@ export default async ({ isDemo, viewName, customParams }) => {
                 days: 0,
               }
             ),
-        calendar = await fetchCalendarObject(isDemo);
+        calendar = await CalendarObject.read({ isDemo });
 
       const specific = {
         day() {
@@ -112,8 +112,8 @@ export default async ({ isDemo, viewName, customParams }) => {
   const JSON = await constructor({ isDemo, customParams });
   return JSON;
 };
-import fetchCalendarObject from "../Utilities/Storage/fetchCalendarObject.js";
-import fetchUserObject from "../Utilities/Storage/fetchUserObject.js";
+import CalendarObject from "../Utilities/Storage/CalendarObject.js";
+import UserObject from "../Utilities/Storage/UserObject.js";
 import shiftDate from "../Utilities/Time/shiftDate";
 import calendarEventSearch from "../Utilities/Time/calendarEventSearch";
 import getThisMonday from "../Utilities/Time/getThisMonday";

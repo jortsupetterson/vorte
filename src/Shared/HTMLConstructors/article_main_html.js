@@ -207,7 +207,7 @@ export default async (article_main_json, language, viewName) => {
               data-fn="${inlineStringify({
                 name: `msgToSw`,
                 params: {
-                  name: `sendResourceForRender`,
+                  type: `render`,
                   params: {
                     viewName: `calendar_day`,
                     components: [`article main`, `article header h1`],
@@ -370,7 +370,7 @@ export default async (article_main_json, language, viewName) => {
               out += `<button class="cell week" data-fn="${inlineStringify({
                 name: "msgToSw",
                 params: {
-                  name: "sendResourceForRender",
+                  type: "render",
                   params: {
                     viewName: "calendar_week",
                     components: ["article main", "article header h1"],
@@ -386,7 +386,7 @@ export default async (article_main_json, language, viewName) => {
                   ? `data-fn="${inlineStringify({
                       name: "msgToSw",
                       params: {
-                        name: "sendResourceForRender",
+                        type: "render",
                         params: {
                           viewName: "calendar_day",
                           components: ["article main", "article header h1"],

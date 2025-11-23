@@ -1,9 +1,11 @@
-import sendResourceForRender from "./handlers/sendResourceForRender";
+export default async ({ type, params }) => {
+  handlers[type](params);
+};
 
-const handlers = {
-  sendResourceForRender,
-};
-const handleMessage = async ({ name, params }) => {
-  handlers[name](params);
-};
-export default handleMessage;
+const handlers = Object.freeze({
+  render,
+  storage,
+});
+
+import render from "./handlers/render";
+import storage from "./handlers/storage";

@@ -42,7 +42,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                       data-fn="${inlineStringify({
                         name: `msgToSw`,
                         params: {
-                          name: `sendResourceForRender`,
+                          type: `render`,
                           params: {
                             viewName: `home`,
                             components: [
@@ -66,7 +66,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                       data-fn="${inlineStringify({
                         name: `msgToSw`,
                         params: {
-                          name: `sendResourceForRender`,
+                          type: `render`,
                           params: {
                             viewName: `tasks`,
                             components: [`nav ul`],
@@ -87,7 +87,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                       data-fn="${inlineStringify({
                         name: `msgToSw`,
                         params: {
-                          name: `sendResourceForRender`,
+                          type: `render`,
                           params: {
                             viewName: `calendar`,
                             components: [`nav ul`],
@@ -174,7 +174,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
                 data-fn="${inlineStringify({
                   name: `msgToSw`,
                   params: {
-                    name: `sendResourceForRender`,
+                    type: `render`,
                     params: {
                       viewName: `settings`,
                       components: [`nav ul`],
@@ -233,7 +233,7 @@ export default async (nav_ul_json, language, viewName, isDemo) => {
             data-fn="${inlineStringify({
               name: `msgToSw`,
               params: {
-                name: `sendResourceForRender`,
+                type: `render`,
                 params: { viewName: `home`, components: [`nav ul`] },
               },
             })}"

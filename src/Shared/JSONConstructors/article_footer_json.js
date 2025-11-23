@@ -20,4 +20,4 @@ export default async ({ isDemo, viewName }) => {
   const JSON = await constructor(isDemo);
   return JSON;
 };
-import fetchUserObject from "../Utilities/Storage/fetchUserObject";
+import UserObject from "../Utilities/Storage/UserObject";

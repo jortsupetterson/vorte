@@ -30,7 +30,7 @@ export default css`
     gap: 0;
     height: auto;
     position: relative;
-    left: 0.5rem;
+    left: 0.25rem;
     width: clamp(100%, 100%, 100%);
     display: flex;
     flex-direction: column;
@@ -45,11 +45,13 @@ export default css`
     gap: 0.25rem;
     width: clamp(1.5rem, 1.5rem, 1.5rem);
     height: clamp(1.5rem, 1.5rem, 1.5rem);
+    font-size: medium;
+    font-weight: 300;
   }
   nav ul li div ul li svg {
     fill: var(--contentColor);
-    width: clamp(1.25rem, 1.25rem, 1.25rem);
-    height: clamp(1.25rem, 1.25rem, 1.25rem);
+    width: clamp(1rem, 1rem, 1rem);
+    height: clamp(1rem, 1rem, 1rem);
   }
 
   nav ul li div ul li[data-fn].active svg,

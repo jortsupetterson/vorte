@@ -150,6 +150,7 @@ const dashboardLayout = async (
       src="${`/images/${mascotName}/${navId}.webp`}"
       alt="${{ fi: ``, sv: ``, en: `` }[language]}"
     />
+    <div class="padding"></div>
   </nav>
   <!---------------------------------------------------------------------------------->
   <article id="${articleId}">

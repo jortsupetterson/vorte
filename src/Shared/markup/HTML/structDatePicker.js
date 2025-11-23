@@ -10,7 +10,7 @@ export default (unit, viewName, toggler) => {
         data-fn="${inlineStringify({
           name: `msgToSw`,
           params: {
-            name: `sendResourceForRender`,
+            type: `render`,
             params: {
               viewName: `${viewName}`,
               components: [`article main`],
@@ -27,7 +27,7 @@ export default (unit, viewName, toggler) => {
         data-fn="${inlineStringify({
           name: `msgToSw`,
           params: {
-            name: `sendResourceForRender`,
+            type: `render`,
             params: {
               viewName: `${viewName}`,
               components: [`article main`],

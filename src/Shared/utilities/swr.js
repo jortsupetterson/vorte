@@ -8,7 +8,7 @@ export default (viewName, components, customParams) => {
   return inlineStringify({
     name: "msgToSw",
     params: {
-      name: "sendResourceForRender",
+      type: "render",
       params: {
         viewName,
         components,

@@ -32,8 +32,8 @@ self.addEventListener("activate", (event) =>
   )
 );
 
-self.addEventListener("message", ({ data }) => {
-  handleMessage(data);
+self.addEventListener("message", (event) => {
+  event.waitUntil(handleMessage(event.data));
 });
 
 import handleMessage from "./api/handleMessage";

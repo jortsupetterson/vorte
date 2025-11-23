@@ -3,7 +3,7 @@ export default async ({ isDemo, viewName }) => {
   const constructor = {
     async home(isDemo) {
       const { my_vorte_apps, vortepreneur_organizations } =
-        await fetchUserObject(isDemo);
+        await UserObject.read({ isDemo });
 
       return {
         my_vorte_apps,
@@ -12,7 +12,7 @@ export default async ({ isDemo, viewName }) => {
     },
     async tasks(isDemo) {},
     async calendar(isDemo) {
-      const { open_on_start } = await fetchCalendarObject(isDemo);
+      const { open_on_start } = await CalendarObject.read({ isDemo });
       return { open_on_start };
     },
     async settings() {
@@ -24,6 +24,6 @@ export default async ({ isDemo, viewName }) => {
   const JSON = await constructor(isDemo);
   return JSON;
 };
-import fetchCalendarObject from "../Utilities/Storage/fetchCalendarObject";
-import fetchUserObject from "../Utilities/Storage/fetchUserObject";
+import CalendarObject from "../Utilities/Storage/CalendarObject";
+import UserObject from "../Utilities/Storage/UserObject";
 import get_1 from "../Utilities/get_-1";

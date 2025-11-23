@@ -1,0 +1,23 @@
+/**
+ * @typedef {object} rpc
+ * @property {"CalendarObject"|"UserObject"} namespace
+ * @property {"create"|"read"|"update"|"delete"} operation
+ * @property {string} key
+ * @property {any} value
+ */
+
+/**
+ * @param {rpc}
+ */
+export default ({ namespace, operation, key, value, isDemo }) => {
+  const stub = storage[namespace][operation];
+  stub({ key, value, isDemo });
+};
+
+const storage = Object.freeze({
+  CalendarObject,
+  UserObject,
+});
+
+import CalendarObject from "../../../Shared/Utilities/Storage/CalendarObject";
+import UserObject from "../../../Shared/Utilities/Storage/UserObject";

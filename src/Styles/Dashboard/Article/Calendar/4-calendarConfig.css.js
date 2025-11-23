@@ -40,42 +40,44 @@ export default css`
       align-items: flex-start;
     }
 
-    #calendar_category_list ul {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 0.5rem;
-      width: 100%;
-    }
+    @scope (#calendar_category_list) {
+      ul {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+      }
 
-    #calendar_category_list ul li {
-      padding: 0.2rem 0.4rem 0.2rem 0.8rem;
-      border-radius: 0.2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      font-size: small;
-      font-weight: 300;
-    }
-    #calendar_category_list ul li div {
-      display: flex;
-      gap: 0.1rem;
-      width: max-content;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      font-size: smaller;
-    }
+      ul li {
+        padding: 0.2rem 0.4rem 0.2rem 0.8rem;
+        border-radius: 0.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        font-size: small;
+        font-weight: 300;
+      }
+      ul li div {
+        display: flex;
+        gap: 0.1rem;
+        width: max-content;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        font-size: smaller;
+      }
 
-    #calendar_category_list button:hover {
-      text-decoration: underline;
-    }
+      button:hover {
+        text-decoration: underline;
+      }
 
-    button#newCategory {
-      font-size: small;
-      font-weight: 200;
+      button#newCategory {
+        font-size: small;
+        font-weight: 200;
+      }
     }
   }
 `;

@@ -75,8 +75,11 @@ else cacheElements();
 import { ColorInput } from "./customElements/ColorInput";
 customElements.define("color-input", ColorInput, { extends: "input" });
 
-import { CalendarEventForm } from "./customElements/CalendarEventForm";
-customElements.define("calendar-event-form", CalendarEventForm);
+import {
+  CALENDAR_EVENT_FORM,
+  CalendarEventForm,
+} from "./customElements/CalendarEventForm/Class.js";
+customElements.define(CALENDAR_EVENT_FORM, CalendarEventForm);
 
 import { DATE_WHEEL, DateWheel } from "./customElements/DateWheel/Class.js";
 customElements.define(DATE_WHEEL, DateWheel);

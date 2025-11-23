@@ -45,5 +45,5 @@ export default (msg) => {
   }
 };
 const mQ = window.matchMedia("(max-width: 548px)");
-import { isDemo, articleDialog, navEl, mascotEl } from "../script";
+import { functions, isDemo, articleDialog, navEl, mascotEl } from "../script";
 import { NOWplusYEAR } from "../../Shared/CONFIG";

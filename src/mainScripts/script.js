@@ -8,9 +8,15 @@ export const functions = Object.freeze({
   toggleDialog: ({ tag, dataset }) => {
     if (
       !articleDialog.firstChild ||
-      articleDialog.firstChild.tagName.toLowerCase() !== tag
+      articleDialog.firstChild.tagName.toLowerCase() !== tag ||
+      (dataset && articleDialog.firstChild.dataset !== dataset)
     ) {
       const el = document.createElement(tag);
+      if (dataset) {
+        for (const [key, value] of Object.entries(dataset)) {
+          el.dataset[key] = value;
+        }
+      }
       articleDialog.replaceChildren(el);
       if (!articleDialog.open) articleDialog.open = true;
     } else articleDialog.open = !articleDialog.open;

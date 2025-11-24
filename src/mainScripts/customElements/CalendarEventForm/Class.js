@@ -66,7 +66,6 @@ style(
         button#cancel {
           font-weight: 100;
         }
-
         button:hover {
           text-decoration: underline;
         }

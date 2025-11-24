@@ -24,12 +24,18 @@ export default {
     return calendar;
   },
 
-  async update({ path, value, isDemo }) {
+  async update({ path, search, value, isDemo }) {
     let cursor = calendar;
     for (let i = 0; i < path.length - 1; i++) {
       cursor = cursor[path[i]];
     }
-    cursor[path[path.length - 1]] = value;
+    if (Array.isArray(cursor)) {
+      const i = cursor.findIndex(
+        (item) => item[path[path.length - 1]] === search
+      );
+      if (i !== -1) cursor[i] = value;
+    } else cursor[path[path.length - 1]] = value;
+
     if (isDemo) return;
 
     this.last_updated = Date.now();

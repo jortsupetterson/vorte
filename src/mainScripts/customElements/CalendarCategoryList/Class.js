@@ -5,6 +5,8 @@ export class CategoryListItem extends HTMLElement {
     const controls = document.createElement("div");
     controls.id = "controls";
 
+    const { name, color } = this.dataset;
+
     let i = 0;
     for (const label of [
       {
@@ -29,12 +31,15 @@ export class CategoryListItem extends HTMLElement {
               namespace: "CalendarObject",
               operation: "delete",
               path: ["config", "categories", "name"],
-              search: this.id,
+              search: name,
             },
           });
           this.remove();
         } else {
-          functions.toggleDialog({ tag: "calendar-category-form" });
+          functions.toggleDialog({
+            tag: "calendar-category-form",
+            dataset: { type: "edit", name, color },
+          });
         }
       });
       controls.appendChild(button);

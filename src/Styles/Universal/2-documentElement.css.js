@@ -21,6 +21,7 @@ export default css`
   *:focus {
     outline: none;
   }
+  input,
   [data-fn] {
     pointer-events: all;
     width: max-content;

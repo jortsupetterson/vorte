@@ -458,7 +458,11 @@ export default async (article_main_json, language, viewName) => {
           }
         `);
         category_list_html += html`
-          <category-list-item id="${category.name}" class="${categoryHash}">
+          <category-list-item
+            data-name="${category.name}"
+            data-color="${category.hex_color}"
+            class="${categoryHash}"
+          >
             ${category.name}
           </category-list-item>
         `;

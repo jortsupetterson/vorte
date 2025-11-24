@@ -47,7 +47,16 @@ export default {
     }
     return pendingSync;
   },
-  async delete() {},
+  async delete({ path, isDemo }) {
+    let cursor = user;
+    for (let i = 0; i < path.length - 1; i++) {
+      cursor = cursor[path[i]];
+    }
+    delete cursor[path[path.length - 1]];
+    if (isDemo) return;
+
+    this.last_updated = Date.now();
+  },
 };
 
 import negotiateCache from "../Negotiations/negotiateCache";

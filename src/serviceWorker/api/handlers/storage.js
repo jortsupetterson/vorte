@@ -2,16 +2,17 @@
  * @typedef {object} rpc
  * @property {"CalendarObject"|"UserObject"} namespace
  * @property {"create"|"read"|"update"|"delete"} operation
- * @property {string} key
- * @property {any} value
+ * @property {string[]} path
+ * @property {string} [search]
+ * @property {any} [value]
  */
 
 /**
  * @param {rpc}
  */
-export default ({ namespace, operation, path, value, isDemo }) => {
+export default ({ namespace, operation, path, search, value, isDemo }) => {
   const stub = storage[namespace][operation];
-  stub({ path, value, isDemo });
+  stub({ path, search, value, isDemo });
 };
 
 const storage = Object.freeze({

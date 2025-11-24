@@ -15,6 +15,7 @@ export const functions = Object.freeze({
       if (!articleDialog.open) articleDialog.open = true;
     } else articleDialog.open = !articleDialog.open;
   },
+  removeElement: ({}) => {},
 });
 
 //universal clicks
@@ -92,6 +93,18 @@ import {
 } from "./customElements/OptionGrid/Class.js";
 customElements.define(OPTION_GRID, OptionGrid);
 customElements.define(OPTION_ITEM, OptionItem);
+
+import {
+  CATEGORY_LIST_ITEM,
+  CategoryListItem,
+} from "./customElements/CalendarCategoryList/Class.js";
+customElements.define(CATEGORY_LIST_ITEM, CategoryListItem);
+
+import {
+  CALENDAR_CATEGORY_FORM,
+  CalendarCategoryForm,
+} from "./customElements/CalendarCategoryForm/Class.js";
+customElements.define(CALENDAR_CATEGORY_FORM, CalendarCategoryForm);
 
 import { NOWplusYEAR } from "../Shared/CONFIG";
 import onSafeClick from "../Shared/Utilities/onSafeClick.js";

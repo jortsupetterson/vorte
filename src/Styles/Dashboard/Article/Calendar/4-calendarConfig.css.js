@@ -50,7 +50,7 @@ export default css`
         width: 100%;
       }
 
-      ul li {
+      ul category-list-item {
         padding: 0.2rem 0.4rem 0.2rem 0.8rem;
         border-radius: 0.2rem;
         display: flex;
@@ -60,7 +60,7 @@ export default css`
         font-size: small;
         font-weight: 300;
       }
-      ul li div {
+      ul category-list-item div {
         display: flex;
         gap: 0.1rem;
         width: max-content;
@@ -68,6 +68,11 @@ export default css`
         justify-content: center;
         align-items: center;
         font-size: smaller;
+      }
+
+      category-list-item button {
+        pointer-events: all;
+        font-size: small:
       }
 
       button:hover {

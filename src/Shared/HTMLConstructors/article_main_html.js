@@ -395,7 +395,7 @@ export default async (article_main_json, language, viewName) => {
                   : ""
               }>${dayNum}${(() => {
                 let inner = ``;
-                if (Array.isArray(events)) {
+                if (cell.type === "curr" && Array.isArray(events)) {
                   let extraCount = 0;
                   events.forEach(({ category }, index) => {
                     if (index < 2) {
@@ -458,25 +458,9 @@ export default async (article_main_json, language, viewName) => {
           }
         `);
         category_list_html += html`
-          <li class="${categoryHash}">
+          <category-list-item id="${category.name}" class="${categoryHash}">
             ${category.name}
-            <div class="controls">
-              <button data-fn="">
-                ${{
-                  fi: "muokkaa",
-                  sv: "redigera",
-                  en: "edit",
-                }[language]}
-              </button>
-              <button data-fn="">
-                ${{
-                  fi: "poista",
-                  sv: "ta bort",
-                  en: "delete",
-                }[language]}
-              </button>
-            </div>
-          </li>
+          </category-list-item>
         `;
       }
 

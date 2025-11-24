@@ -48,7 +48,21 @@ export default {
     return pendingSync;
   },
 
-  async delete() {},
+  async delete({ path, search, isDemo }) {
+    let cursor = calendar;
+    for (let i = 0; i < path.length - 1; i++) {
+      cursor = cursor[path[i]];
+    }
+    if (Array.isArray(cursor)) {
+      const i = cursor.findIndex(
+        (item) => item[path[path.length - 1]] === search
+      );
+      if (i !== -1) cursor.splice(i, 1);
+    } else delete cursor[path[path.length - 1]];
+    if (isDemo) return;
+
+    this.last_updated = Date.now();
+  },
 
   async sync() {
     await zipper.zip(calendar);

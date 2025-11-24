@@ -2,7 +2,7 @@
 /** @type {User} */
 export const DEMO_USER = {
   id: crypto.randomUUID(),
-  firstname: "Botti",
+  firstname: "Vieras",
   lastname: "Example",
   vortepreneur_organizations: ["Example Oy"],
   my_vorte_apps: ["home", "tasks", "calendar", "networking", "rte"],

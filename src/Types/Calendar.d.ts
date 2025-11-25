@@ -1,6 +1,7 @@
 declare type Calendar = {
   config: {
     categories: {
+      id: Common.UUIDv4;
       name: string;
       hex_color: string;
     }[];
@@ -19,12 +20,12 @@ declare type Calendar = {
   };
   events: {
     [isoDate: string]: {
-      host: string;
-      invitees: object[];
-      category: string;
-      info: string;
-      starts_at: string;
-      duration_minutes: number;
+      event_host: string;
+      event_invitees: string[];
+      event_category: string;
+      event_info: string;
+      event_starts_at: string;
+      event_duration_minutes: number;
     }[];
   };
 };

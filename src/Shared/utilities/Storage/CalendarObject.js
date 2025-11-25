@@ -7,7 +7,41 @@ let pendingSync = null;
 const wait_ms = 12_000;
 
 export default {
-  async create() {},
+  async create({ path, value, isDemo }) {
+    let cursor = calendar;
+
+    for (let i = 0; i < path.length - 1; i++) {
+      cursor = cursor[path[i]];
+    }
+
+    const key = path[path.length - 1];
+    const target = cursor[key];
+
+    if (Array.isArray(target)) {
+      target.push(value);
+    } else {
+      cursor[key] = value;
+    }
+
+    if (isDemo) return;
+
+    this.last_updated = Date.now();
+
+    if (syncTimerId !== null) clearTimeout(syncTimerId);
+
+    if (!pendingSync) {
+      pendingSync = (async () => {
+        await new Promise((resolve) => {
+          syncTimerId = setTimeout(resolve, wait_ms);
+        });
+        syncTimerId = null;
+        await this.sync();
+        pendingSync = null;
+      })();
+    }
+
+    return pendingSync;
+  },
 
   /**
    * @param {boolean} isDemo
@@ -68,6 +102,19 @@ export default {
     if (isDemo) return;
 
     this.last_updated = Date.now();
+
+    if (syncTimerId !== null) clearTimeout(syncTimerId);
+    if (!pendingSync) {
+      pendingSync = (async () => {
+        await new Promise((resolve) => {
+          syncTimerId = setTimeout(resolve, wait_ms);
+        });
+        syncTimerId = null;
+        await this.sync();
+        pendingSync = null;
+      })();
+    }
+    return pendingSync;
   },
 
   async sync() {

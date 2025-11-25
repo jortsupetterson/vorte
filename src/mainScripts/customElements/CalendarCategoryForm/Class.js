@@ -1,7 +1,7 @@
 export const CALENDAR_CATEGORY_FORM = "calendar-category-form";
 export class CalendarCategoryForm extends HTMLElement {
   connectedCallback() {
-    const { type, name, color } = this.dataset;
+    const { type, id, name, color } = this.dataset;
     const language = DOC.lang;
     const unsafeHTML = html`
       <p>
@@ -39,7 +39,9 @@ export class CalendarCategoryForm extends HTMLElement {
         >
         <input
           id="color-input"
-          value="${type === `edit` ? color : `var(--contentColor)`}"
+          value="${type === `edit`
+            ? color
+            : getComputedStyle(DOC).getPropertyValue(`--contentColor`).trim()}"
           type="color"
         />
       </div>
@@ -62,17 +64,43 @@ export class CalendarCategoryForm extends HTMLElement {
     const safeHTML = __policy ? __policy.createHTML(unsafeHTML) : unsafeHTML;
     this.innerHTML = safeHTML;
     onSafeClick(document.getElementById("saveCategory"), () => {
-      functions.msgToSw({
-        type: `storage`,
-        params: {
-          namespace: `CalendarObject`,
-          operation: `update`,
-          path: [`config`, `categories`, `name`],
-          search: name,
-          value: {
-            name: document.getElementById("name-input").value,
-            hex_color: document.getElementById("color-input").value,
+      if (type === "edit") {
+        functions.msgToSw({
+          type: `storage`,
+          params: {
+            namespace: `CalendarObject`,
+            operation: `update`,
+            path: [`config`, `categories`, `id`],
+            search: id,
+            value: {
+              id: id,
+              name: document.getElementById("name-input").value,
+              hex_color: document.getElementById("color-input").value,
+            },
           },
+        });
+      } else {
+        const new_category_id = crypto.randomUUID();
+        functions.msgToSw({
+          type: `storage`,
+          params: {
+            namespace: `CalendarObject`,
+            operation: `create`,
+            path: [`config`, `categories`],
+            search: new_category_id,
+            value: {
+              id: new_category_id,
+              name: document.getElementById("name-input").value,
+              hex_color: document.getElementById("color-input").value,
+            },
+          },
+        });
+      }
+      functions.msgToSw({
+        type: `render`,
+        params: {
+          viewName: `calendar_config`,
+          components: [`article main`],
         },
       });
     });
@@ -113,6 +141,10 @@ style(
         background: var(--contentGhostColor);
         font-size: small;
         font-weight: 200;
+      }
+
+      input[type="text"] {
+        cursor: text;
       }
 
       input[type="color"] {

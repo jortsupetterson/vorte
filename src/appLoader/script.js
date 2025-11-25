@@ -45,23 +45,23 @@ const prefersColorSchemeDark = window.matchMedia(
 if (prefersColorSchemeDark) {
   cookieStore.set({
     name: "backgroundColor",
-    value: "#000",
+    value: "#000000",
     expires: NOWplusYEAR,
   });
   cookieStore.set({
     name: "contentColor",
-    value: "#fff",
+    value: "#ffffff",
     expires: NOWplusYEAR,
   });
 } else {
   cookieStore.set({
     name: "backgroundColor",
-    value: "#fff",
+    value: "#ffffff",
     expires: NOWplusYEAR,
   });
   cookieStore.set({
     name: "contentColor",
-    value: "#000",
+    value: "#000000",
     expires: NOWplusYEAR,
   });
 }

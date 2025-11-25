@@ -103,61 +103,65 @@ export default async (article_main_json, language, viewName) => {
     },
 
     async calendar_day() {
-      const { anchor_date, event_list, category_list } = article_main_json;
-      const nonce = await getNonce();
-      const styleRules = [];
-      const categoryHashes = new Set();
-      const markup = (() => {
-        let htm = ``;
-        for (const {
-          category,
-          info,
-          starts_at,
-          duration_minutes,
-        } of event_list) {
-          const categoryHash = `cat-${getContentFingerptint(category)}`,
-            categoryObjFromConfig = category_list.find(
-              (c) => c.name === category
-            ),
-            categoryColor =
-              categoryObjFromConfig?.hex_color ?? "var(--contentColor)";
+      const { anchor_date, event_list, category_list } = article_main_json,
+        nonce = getNonce(),
+        style_rules = [],
+        event_category_css_classes = new Set();
 
-          if (!categoryHashes.has(categoryHash)) {
-            categoryHashes.add(categoryHash);
-            styleRules.push(`
-              .${categoryHash} {
-                background: rgb(from ${categoryColor} r g b / 0.13);
+      const innerHTML = (() => {
+        let markup = ``;
+        for (const {
+          event_category_id,
+          event_info,
+          event_starts_at,
+          event_duration_minutes,
+        } of event_list) {
+          const saved_category = category_list.find(
+              (category) => category.id === event_category_id
+            ),
+            category_color = saved_category?.hex_color ?? "var(--contentColor)";
+
+          const event_category_css_class = `ev-cat-${event_category_id}`;
+
+          if (!event_category_css_classes.has(event_category_css_class)) {
+            event_category_css_classes.add(event_category_css_class);
+            style_rules.push(`
+              .${event_category_css_class} {
+                background: rgb(from ${category_color} r g b / 0.13);
               }
               `);
           }
 
-          const eventStartDate = new Date(starts_at);
-          const eventStartHours = eventStartDate.getHours();
-          const eventStartMinutes = eventStartDate.getMinutes();
-          const eventTotalMinutes =
-            eventStartHours * 60 + eventStartMinutes + duration_minutes;
-          const eventEndMinutes = eventTotalMinutes % 60;
-          const eventEndHours = (eventTotalMinutes - eventEndMinutes) / 60;
+          const event_start_date = new Date(event_starts_at),
+            event_start_hours = event_start_date.getHours(),
+            event_start_minutes = event_start_date.getMinutes(),
+            event_total_minutes =
+              event_start_hours * 60 +
+              event_start_minutes +
+              event_duration_minutes,
+            event_end_minutes = event_total_minutes % 60,
+            event_end_hours = (event_total_minutes - event_end_minutes) / 60;
 
-          htm += html`
-            <div class="${categoryHash}">
+          markup += html`
+            <div class="${event_category_css_class}">
               <span>
                 <span>
-                  ${eventStartHours}.${eventStartMinutes < 10
-                    ? "0" + eventStartMinutes
-                    : eventStartMinutes}-${eventEndHours}.${eventEndMinutes < 10
-                    ? "0" + eventEndMinutes
-                    : eventEndMinutes}
+                  ${event_start_hours}.${event_start_minutes < 10
+                    ? "0" + event_start_minutes
+                    : event_start_minutes}-${event_end_hours}.${event_end_minutes <
+                  10
+                    ? "0" + event_end_minutes
+                    : event_end_minutes}
                 </span>
-                ${category}
+                ${saved_category.name}
               </span>
-              <span>${info}</span>
+              <span>${event_info}</span>
             </div>
           `;
         }
-        return htm;
+        return markup;
       })();
-      const styles = styleRules.join("");
+      const styles = style_rules.join("");
       return html`
         ${structDatePicker(
           "days",
@@ -166,39 +170,41 @@ export default async (article_main_json, language, viewName) => {
           ${anchor_date.toLocaleDateString("fi-FI")}`
         )}
         <div id="calendarDisplay">
-          <style nonce="${nonce}">
+          <style nonce="${await nonce}">
             ${styles}
           </style>
-          ${markup}
+          ${innerHTML}
         </div>
       `;
     },
     async calendar_week() {
       const { anchor_date, monday_date, event_list, category_list } =
         article_main_json;
-      const range = findWeeksTimeRange(event_list);
-      const timelineStartMinutes =
-          range.min > 6 * 60 ? 6 * 60 : Math.floor(range.min / 180) * 180,
-        timelineEndMinutes =
-          range.max < 18 * 60 ? 18 * 60 : Math.ceil(range.max / 180) * 180;
-      const displayHeight = timelineEndMinutes - timelineStartMinutes;
 
-      const nonce = await getNonce(),
+      const range = findWeeksTimeRange(event_list);
+      const timeline_start_minutes =
+          range.min > 6 * 60 ? 6 * 60 : Math.floor(range.min / 180) * 180,
+        timeline_end_minutes =
+          range.max < 18 * 60 ? 18 * 60 : Math.ceil(range.max / 180) * 180;
+      const calendar_height_from_minutes =
+        timeline_end_minutes - timeline_start_minutes;
+
+      const nonce = getNonce(),
         monday = monday_date.getDate(),
         month = monday_date.getMonth(),
         year = monday_date.getFullYear(),
-        styleRules = [];
+        style_rules = [];
 
       const grid = (() => {
         let markup = ``;
 
-        for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
-          const dayNum = monday + dayOffset;
+        for (let day_offset = 0; day_offset < 7; day_offset++) {
+          const day_num = monday + day_offset;
 
           markup += html`<div class="col">
             <div class="label">
-              ${jsonTable["jsonWeekdayAbbrevations"][language][dayOffset]}
-              <span>${dayNum}</span>
+              ${jsonTable["jsonWeekdayAbbrevations"][language][day_offset]}
+              <span>${day_num}</span>
             </div>
             <div
               class="col-inner"
@@ -210,108 +216,122 @@ export default async (article_main_json, language, viewName) => {
                     viewName: `calendar_day`,
                     components: [`article main`, `article header h1`],
                     customParams: {
-                      anchor_date: `${year}-${month + 1}-${dayNum}`,
+                      anchor_date: `${year}-${month + 1}-${day_num}`,
                     },
                   },
                 },
               })}"
             >
               ${(() => {
-                const rawEvents = event_list[dayNum];
-                if (!rawEvents) return "";
+                const raw_events = event_list[day_num];
+                if (!raw_events) return "";
 
-                const thisDaysEvents = [];
+                const this_days_events = [];
 
-                for (const event of rawEvents) {
-                  const startDate = new Date(event.starts_at),
-                    startHours = startDate.getHours(),
-                    startMinutes = startDate.getMinutes(),
-                    startTotal = startHours * 60 + startMinutes,
-                    endTotalRaw = startTotal + event.duration_minutes;
+                for (const event of raw_events) {
+                  const event_start_date = new Date(event.event_starts_at),
+                    event_start_hours = event_start_date.getHours(),
+                    event_start_minutes = event_start_date.getMinutes(),
+                    event_start_total_in_minutes =
+                      event_start_hours * 60 + event_start_minutes,
+                    event_total_raw =
+                      event_start_total_in_minutes +
+                      event.event_duration_minutes;
 
-                  if (endTotalRaw <= 24 * 60) {
-                    thisDaysEvents.push(event);
+                  if (event_total_raw <= 24 * 60) {
+                    this_days_events.push(event);
                     continue;
                   }
 
-                  const todayDuration = 24 * 60 - startTotal;
-                  const nextDuration = endTotalRaw - 24 * 60;
+                  // ADDRESSING EVENTS THAT LAST OVER MIDNIGHT
+                  const todays_duration =
+                    24 * 60 - event_start_total_in_minutes;
+                  const tommorws_duration = event_total_raw - 24 * 60;
 
-                  thisDaysEvents.push({
+                  this_days_events.push({
                     ...event,
-                    duration_minutes: todayDuration,
+                    event_duration_minutes: todays_duration,
                   });
 
-                  const nextDayDate = new Date(event.starts_at);
-                  nextDayDate.setDate(nextDayDate.getDate() + 1);
-                  nextDayDate.setHours(0, 0, 0, 0);
+                  const tommorows_date = new Date(event.event_starts_at);
+                  tommorows_date.setDate(tommorows_date.getDate() + 1);
+                  tommorows_date.setHours(0, 0, 0, 0);
 
-                  const nextDayNum = dayNum + 1;
-                  (event_list[nextDayNum] ||= []).push({
+                  const tomorrows_day_num = day_num + 1;
+                  (event_list[tomorrows_day_num] ||= []).push({
                     ...event,
-                    starts_at: nextDayDate.toISOString(),
-                    duration_minutes: nextDuration,
+                    event_starts_at: tommorows_date.toISOString(),
+                    event_duration_minutes: tommorws_duration,
                   });
                 }
 
-                thisDaysEvents.sort(
-                  (a, b) => new Date(a.starts_at) - new Date(b.starts_at)
+                this_days_events.sort(
+                  (a, b) =>
+                    new Date(a.event_starts_at) - new Date(b.event_starts_at)
                 );
 
                 let column = ``;
 
-                for (const event of thisDaysEvents) {
-                  const { starts_at, duration_minutes, category } = event;
-                  const id = `ev-${getContentFingerptint(event)}`;
+                for (const event of this_days_events) {
+                  const event_hash = `ev-${getContentFingerptint(event)}`;
 
-                  const configCategoryObj = category_list.find(
-                      (cat) => cat.name === category
+                  const {
+                    event_starts_at,
+                    event_duration_minutes,
+                    event_category_id,
+                  } = event;
+
+                  const saved_category = category_list.find(
+                      (category) => category.id === event_category_id
                     ),
-                    categoryColor =
-                      configCategoryObj?.hex_color ?? "var(--contentColor)";
+                    category_color =
+                      saved_category?.hex_color ?? "var(--contentColor)";
 
-                  const eventStartTime = new Date(starts_at);
-                  const eventStartHours = eventStartTime.getHours();
-                  const eventStartMinutes = eventStartTime.getMinutes();
-                  const eventStartTotalMinutes =
-                    eventStartHours * 60 + eventStartMinutes;
-                  const eventStartPosition =
-                    eventStartTotalMinutes - timelineStartMinutes;
+                  const event_start_time = new Date(event_starts_at),
+                    event_start_hours = event_start_time.getHours(),
+                    event_start_minutes = event_start_time.getMinutes(),
+                    event_start_total_minutes =
+                      event_start_hours * 60 + event_start_minutes;
 
-                  const endTotalRaw = eventStartTotalMinutes + duration_minutes;
-                  const endTotal =
-                    endTotalRaw >= 24 * 60 ? 24 * 60 : endTotalRaw;
+                  //position: absolute
+                  const event_start_position_from_minutes =
+                    event_start_total_minutes - timeline_start_minutes;
 
-                  let eventEndHours;
-                  let eventEndMinutes;
+                  const end_total_raw =
+                    event_start_total_minutes + event_duration_minutes;
+                  const end_total =
+                    end_total_raw >= 24 * 60 ? 24 * 60 : end_total_raw;
 
-                  if (endTotal === 24 * 60) {
-                    eventEndHours = 23;
-                    eventEndMinutes = 59;
+                  let event_end_hours;
+                  let event_end_minutes;
+
+                  if (end_total === 24 * 60) {
+                    event_end_hours = 23;
+                    event_end_minutes = 59;
                   } else {
-                    eventEndHours = (endTotal / 60) | 0;
-                    eventEndMinutes = endTotal % 60;
+                    event_end_hours = (end_total / 60) | 0;
+                    event_end_minutes = end_total % 60;
                   }
 
-                  styleRules.push(`
-              div#${id} {
-                top: calc(${eventStartPosition} * ${DEFAULT_PIXEL_HEIGHT}px);
-                height: calc(${duration_minutes} * ${DEFAULT_PIXEL_HEIGHT}px);
-                background: rgb(from ${categoryColor} r g b / 0.13);
+                  style_rules.push(`
+              div#${event_hash} {
+                top: calc(${event_start_position_from_minutes} * ${DEFAULT_PIXEL_HEIGHT}px);
+                height: calc(${event_duration_minutes} * ${DEFAULT_PIXEL_HEIGHT}px);
+                background: rgb(from ${category_color} r g b / 0.13);
               }
             `);
 
-                  column += `<div id="${id}">
-              <span>${eventStartHours}.${
-                    eventStartMinutes < 10
-                      ? "0" + eventStartMinutes
-                      : eventStartMinutes
-                  }-${eventEndHours}.${
-                    eventEndMinutes < 10
-                      ? "0" + eventEndMinutes
-                      : eventEndMinutes
+                  column += `<div id="${event_hash}">
+              <span>${event_start_hours}.${
+                    event_start_minutes < 10
+                      ? "0" + event_start_minutes
+                      : event_start_minutes
+                  }-${event_end_hours}.${
+                    event_end_minutes < 10
+                      ? "0" + event_end_minutes
+                      : event_end_minutes
                   }</span>
-              ${category}
+              ${saved_category.name}
             </div>`;
                 }
 
@@ -324,7 +344,7 @@ export default async (article_main_json, language, viewName) => {
         return markup;
       })();
 
-      const styles = styleRules.join("");
+      const styles = style_rules.join("");
 
       return html`
         ${structDatePicker(
@@ -337,23 +357,25 @@ export default async (article_main_json, language, viewName) => {
           `
         )}
         <div id="calendarDisplay">
-          <style nonce="${nonce}">
+          <style nonce="${await nonce}">
             #calendarDisplay{
-               min-height: calc(${displayHeight} * ${DEFAULT_PIXEL_HEIGHT}px);
+               min-height: calc(${calendar_height_from_minutes} * ${DEFAULT_PIXEL_HEIGHT}px);
              }
              ${styles}
           </style>
-          ${structHourTimeline(timelineStartMinutes, timelineEndMinutes)}
+          ${structHourTimeline(timeline_start_minutes, timeline_end_minutes)}
           ${grid}
         </div>
         <div class="padding"></div>
       `;
     },
     async calendar_month() {
-      const nonce = await getNonce();
-      const styleRules = [];
-      const categoryHashes = new Set();
+      const nonce = getNonce(),
+        style_rules = [],
+        event_category_css_classes = new Set();
+
       const { anchor_date, event_list, categories } = article_main_json;
+
       const markup = (() => {
         const table = getMonthTable(anchor_date, language); // 7x8: [ [null,abbr...], [week,{d,type}×7]×6 ]
         let out = "";
@@ -377,8 +399,8 @@ export default async (article_main_json, language, viewName) => {
                 },
               })}">${cell.number}</button>`;
             } else {
-              const dayNum = cell.d;
-              const events = event_list[dayNum] ?? "";
+              const day_num = cell.d;
+              const events = event_list[day_num] ?? "";
               out += `<div class="cell ${cell.type}" ${
                 cell.type === "curr"
                   ? `data-fn="${inlineStringify({
@@ -393,30 +415,38 @@ export default async (article_main_json, language, viewName) => {
                       },
                     })}"`
                   : ""
-              }>${dayNum}${(() => {
+              }>${day_num}${(() => {
                 let inner = ``;
                 if (cell.type === "curr" && Array.isArray(events)) {
-                  let extraCount = 0;
-                  events.forEach(({ category }, index) => {
+                  let extra_count = 0;
+                  events.forEach(({ event_category_id }, index) => {
                     if (index < 2) {
-                      const catHash = `cat-${getContentFingerptint(category)}`;
-                      const catConfigObj = categories.find(
-                        (cat) => cat.name === category
+                      const saved_category = categories.find(
+                        (category) => category.id === event_category_id
                       );
-                      const catColor =
-                        catConfigObj?.hex_color ?? "var(--contentColor)";
-                      if (!categoryHashes.has(catHash)) {
-                        categoryHashes.add(catHash);
-                        styleRules.push(`
-                        span.${catHash} {
-                            background: rgb(from ${catColor} r g b / 0.13);
+
+                      const event_category_css_class = `ev-cat-${event_category_id}`;
+
+                      const category_color =
+                        saved_category?.hex_color ?? "var(--contentColor)";
+                      if (
+                        !event_category_css_classes.has(
+                          event_category_css_class
+                        )
+                      ) {
+                        event_category_css_classes.add(
+                          event_category_css_class
+                        );
+                        style_rules.push(`
+                        span.${event_category_css_class} {
+                            background: rgb(from ${category_color} r g b / 0.13);
                         }
                         `);
                       }
-                      inner += `<span class="${catHash}">${category}</span>`;
-                    } else extraCount++;
+                      inner += `<span class="${event_category_css_class}">${saved_category.name}</span>`;
+                    } else extra_count++;
                   });
-                  if (extraCount > 0) inner += `<span>+${extraCount}</span>`;
+                  if (extra_count > 0) inner += `<span>+${extra_count}</span>`;
                 }
                 return inner;
               })()}</div>`;
@@ -426,7 +456,7 @@ export default async (article_main_json, language, viewName) => {
         }
         return out;
       })();
-      const styles = styleRules.join("");
+      const styles = style_rules.join("");
       const year = anchor_date.getFullYear();
       const month = anchor_date.getMonth();
       return html` ${structDatePicker(
@@ -435,7 +465,7 @@ export default async (article_main_json, language, viewName) => {
           `${jsonTable["jsonMonths"][month][language]} ${year}`
         )}
         <div id="calendarDisplay">
-          <style nonce="${nonce}">
+          <style nonce="${await nonce}">
             ${styles}
           </style>
           ${markup}
@@ -447,21 +477,21 @@ export default async (article_main_json, language, viewName) => {
       /** @type {Calendar["config"]} */
       const config = article_main_json;
 
-      const styleRules = [];
+      const style_rules = [];
       let category_list_html = ``;
 
       for (const category of config.categories) {
-        const categoryHash = `cat-${getContentFingerptint(category)}`;
-        styleRules.push(`
-          .${categoryHash} {
+        style_rules.push(`
+          .ev-cat-${category.id} {
             background: rgb(from ${category.hex_color} r g b / 0.13);
           }
         `);
         category_list_html += html`
           <category-list-item
+            data-id="${category.id}"
             data-name="${category.name}"
             data-color="${category.hex_color}"
-            class="${categoryHash}"
+            class="ev-cat-${category.id}"
           >
             ${category.name}
           </category-list-item>
@@ -470,18 +500,35 @@ export default async (article_main_json, language, viewName) => {
 
       return html`
         <style nonce="${await nonce}">
-          ${styleRules.join("")}
+          ${style_rules.join("")}
         </style>
 
         <section id="calendar_category_list">
           <p>
-            ${{ fi: "Tapahtumien kategorisointi", sv: "", en: "" }[language]}
+            ${{
+              fi: "Tapahtumien kategorisointi",
+              sv: "Kategorisering av händelser",
+              en: "Event categorization",
+            }[language]}
           </p>
           <ul>
             ${category_list_html}
           </ul>
-          <button id="newCategory" data-fn="">
-            ${{ fi: "+ luo uusi kategoria", sv: "", en: "" }[language]}
+          <button
+            id="newCategory"
+            data-fn="${inlineStringify({
+              name: `toggleDialog`,
+              params: {
+                tag: `calendar-category-form`,
+                dataset: { type: `create` },
+              },
+            })}"
+          >
+            ${{
+              fi: "+ luo uusi kategoria",
+              sv: "+ skapa en ny kategori",
+              en: "+ create a new category",
+            }[language]}
           </button>
         </section>
 
